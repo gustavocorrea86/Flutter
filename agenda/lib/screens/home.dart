@@ -139,53 +139,59 @@ class _HomeState extends State<Home> {
                       return ListView.builder(
                         itemCount: contacts.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Boxcard(
-                            IconButton(
-                              color: const Color.fromARGB(255, 143, 15, 6),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    Daophonebook().delete(contacts[index].name);
-                                  },
-                                );
-                              },
-                              icon: Icon(Icons.delete),
-                            ),
-                            IconButton(
+                          return GestureDetector(
+                            onTap: () {
+                              print(contacts[index].name);
+                            },
+                            child: Boxcard(
+                              IconButton(
+                                color: const Color.fromARGB(255, 143, 15, 6),
                                 onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) => Dialog(
-                                      child: BoxEditDialog(
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                Daophonebook().update(
-                                                    updateName.text,
-                                                    updateNumber.text,
-                                                    contacts[index].name);
-                                                Navigator.pop(context);
-                                                updateName.clear();
-                                                updateNumber.clear();
-                                              });
-                                            },
-                                            child: Text(
-                                              'Ok',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Colors.black),
-                                            ),
-                                          ),
-                                          updateName,
-                                          updateNumber,
-                                          contacts[index].name,
-                                          contacts[index].number),
-                                    ),
+                                  setState(
+                                    () {
+                                      Daophonebook()
+                                          .delete(contacts[index].name);
+                                    },
                                   );
                                 },
-                                icon: Icon(Icons.edit)),
-                            contacts[index].name,
-                            contacts[index].number,
+                                icon: Icon(Icons.delete),
+                              ),
+                              IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) => Dialog(
+                                        child: BoxEditDialog(
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  Daophonebook().update(
+                                                      updateName.text,
+                                                      updateNumber.text,
+                                                      contacts[index].name);
+                                                  Navigator.pop(context);
+                                                  updateName.clear();
+                                                  updateNumber.clear();
+                                                });
+                                              },
+                                              child: Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
+                                              ),
+                                            ),
+                                            updateName,
+                                            updateNumber,
+                                            contacts[index].name,
+                                            contacts[index].number),
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(Icons.edit)),
+                              contacts[index].name,
+                              contacts[index].number,
+                            ),
                           );
                         },
                       );
