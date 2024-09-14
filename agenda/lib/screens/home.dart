@@ -31,7 +31,10 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agenda telefônica'),
+        title: Text(
+          'Agenda Telefônica',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Column(
         children: [
@@ -86,6 +89,12 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                Color.fromARGB(192, 255, 236, 60),
+                              ),
+                              side: WidgetStatePropertyAll<BorderSide>(
+                                  BorderSide(width: 1))),
                           onPressed: () {
                             print(_nameContact);
                             setState(() {
