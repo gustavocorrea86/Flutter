@@ -3,6 +3,7 @@ import 'package:agenda/models/models_phoneBook.dart';
 import 'package:agenda/widgets/boxCard.dart';
 import 'package:agenda/widgets/box_edit_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:form_validator/form_validator.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,12 +13,47 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController number = TextEditingController();
   TextEditingController updateName = TextEditingController();
   TextEditingController updateNumber = TextEditingController();
 
+  final validatorName = ValidationBuilder()
+      .minLength(3, 'O nome deve ter no mínimo3 letras')
+      .maxLength(10, 'O nome deve ter no máximo 10 letras')
+      .build();
+
+  final validatorNumber = ValidationBuilder().phone().build();
+
   Future<List<PhoneBook>>? _nameContact;
+
+  void _validator() {
+    if (_form.currentState!.validate()) {
+      Daophonebook().save(
+        PhoneBook(
+          name.text,
+          number.text,
+        ),
+      );
+      name.clear();
+      number.clear();
+      _nameContact = null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Datas saved successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Fill all fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
 
   Future<List<PhoneBook>>? dataShow() {
     if (_nameContact == null) {
@@ -36,177 +72,174 @@ class _HomeState extends State<Home> {
           style: TextStyle(color: Colors.white),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Container(
-              height: 230,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onChanged: (nameSearch) {
-                        print(nameSearch);
-                        setState(
-                          () {
-                            if (nameSearch.isNotEmpty) {
-                              _nameContact = Daophonebook().find(nameSearch);
-                            } else {
-                              _nameContact = null;
-                            }
-                          },
-                        );
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        icon: Icon(Icons.person_2_outlined),
-                      ),
-                      controller: name,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        icon: Icon(Icons.phone),
-                      ),
-                      controller: number,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                          style: const ButtonStyle(
-                              backgroundColor: WidgetStatePropertyAll(
-                                Color.fromARGB(192, 255, 236, 60),
-                              ),
-                              side: WidgetStatePropertyAll<BorderSide>(
-                                  BorderSide(width: 1))),
-                          onPressed: () {
-                            print(_nameContact);
-                            setState(() {
-                              // Daophonebook().deleteTable();
-                              Daophonebook().save(
-                                PhoneBook(
-                                  name.text,
-                                  number.text,
-                                ),
-                              );
-                              name.clear();
-                              number.clear();
-                              _nameContact = null;
-                            });
-                            // Daophonebook().findAll();
-                          },
-                          child: Text('Cadastrar'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Divider(),
-          Expanded(
-            child: Container(
-              child: FutureBuilder<List<PhoneBook>>(
-                future: dataShow(),
-                builder: (context, snapshot) {
-                  List<PhoneBook>? contacts = snapshot.data;
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Column(
-                      children: [
-                        const CircularProgressIndicator(),
-                        Text('Loading...')
-                      ],
-                    );
-                  } else if (snapshot.hasData && contacts != null) {
-                    if (contacts.isNotEmpty) {
-                      return ListView.builder(
-                        itemCount: contacts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              print(contacts[index].name);
+      body: Form(
+        key: _form,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                height: 250,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        validator: validatorName,
+                        onChanged: (nameSearch) {
+                          print(nameSearch);
+                          setState(
+                            () {
+                              if (nameSearch.isNotEmpty) {
+                                _nameContact = Daophonebook().find(nameSearch);
+                              } else {
+                                _nameContact = null;
+                              }
                             },
-                            child: Boxcard(
-                              IconButton(
-                                color: const Color.fromARGB(255, 143, 15, 6),
-                                onPressed: () {
-                                  setState(
-                                    () {
-                                      Daophonebook()
-                                          .delete(contacts[index].name);
-                                    },
-                                  );
-                                },
-                                icon: Icon(Icons.delete),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => Dialog(
-                                        child: BoxEditDialog(
-                                            TextButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  Daophonebook().update(
-                                                      updateName.text,
-                                                      updateNumber.text,
-                                                      contacts[index].name);
-                                                  Navigator.pop(context);
-                                                  updateName.clear();
-                                                  updateNumber.clear();
-                                                });
-                                              },
-                                              child: Text(
-                                                'Ok',
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.black),
-                                              ),
-                                            ),
-                                            updateName,
-                                            updateNumber,
-                                            contacts[index].name,
-                                            contacts[index].number),
-                                      ),
-                                    );
-                                  },
-                                  icon: Icon(Icons.edit)),
-                              contacts[index].name,
-                              contacts[index].number,
-                            ),
                           );
                         },
-                      );
-                    }
-                    return Text(
-                      'No Contacts found',
-                      style: TextStyle(fontSize: 32),
-                    );
-                  }
-                  return Text('Error to loading Cootacts');
-                },
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          icon: Icon(Icons.person_2_outlined),
+                        ),
+                        controller: name,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        validator: validatorNumber,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          icon: Icon(Icons.phone),
+                        ),
+                        controller: number,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                  Color.fromARGB(192, 255, 236, 60),
+                                ),
+                                side: WidgetStatePropertyAll<BorderSide>(
+                                    BorderSide(width: 1))),
+                            onPressed: () {
+                              print(_nameContact);
+                              setState(() {
+                                _validator();
+                              });
+                              // Daophonebook().findAll();
+                            },
+                            child: Text('Cadastrar'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+            const Divider(),
+            Expanded(
+              child: Container(
+                child: FutureBuilder<List<PhoneBook>>(
+                  future: dataShow(),
+                  builder: (context, snapshot) {
+                    List<PhoneBook>? contacts = snapshot.data;
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Column(
+                        children: [
+                          const CircularProgressIndicator(),
+                          Text('Loading...')
+                        ],
+                      );
+                    } else if (snapshot.hasData && contacts != null) {
+                      if (contacts.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount: contacts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                print(contacts[index].name);
+                              },
+                              child: Boxcard(
+                                IconButton(
+                                  color: const Color.fromARGB(255, 143, 15, 6),
+                                  onPressed: () {
+                                    setState(
+                                      () {
+                                        Daophonebook()
+                                            .delete(contacts[index].name);
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.delete),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            Dialog(
+                                          child: BoxEditDialog(
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    Daophonebook().update(
+                                                        updateName.text,
+                                                        updateNumber.text,
+                                                        contacts[index].name);
+                                                    Navigator.pop(context);
+                                                    updateName.clear();
+                                                    updateNumber.clear();
+                                                  });
+                                                },
+                                                child: Text(
+                                                  'Ok',
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              updateName,
+                                              updateNumber,
+                                              contacts[index].name,
+                                              contacts[index].number),
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(Icons.edit)),
+                                contacts[index].name,
+                                contacts[index].number,
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return Text(
+                        'No Contacts found',
+                        style: TextStyle(fontSize: 32),
+                      );
+                    }
+                    return Text('Error to loading Cootacts');
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
