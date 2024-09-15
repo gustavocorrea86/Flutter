@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Boxcard extends StatefulWidget {
   final String name;
@@ -20,9 +21,9 @@ class _BoxcardState extends State<Boxcard> {
           ListTile(
               title: Text(
                 widget.name,
-                style: TextStyle(fontSize: 23),
+                style: GoogleFonts.bebasNeue(fontSize: 25),
               ),
-              subtitle: Text(widget.number),
+              subtitle: Text(widget.number, style: GoogleFonts.bebasNeue(fontSize: 15),),
               leading: Icon(Icons.contact_phone),
               trailing: Container(
                 width: 100,

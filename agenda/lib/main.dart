@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Agenda',
       theme: ThemeData(
         // colorSchemeSeed: Colors.lightBlue,
         // useMaterial3: true,

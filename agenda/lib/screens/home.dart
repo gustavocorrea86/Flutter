@@ -4,6 +4,7 @@ import 'package:agenda/widgets/boxCard.dart';
 import 'package:agenda/widgets/box_edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,7 +25,9 @@ class _HomeState extends State<Home> {
       .maxLength(10, 'O nome deve ter no máximo 10 letras.')
       .build();
 
-  final validatorNumber = ValidationBuilder().phone('Telefone deve conter no mímino 9 números.').build();
+  final validatorNumber = ValidationBuilder()
+      .phone('Telefone deve conter no mímino 9 números.')
+      .build();
 
   Future<List<PhoneBook>>? _nameContact;
 
@@ -154,7 +157,7 @@ class _HomeState extends State<Home> {
             const Divider(),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0), 
+                padding: const EdgeInsets.all(8.0),
                 child: Container(
                   child: FutureBuilder<List<PhoneBook>>(
                     future: dataShow(),
@@ -178,7 +181,8 @@ class _HomeState extends State<Home> {
                                 },
                                 child: Boxcard(
                                   IconButton(
-                                    color: const Color.fromARGB(255, 143, 15, 6),
+                                    color:
+                                        const Color.fromARGB(255, 143, 15, 6),
                                     onPressed: () {
                                       setState(
                                         () {
