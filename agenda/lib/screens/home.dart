@@ -20,11 +20,11 @@ class _HomeState extends State<Home> {
   TextEditingController updateNumber = TextEditingController();
 
   final validatorName = ValidationBuilder()
-      .minLength(3, 'O nome deve ter no mínimo3 letras')
-      .maxLength(10, 'O nome deve ter no máximo 10 letras')
+      .minLength(3, 'O nome deve ter no mínimo 3 letras.')
+      .maxLength(10, 'O nome deve ter no máximo 10 letras.')
       .build();
 
-  final validatorNumber = ValidationBuilder().phone().build();
+  final validatorNumber = ValidationBuilder().phone('Telefone deve conter no mímino 9 números.').build();
 
   Future<List<PhoneBook>>? _nameContact;
 
@@ -41,14 +41,14 @@ class _HomeState extends State<Home> {
       _nameContact = null;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Datas saved successfully'),
+          content: Text('Contato salvo com sucesso!'),
           backgroundColor: Colors.green,
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Fill all fields'),
+          content: Text('Os campos devem ser preenchidos corretamente.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -153,88 +153,91 @@ class _HomeState extends State<Home> {
             ),
             const Divider(),
             Expanded(
-              child: Container(
-                child: FutureBuilder<List<PhoneBook>>(
-                  future: dataShow(),
-                  builder: (context, snapshot) {
-                    List<PhoneBook>? contacts = snapshot.data;
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Column(
-                        children: [
-                          const CircularProgressIndicator(),
-                          Text('Loading...')
-                        ],
-                      );
-                    } else if (snapshot.hasData && contacts != null) {
-                      if (contacts.isNotEmpty) {
-                        return ListView.builder(
-                          itemCount: contacts.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                print(contacts[index].name);
-                              },
-                              child: Boxcard(
-                                IconButton(
-                                  color: const Color.fromARGB(255, 143, 15, 6),
-                                  onPressed: () {
-                                    setState(
-                                      () {
-                                        Daophonebook()
-                                            .delete(contacts[index].name);
-                                      },
-                                    );
-                                  },
-                                  icon: Icon(Icons.delete),
-                                ),
-                                IconButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0), 
+                child: Container(
+                  child: FutureBuilder<List<PhoneBook>>(
+                    future: dataShow(),
+                    builder: (context, snapshot) {
+                      List<PhoneBook>? contacts = snapshot.data;
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Column(
+                          children: [
+                            const CircularProgressIndicator(),
+                            Text('Loading...')
+                          ],
+                        );
+                      } else if (snapshot.hasData && contacts != null) {
+                        if (contacts.isNotEmpty) {
+                          return ListView.builder(
+                            itemCount: contacts.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  print(contacts[index].name);
+                                },
+                                child: Boxcard(
+                                  IconButton(
+                                    color: const Color.fromARGB(255, 143, 15, 6),
                                     onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            Dialog(
-                                          child: BoxEditDialog(
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    Daophonebook().update(
-                                                        updateName.text,
-                                                        updateNumber.text,
-                                                        contacts[index].name);
-                                                    Navigator.pop(context);
-                                                    updateName.clear();
-                                                    updateNumber.clear();
-                                                  });
-                                                },
-                                                child: Text(
-                                                  'Ok',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              updateName,
-                                              updateNumber,
-                                              contacts[index].name,
-                                              contacts[index].number),
-                                        ),
+                                      setState(
+                                        () {
+                                          Daophonebook()
+                                              .delete(contacts[index].name);
+                                        },
                                       );
                                     },
-                                    icon: Icon(Icons.edit)),
-                                contacts[index].name,
-                                contacts[index].number,
-                              ),
-                            );
-                          },
+                                    icon: Icon(Icons.delete),
+                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              Dialog(
+                                            child: BoxEditDialog(
+                                                TextButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      Daophonebook().update(
+                                                          updateName.text,
+                                                          updateNumber.text,
+                                                          contacts[index].name);
+                                                      Navigator.pop(context);
+                                                      updateName.clear();
+                                                      updateNumber.clear();
+                                                    });
+                                                  },
+                                                  child: Text(
+                                                    'Ok',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black),
+                                                  ),
+                                                ),
+                                                updateName,
+                                                updateNumber,
+                                                contacts[index].name,
+                                                contacts[index].number),
+                                          ),
+                                        );
+                                      },
+                                      icon: Icon(Icons.edit)),
+                                  contacts[index].name,
+                                  contacts[index].number,
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        return Text(
+                          'No Contacts found',
+                          style: TextStyle(fontSize: 32),
                         );
                       }
-                      return Text(
-                        'No Contacts found',
-                        style: TextStyle(fontSize: 32),
-                      );
-                    }
-                    return Text('Error to loading Cootacts');
-                  },
+                      return Text('Error to loading Cootacts');
+                    },
+                  ),
                 ),
               ),
             ),
