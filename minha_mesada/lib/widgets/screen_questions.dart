@@ -40,54 +40,192 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
           ])),
       child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          child: ListView(
             children: [
-              Container(
-                margin: EdgeInsets.only(bottom: 50),
-                child: Row(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          alignment: Alignment.center,
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1, color: Colors.white),
-                              color: Colors.amber,
-                              gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment(.2, 1),
-                                  colors: <Color>[
-                                    Colors.amber,
-                                    Colors.yellow,
-                                    Colors.amber
-                                  ]),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      './assets/images/finance-634901_640.png'),
-                                  fit: BoxFit.cover,
-                                  opacity: .2)),
-                          child: Text('10',
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              )),
-                        ),
-                        Text(
-                          'Pontos',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'Acumulados',
-                          style: TextStyle(color: Colors.white),
-                        )
-                      ],
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.white),
+                                color: Colors.amber,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment(.2, 1),
+                                    colors: <Color>[
+                                      Colors.amber,
+                                      Colors.yellow,
+                                      Colors.amber
+                                    ]),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        './assets/images/finance-634901_640.png'),
+                                    fit: BoxFit.cover,
+                                    opacity: .2)),
+                            child: Text('1000',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),),
+                          ),
+                          Text(
+                            'Pontos',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Acumulados',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          
+                        ],
+                      ),
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.white),
+                                color: Colors.amber,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment(.2, 1),
+                                    colors: <Color>[
+                                      Colors.amber,
+                                      Colors.yellow,
+                                      Colors.amber
+                                    ]),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        './assets/images/finance-634901_640.png'),
+                                    fit: BoxFit.cover,
+                                    opacity: .2)),
+                            child: Text('1000',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),),
+                          ),
+                          Text(
+                            'Pontos',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Acumulados',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          
+                        ],
+                      ),
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.white),
+                                color: Colors.amber,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment(.2, 1),
+                                    colors: <Color>[
+                                      Colors.amber,
+                                      Colors.yellow,
+                                      Colors.amber
+                                    ]),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        './assets/images/finance-634901_640.png'),
+                                    fit: BoxFit.cover,
+                                    opacity: .2)),
+                            child: Text('1000',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),),
+                          ),
+                          Text(
+                            'Pontos',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Acumulados',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          
+                        ],
+                      ),
+                       Padding(
+                         padding: const EdgeInsets.all(8.0),
+                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: Colors.white),
+                                  color: Colors.amber,
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment(.2, 1),
+                                      colors: <Color>[
+                                        Colors.amber,
+                                        Colors.yellow,
+                                        Colors.amber
+                                      ]),
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(
+                                          './assets/images/finance-634901_640.png'),
+                                      fit: BoxFit.cover,
+                                      opacity: .2)),
+                              child: Text('1000',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),),
+                            ),
+                            Text(
+                              'Pontos',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Text(
+                              'Acumulados',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            
+                          ],
+                                               ),
+                       ),
+                      
+                    ],
+                  ),
                 ),
               ),
               Container(

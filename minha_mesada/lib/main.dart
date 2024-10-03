@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_quizMath.dart';
-import 'package:mongodb_api/database/dao_user.dart';
+
 import 'package:mongodb_api/screens/home.dart';
 import 'package:mongodb_api/screens/pages.dart';
 import 'package:mongodb_api/screens/register_questions.dart';

@@ -85,12 +85,15 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                           setState(() {
                             points('Gustavo');
                           });
-
-                          if (activePage < question.length - 1) {
-                            controller.nextPage(
+                          controller.nextPage(
                                 duration: Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                          }
+                                curve: Curves.ease); 
+
+                          // if (activePage < question.length - 1) {
+                          //   controller.nextPage(
+                          //       duration: Duration(milliseconds: 500),
+                          //       curve: Curves.ease);
+                          // }
                         },
                         child: Text('Próximo')),
                   ),
