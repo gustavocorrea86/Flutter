@@ -203,13 +203,32 @@ class _HomeState extends State<Home> {
                                                 TextButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      Daophonebook().update(
-                                                          updateName.text,
-                                                          updateNumber.text,
-                                                          contacts[index].name);
-                                                      Navigator.pop(context);
-                                                      updateName.clear();
-                                                      updateNumber.clear();
+                                                      if (updateName.text ==
+                                                              ' ' &&
+                                                          updateNumber.text ==
+                                                              ' ') {
+                                                        Daophonebook().update(
+                                                            updateName.text =
+                                                                contacts[index]
+                                                                    .name,
+                                                            updateNumber.text =
+                                                                contacts[index]
+                                                                    .number,
+                                                            contacts[index]
+                                                                .name);
+                                                        Navigator.pop(context);
+                                                        updateName.clear();
+                                                        updateNumber.clear();
+                                                      } else {
+                                                        Daophonebook().update(
+                                                            updateName.text,
+                                                            updateNumber.text,
+                                                            contacts[index]
+                                                                .name);
+                                                        Navigator.pop(context);
+                                                        updateName.clear();
+                                                        updateNumber.clear();
+                                                      }
                                                     });
                                                   },
                                                   child: Text(
@@ -239,7 +258,7 @@ class _HomeState extends State<Home> {
                           style: TextStyle(fontSize: 32),
                         );
                       }
-                      return Text('Error to loading Cootacts');
+                      return Text('Error to loading Contacts');
                     },
                   ),
                 ),
