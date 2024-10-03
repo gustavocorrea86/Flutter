@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_quizMath.dart';
+import 'package:mongodb_api/database/dao_user.dart';
 import 'package:mongodb_api/widgets/box_alternativas.dart';
 import 'package:mongodb_api/widgets/box_questions.dart';
 import 'package:mongodb_api/widgets/screen_questions.dart';
@@ -17,6 +18,8 @@ class _PagesQuestionsState extends State<PagesQuestions> {
   final Color green = Colors.green;
   final Color red = Colors.red;
   Future _future = DaoQuiz().findAll();
+  int indexBottomNavigatorBar = 0;
+  String userPoints = '0';
 
   Future<List<Map<String, dynamic>>> questions() async {
     if (_future != null) {
@@ -25,59 +28,17 @@ class _PagesQuestionsState extends State<PagesQuestions> {
     return await _future;
   }
 
+  Future points(String name) async {
+    DaoQuizUser().findPoints(name);
+    userPoints = DaoQuizUser.userPoints;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 120,
-        actions: [
-          Container(
-            color: Colors.indigoAccent,
-            alignment: Alignment.center,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+        toolbarHeight: 5,
         automaticallyImplyLeading: false,
-        leadingWidth: 50,
       ),
       body: FutureBuilder(
           future: _future,
@@ -121,35 +82,40 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                     child: ElevatedButton(
                         onPressed: () {
                           print(_future);
-                          // controller.animateToPage(1,
-                          //     duration: Duration(seconds: 1), curve: Curves.ease);
+                          setState(() {
+                            points('Gustavo');
+                          });
+
                           if (activePage < question.length - 1) {
                             controller.nextPage(
-                                duration: Duration(seconds: 1),
+                                duration: Duration(milliseconds: 500),
                                 curve: Curves.ease);
                           }
                         },
                         child: Text('Próximo')),
-                  )
+                  ),
                 ],
               );
             }
             return Center(child: Text('Nenhuma pergunta cadastrada'));
           }),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: indexBottomNavigatorBar,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.question_answer),
+            label: 'Perguntas',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard),
+              label: 'Dashboard',
+              activeIcon: Icon(Icons.dashboard)),
+        ],
+      ),
     );
   }
 }
-// PageView(
-//   controller: controller,
-//   physics: NeverScrollableScrollPhysics(),
-//   children: [
-//     ScreenQuestions(
-//         BoxQuestions('Quanto é 4 + 4 ?'),
-//         BoxAlternatives(green, '8', 'A'),
-//         BoxAlternatives(red, '5', 'B'),
-//         BoxAlternatives(red, '9', 'C'),
-//         BoxAlternatives(red, '6', 'D'),
-//         controller,
-//         1),
-//   ],
-// ),

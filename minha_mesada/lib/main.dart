@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TaskQuiz',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.blue)),
+      // theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.blue)),
       initialRoute: 'home',
       routes: {
         'home': (context) => HomeScreen(),

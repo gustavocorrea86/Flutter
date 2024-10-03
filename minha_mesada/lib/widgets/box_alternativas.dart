@@ -31,18 +31,35 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
             width: MediaQuery.of(context).size.width,
             height: 60,
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(1, 3),
+                    blurRadius: 1,
+                    spreadRadius: 1)
+              ],
               color: corAlternativa,
               borderRadius: BorderRadius.circular(10),
-              // border: Border.all(
-              //   width: 2,
-              //   color: corAlternativa,
-              // ),
+              border: Border.all(
+                width: 2,
+                color: Colors.black38,
+              ),
             ),
             child: InkWell(
               child: ListTile(
-                leading: Text(
+                leading: Container(
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 1, color: Colors.black26),
+                    color: Colors.white
+                  ),
+                  child:Text(
                   widget.option,
                   style: TextStyle(fontSize: 30),
+                ),
                 ),
                 title: Text(
                   widget.alt,

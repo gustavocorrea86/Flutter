@@ -12,7 +12,7 @@ class ModelQuiz {
   Map<String, dynamic> toMap() {
     return {
       'pergunta': pergunta,
-      'responsta': resposta,
+      'resposta': resposta,
       'alternativas': alternativas,
     };
   }
