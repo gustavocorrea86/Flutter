@@ -4,6 +4,7 @@ import 'package:mongodb_api/database/dao_user.dart';
 import 'package:mongodb_api/widgets/box_alternativas.dart';
 import 'package:mongodb_api/widgets/box_questions.dart';
 import 'package:mongodb_api/widgets/screen_questions.dart';
+import 'package:lottie/lottie.dart';
 
 class PagesQuestions extends StatefulWidget {
   const PagesQuestions({super.key});
@@ -50,8 +51,9 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircularProgressIndicator(),
-                    Text('Carregando...')
+                    // CircularProgressIndicator(),
+                    // Text('Carregando...')
+                    Lottie.asset('./assets/lotties/bichinho_andando.json', fit: BoxFit.cover)
                   ],
                 ),
               );
@@ -86,7 +88,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                             points('Gustavo');
                           });
                           controller.nextPage(
-                                duration: Duration(milliseconds: 500),
+                                duration: Duration(microseconds: 500),
                                 curve: Curves.ease); 
 
                           // if (activePage < question.length - 1) {
@@ -102,23 +104,23 @@ class _PagesQuestionsState extends State<PagesQuestions> {
             }
             return Center(child: Text('Nenhuma pergunta cadastrada'));
           }),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: indexBottomNavigatorBar,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.question_answer),
-            label: 'Perguntas',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
-              label: 'Dashboard',
-              activeIcon: Icon(Icons.dashboard)),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: indexBottomNavigatorBar,
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.question_answer),
+      //       label: 'Perguntas',
+      //     ),
+      //     BottomNavigationBarItem(
+      //         icon: Icon(Icons.dashboard),
+      //         label: 'Dashboard',
+      //         activeIcon: Icon(Icons.dashboard)),
+      //   ],
+      // ),
     );
   }
 }

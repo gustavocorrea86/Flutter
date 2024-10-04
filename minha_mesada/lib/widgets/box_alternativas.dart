@@ -29,7 +29,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
           child: AnimatedContainer(
             duration: Duration(milliseconds: 100),
             width: MediaQuery.of(context).size.width,
-            height: 60,
+            // height: 60,
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
