@@ -4,12 +4,12 @@ import 'package:mongodb_api/models/models.dart';
 
 class RegisterQuestions extends StatelessWidget {
   RegisterQuestions({super.key});
-  TextEditingController question = TextEditingController();
-  TextEditingController response = TextEditingController();
-  TextEditingController altA = TextEditingController();
-  TextEditingController altB = TextEditingController();
-  TextEditingController altC = TextEditingController();
-  TextEditingController altD = TextEditingController();
+  final TextEditingController question = TextEditingController();
+  final TextEditingController response = TextEditingController();
+  final TextEditingController altA = TextEditingController();
+  final TextEditingController altB = TextEditingController();
+  final TextEditingController altC = TextEditingController();
+  final TextEditingController altD = TextEditingController();
   List<String> alternativas = [];
 
   @override

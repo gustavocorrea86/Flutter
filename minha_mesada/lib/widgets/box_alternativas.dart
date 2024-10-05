@@ -19,14 +19,32 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
   Color corAlternativa = Colors.white;
   int count = 0;
   String userPoints = DaoQuizUser.userPoints;
+  String hitOrErr = '';
+
+  changeColors() {
+    if (widget.response == widget.alt) {
+      corAlternativa = Colors.green;
+      count++;
+      int points = count;
+      DaoQuizUser().addPoints('Gustavo', points);
+
+      DaoQuizUser().findPoints('Gustavo');
+      print('Pontos do usuario: $userPoints');
+      hitOrErr = 'Acerto!';
+    } else {
+      corAlternativa = Colors.red;
+      hitOrErr = 'Errou!';
+    }
+    return Text(hitOrErr);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: AnimatedContainer(
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Column(
+        children: [
+          AnimatedContainer(
             duration: Duration(milliseconds: 100),
             width: MediaQuery.of(context).size.width,
             // height: 60,
@@ -52,14 +70,13 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                   height: 50,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(width: 1, color: Colors.black26),
-                    color: Colors.white
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 1, color: Colors.black26),
+                      color: Colors.white),
+                  child: Text(
+                    widget.option,
+                    style: TextStyle(fontSize: 30),
                   ),
-                  child:Text(
-                  widget.option,
-                  style: TextStyle(fontSize: 30),
-                ),
                 ),
                 title: Text(
                   widget.alt,
@@ -69,23 +86,24 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
               onTap: () {
                 setState(() {
                   print(widget.response);
-                  if (widget.response == widget.alt) {
-                    corAlternativa = Colors.green;
-                    count++;
-                    int points = count;
-                    DaoQuizUser().addPoints('Gustavo', points);
-
-                    DaoQuizUser().findPoints('Gustavo');
-                    print('Pontos do usuario: $userPoints');
-                  } else {
-                    corAlternativa = Colors.red;
-                  }
+                  changeColors();
                 });
               },
             ),
           ),
-        ),
-      ],
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                  hitOrErr,
+                  style: TextStyle(color: corAlternativa),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

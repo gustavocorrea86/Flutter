@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_quizMath.dart';
-import 'package:mongodb_api/widgets/box_alternativas.dart';
-import 'package:mongodb_api/widgets/box_questions.dart';
-import 'package:mongodb_api/widgets/screen_questions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,11 +8,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // final Future _future = DaoQuiz().findQuestions();
-  // final Color green = Colors.green;
-  // final Color red = Colors.red;
-  // Future resultsList = DaoQuiz().findAll();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.manage_history),
                 title: Text('Matemática'),
                 trailing: Icon(Icons.arrow_forward),
-                onTap: (){
-                  Navigator.pushNamed(context,'elementary_school');
+                onTap: () {
+                  Navigator.pushNamed(context, 'elementary_school');
                 },
               ),
               ListTile(
                 leading: Icon(Icons.manage_history),
                 title: Text('Português'),
                 trailing: Icon(Icons.arrow_forward),
-                onTap: (){},
+                onTap: () {},
               ),
             ],
           ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_quizMath.dart';
 import 'package:mongodb_api/database/dao_user.dart';
+import 'package:mongodb_api/widgets/loading.dart';
 import 'package:mongodb_api/widgets/box_alternativas.dart';
 import 'package:mongodb_api/widgets/box_questions.dart';
+
 import 'package:mongodb_api/widgets/screen_questions.dart';
-import 'package:lottie/lottie.dart';
 
 class PagesQuestions extends StatefulWidget {
   const PagesQuestions({super.key});
@@ -46,19 +47,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
           builder: (context, snapshot) {
             List<Map<String, dynamic>>? question = snapshot.data;
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // CircularProgressIndicator(),
-                    // Text('Carregando...')
-                    Lottie.network('https://lottie.host/14e6645a-b8fd-4dfe-bf6e-1d8f8b81cc44/7GsukhT0EK.json', width: 200, height: 200),
-                    Text('Carregando...')
-                    // Lottie.asset('./assets/images/bichinho_andando.json')
-                  ],
-                ),
-              );
+              return const Loading();
             } else if (snapshot.hasData && questions != null) {
               return Stack(
                 children: [
@@ -75,54 +64,20 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                             question[index]['resposta']),
                         BoxAlternatives(question[index]['alternativas'][2], 'C',
                             question[index]['resposta']),
-                        BoxAlternatives(question[index]['alternativas'][3], 'D',
-                            question[index]['resposta']),
+                        BoxAlternatives(
+                          question[index]['alternativas'][3],
+                          'D',
+                          question[index]['resposta'],
+                        ),
+                        controller,
                       );
                     },
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    left: 270,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          print(_future);
-                          setState(() {
-                            points('Gustavo');
-                          });
-                          controller.nextPage(
-                                duration: Duration(microseconds: 500),
-                                curve: Curves.ease); 
-
-                          // if (activePage < question.length - 1) {
-                          //   controller.nextPage(
-                          //       duration: Duration(milliseconds: 500),
-                          //       curve: Curves.ease);
-                          // }
-                        },
-                        child: Text('Próximo')),
                   ),
                 ],
               );
             }
             return Center(child: Text('Nenhuma pergunta cadastrada'));
           }),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: indexBottomNavigatorBar,
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.question_answer),
-      //       label: 'Perguntas',
-      //     ),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(Icons.dashboard),
-      //         label: 'Dashboard',
-      //         activeIcon: Icon(Icons.dashboard)),
-      //   ],
-      // ),
     );
   }
 }
