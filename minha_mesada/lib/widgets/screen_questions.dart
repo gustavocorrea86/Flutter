@@ -50,45 +50,40 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                   margin: EdgeInsets.only(bottom: 20),
                   child: Row(
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            width: 70,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.white),
-                                color: Colors.amber,
-                                gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment(.2, 1),
-                                    colors: <Color>[
-                                      Colors.amber,
-                                      Colors.yellow,
-                                      Colors.amber
-                                    ]),
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        './assets/images/finance-634901_640.png'),
-                                    fit: BoxFit.cover,
-                                    opacity: .2)),
-                            child: Column(
-                              children: [
-                                Text(
-                                  '1000',
-                                  style: TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ],
+                      Container(
+                        alignment: Alignment.center,
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                            border:
+                                Border.all(width: 1, color: Colors.white),
+                            color: Colors.amber,
+                            gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment(.2, 1),
+                                colors: <Color>[
+                                  Colors.amber,
+                                  Colors.yellow,
+                                  Colors.amber
+                                ]),
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    './assets/images/finance-634901_640.png'),
+                                fit: BoxFit.cover,
+                                opacity: .2)),
+                        child: Column(
+                          children: [
+                            Text(
+                              '1000',
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),
