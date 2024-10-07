@@ -1,4 +1,4 @@
-name: mongodb_api
+name: controle_uber
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -36,7 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   mongo_dart: ^0.10.3
-  lottie: ^3.1.2
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:
@@ -59,17 +60,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - assets/images/
-    
-    
-
-  # To add custom images, add an image section in your pubspec.yaml file.
-  # For example:
-  # images:
-  #   - assets/images/logo.png
-  #   - assets/fonts/Montserrat-Regular.ttf
-
 
   # To add assets to your application, add an assets section, like this:
   # assets:

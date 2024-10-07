@@ -36,9 +36,9 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 begin: Alignment.topLeft,
                 end: Alignment(0.2, 1),
                 colors: <Color>[
-              Colors.indigo,
-              Colors.lightBlue,
-              Colors.indigo,
+              const Color.fromARGB(255, 255, 153, 0),
+              const Color.fromARGB(255, 255, 207, 136),
+              const Color.fromARGB(255, 255, 153, 0),
             ])),
         child: Padding(
           padding: const EdgeInsets.all(8.0),

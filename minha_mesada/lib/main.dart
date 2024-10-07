@@ -4,8 +4,11 @@ import 'package:mongodb_api/screens/elementary_school_1.dart';
 import 'package:mongodb_api/screens/elementary_school_2.dart';
 
 import 'package:mongodb_api/screens/home.dart';
+import 'package:mongodb_api/screens/initial_screen.dart';
+import 'package:mongodb_api/screens/login.dart';
 import 'package:mongodb_api/screens/pages.dart';
 import 'package:mongodb_api/screens/register_questions.dart';
+import 'package:mongodb_api/screens/user_register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,8 +29,11 @@ class MyApp extends StatelessWidget {
       title: 'QuizMesada',
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.blue)),
-      initialRoute: 'home',
+      initialRoute: 'initial',
       routes: {
+        'initial': (context) => const ScreenInitial(),
+        'login':(context) => const Login(),
+        'userRegister': (context) => UserRegister(),
         'home': (context) => const HomeScreen(),
         'register_questions': (context) => RegisterQuestions(),
         'pages': (context) => const PagesQuestions(),
