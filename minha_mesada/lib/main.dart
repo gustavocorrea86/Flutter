@@ -8,7 +8,8 @@ import 'package:mongodb_api/screens/initial_screen.dart';
 import 'package:mongodb_api/screens/login.dart';
 import 'package:mongodb_api/screens/pages.dart';
 import 'package:mongodb_api/screens/register_questions.dart';
-import 'package:mongodb_api/screens/user_register.dart';
+import 'package:mongodb_api/screens/user_register1.dart';
+import 'package:mongodb_api/screens/user_regster2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
       routes: {
         'initial': (context) => const ScreenInitial(),
         'login':(context) => const Login(),
-        'userRegister': (context) => UserRegister(),
+        'userRegister1': (context) => UserRegister1(),
+        'userRegister2': (context) => UserRegister2(),
         'home': (context) => const HomeScreen(),
         'register_questions': (context) => RegisterQuestions(),
         'pages': (context) => const PagesQuestions(),

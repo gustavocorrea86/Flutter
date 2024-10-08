@@ -51,7 +51,7 @@ class ScreenInitial extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.pushNamed(context,'userRegister');
+                  Navigator.pushNamed(context,'userRegister1');
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
