@@ -40,10 +40,27 @@ class UserRegister extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: TextFormField(
                 decoration: InputDecoration(
-                  label: Text('Data'),
+                  label: Text('Data de Nascimento'),
                 ),
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  label: Text('Nível Escolar'),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  label: Text('Série'),
+                ),
+              ),
+            ),
+
           ],
         ),
       ),

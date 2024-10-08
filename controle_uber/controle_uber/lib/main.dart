@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
-  DaoDrivesControl().getConnect();
 }
 
 class MyApp extends StatelessWidget {
