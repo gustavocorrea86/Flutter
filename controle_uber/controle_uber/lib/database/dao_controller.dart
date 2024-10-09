@@ -22,13 +22,13 @@ class DaoDrivesControl {
     return {
       _day: datas.dia,
       _totalDay: datas.totalDia,
-      _totalKm: _totalKm,
-      _start: _start,
-      _end: _end
+      _totalKm: datas.totalKm,
+      _start: datas.start,
+      _end: datas.end
     };
   }
 
-  save(ModelDatas datas) async {
+  Future save(ModelDatas datas) async {
     final Database db = await getDatabase();
     final Map<String, dynamic> dataControl = toMap(datas);
     try {
@@ -39,10 +39,20 @@ class DaoDrivesControl {
     }
   }
 
-  findAll() async {
+  Future findAll() async {
     final Database db = await getDatabase();
     final List<Map<String, dynamic>> rows = await db.query(_tableName);
     print(rows);
+  }
+
+  Future delete() async{
+    final Database db = await getDatabase();
+    try {
+      await db.delete(_tableName);
+      print('Todos os dados foram apagados');
+    } catch (erro) {
+      print('Erro ao apagar: $erro');
+    }
   }
 }
 

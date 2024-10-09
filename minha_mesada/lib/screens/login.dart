@@ -28,16 +28,16 @@ class Login extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 150,
-              height: 150,
-              child: 
-              // Lottie.asset('/minha_mesada/assets/images/Animation - 1728300067190.json')
+            // Container(
+            //   width: 150,
+            //   height: 150,
+            //   child: 
+            //   // Lottie.asset('/minha_mesada/assets/images/Animation - 1728300067190.json')
               
-              Lottie.network(
-                  'https://lottie.host/bd4ba235-1f26-4498-a2f7-1616fb24635b/GXIiq9SuaY.json',
-                  fit: BoxFit.cover),
-            ),
+            //   Lottie.network(
+            //       'https://lottie.host/bd4ba235-1f26-4498-a2f7-1616fb24635b/GXIiq9SuaY.json',
+            //       fit: BoxFit.cover),
+            // ),
             Container(
               child: Column(
                 children: [
