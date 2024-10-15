@@ -38,7 +38,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
     } else {
       corAlternativa = Colors.red;
       hitOrErr = 'Errou';
-       widthContainer = 70;
+      widthContainer = 70;
       heightContainer = 20;
     }
     return Text(hitOrErr);
@@ -108,7 +108,9 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                     alignment: Alignment.center,
                     width: widthContainer,
                     height: heightContainer,
-                    decoration: BoxDecoration(color: corAlternativa, borderRadius: BorderRadius.circular(50)),
+                    decoration: BoxDecoration(
+                        color: corAlternativa,
+                        borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       hitOrErr,
                       style: TextStyle(

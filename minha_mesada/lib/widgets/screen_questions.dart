@@ -7,6 +7,8 @@ class ScreenQuestions extends StatefulWidget {
   final Widget boxAlternativesC;
   final Widget boxAlternativesD;
   final PageController controller;
+  final String qdtQuestoes;
+  final String questions;
 
   const ScreenQuestions(
       this.boxQuestions,
@@ -15,6 +17,8 @@ class ScreenQuestions extends StatefulWidget {
       this.boxAlternativesC,
       this.boxAlternativesD,
       this.controller,
+      this.qdtQuestoes,
+      this.questions,
       // this.index,
       {super.key});
 
@@ -25,6 +29,7 @@ class ScreenQuestions extends StatefulWidget {
 class _ScreenQuestionsState extends State<ScreenQuestions> {
   Color corAlternativa = Colors.white;
   // List<Map<String, dynamic>> _pages = DaoQuiz().findAll();
+
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +60,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                         width: 70,
                         height: 70,
                         decoration: BoxDecoration(
-                            border:
-                                Border.all(width: 1, color: Colors.white),
+                            border: Border.all(width: 1, color: Colors.white),
                             color: Colors.amber,
                             gradient: LinearGradient(
                                 begin: Alignment.topLeft,
@@ -115,7 +119,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Questão 0 / 10',
+                              'Questão ${widget.questions} / ${widget.qdtQuestoes}',
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.blue,
@@ -221,7 +225,11 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.controller.animateToPage(-1,
+                                      duration: Duration(microseconds: 500),
+                                      curve: Curves.ease);
+                                },
                                 child: Text(
                                   'Voltar',
                                   style: TextStyle(color: Colors.black),

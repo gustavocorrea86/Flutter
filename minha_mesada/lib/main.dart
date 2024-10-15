@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/db_sqfLite/dao_user_resum.dart';
+import 'package:mongodb_api/models/models_user_resum.dart';
 import 'package:mongodb_api/screens/elementary_school.dart';
 import 'package:mongodb_api/screens/elementary_school_1.dart';
 import 'package:mongodb_api/screens/elementary_school_2.dart';
@@ -9,16 +11,12 @@ import 'package:mongodb_api/screens/login.dart';
 import 'package:mongodb_api/screens/pages.dart';
 import 'package:mongodb_api/screens/register_questions.dart';
 import 'package:mongodb_api/screens/user_register1.dart';
-import 'package:mongodb_api/screens/user_regster2.dart';
+import 'package:mongodb_api/service/service.dart';
 
 void main() {
   runApp(const MyApp());
-  // DaoQuiz().findAll();
-  // DaoQuizUser().findAllUser();
-  // DaoQuizUser().findPoints('Pedro');
-  // DaoQuiz().findAlternatives();
-  // DaoQuiz().findNumberQuestion();
-  // DaoQuiz().findQuestions();
+  
+  Service().getRequest();
 }
 
 class MyApp extends StatelessWidget {
@@ -33,9 +31,8 @@ class MyApp extends StatelessWidget {
       initialRoute: 'initial',
       routes: {
         'initial': (context) => const ScreenInitial(),
-        'login':(context) => const Login(),
+        'login': (context) => const Login(),
         'userRegister1': (context) => UserRegister1(),
-        'userRegister2': (context) => UserRegister2(),
         'home': (context) => const HomeScreen(),
         'register_questions': (context) => RegisterQuestions(),
         'pages': (context) => const PagesQuestions(),

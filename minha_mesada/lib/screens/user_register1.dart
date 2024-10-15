@@ -126,9 +126,9 @@ class _UserRegisterState extends State<UserRegister1> {
                 ElevatedButton(
                     onPressed: () {
                       print(currentYears.year);
-                      Navigator.pushNamed(context, 'userRegister2');
+                      
                     },
-                    child: Text('Próximo'))
+                    child: Text('Cadastrar'))
               ],
             ),
           ),
