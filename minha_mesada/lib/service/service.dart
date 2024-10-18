@@ -3,8 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:mongodb_api/models/models.dart';
 
 class Service {
+  static var api_key = const String.fromEnvironment('API_KEY');
+  static var api_url = const String.fromEnvironment('API_URL');
+
   static final String apiUrl =
-      'https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes';
+      'https://$api_key+$api_url';
 
   String getApi() {
     return apiUrl;
