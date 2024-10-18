@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/models/models.dart';
+import 'package:mongodb_api/widgets/pointsAndErrors.dart';
+import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
@@ -8,7 +11,7 @@ class ScreenQuestions extends StatefulWidget {
   final Widget boxAlternativesD;
   final PageController controller;
   final String qdtQuestoes;
-  final String questions;
+  final int question;
 
   const ScreenQuestions(
       this.boxQuestions,
@@ -18,7 +21,7 @@ class ScreenQuestions extends StatefulWidget {
       this.boxAlternativesD,
       this.controller,
       this.qdtQuestoes,
-      this.questions,
+      this.question,
       // this.index,
       {super.key});
 
@@ -28,8 +31,6 @@ class ScreenQuestions extends StatefulWidget {
 
 class _ScreenQuestionsState extends State<ScreenQuestions> {
   Color corAlternativa = Colors.white;
-  // List<Map<String, dynamic>> _pages = DaoQuiz().findAll();
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +38,9 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment(0.2, 1),
-                colors: <Color>[
-              const Color.fromARGB(255, 255, 153, 0),
-              const Color.fromARGB(255, 255, 207, 136),
-              const Color.fromARGB(255, 255, 153, 0),
-            ])),
+            image: DecorationImage(
+                image: AssetImage('./assets/images/ball-7280265_640.jpg'),
+                fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
@@ -119,65 +115,13 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Questão ${widget.questions} / ${widget.qdtQuestoes}',
+                              'Questão ${widget.question + 1} / ${widget.qdtQuestoes}',
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold),
                             ),
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: 50,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.green[300],
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(1, 2),
-                                            blurRadius: 1,
-                                            spreadRadius: 1)
-                                      ],
-                                    ),
-                                    child: Text(
-                                      '+1',
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 30,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red[300],
-                                    borderRadius: BorderRadius.circular(20),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black26,
-                                          offset: Offset(1, 2),
-                                          blurRadius: 1,
-                                          spreadRadius: 1)
-                                    ],
-                                  ),
-                                  child: Text(
-                                    '-2',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            )
+                            PointsAndErrors()
                           ],
                         ),
                       ),
@@ -210,13 +154,16 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 child: Container(
                   child: Column(
                     children: [
-                      ElevatedButton(
+                      Consumer(builder: (_, value, chid) {
+                        return ElevatedButton(
                           onPressed: () {
                             widget.controller.nextPage(
                                 duration: Duration(microseconds: 500),
                                 curve: Curves.ease);
                           },
-                          child: Text('Próximo')),
+                          child: Text('Próximo'),
+                        );
+                      }),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Container(
@@ -226,13 +173,15 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  widget.controller.animateToPage(-1,
+                                  widget.controller.animateToPage(
+                                      widget.question - 1,
                                       duration: Duration(microseconds: 500),
                                       curve: Curves.ease);
                                 },
                                 child: Text(
                                   'Voltar',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
                               ),
                               TextButton(
@@ -241,7 +190,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                 },
                                 child: Text(
                                   'Sair',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
                                 ),
                               ),
                             ],

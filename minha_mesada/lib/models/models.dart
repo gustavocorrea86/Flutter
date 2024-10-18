@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class ModelQuiz {
   final String pergunta;
   final String resposta;
@@ -46,5 +48,21 @@ class Model {
       'resposta': resposta,
       'alternativas': alternativas,
     };
+  }
+}
+
+class ModelPoints extends ChangeNotifier {
+  String hits;
+  String error;
+  ModelPoints(this.hits, this.error);
+
+  void pointsHits(String text) {
+    hits = text;
+    notifyListeners();
+  }
+
+  void errors(String text) {
+    error = text;
+    notifyListeners();
   }
 }

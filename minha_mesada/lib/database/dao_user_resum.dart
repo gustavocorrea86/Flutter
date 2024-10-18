@@ -1,4 +1,4 @@
-import 'package:mongodb_api/database/db_sqfLite/database.dart';
+import 'package:mongodb_api/database/database.dart';
 import 'package:mongodb_api/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -96,45 +96,3 @@ class DaoUserResum {
   }
 }
 
-// class ModelTeste {
-//   final String nome;
-//   final String idade;
-//   ModelTeste({required this.nome, required this.idade});
-// }
-
-// class DaoTeste {
-//   static const String _tableTeste = 'tableTeste';
-//   static const String _nome = 'nome';
-//   static const String _idade = 'idade';
-
-//   static const String tableSqlTeste = 'CREATE TABLE $_tableTeste('
-//       '$_nome TEXT,'
-//       '$_idade TEXT)';
-
-//   Map<String, dynamic> toMap(ModelTeste teste) {
-//     return {
-//       'nome': teste.nome,
-//       'idade': teste.idade,
-//     };
-//   }
-
-//   Future saveTeste(ModelTeste datas) async {
-//     final Database db = await getConnectionTeste();
-//     final Map<String, dynamic> teste = toMap(datas);
-//     try {
-//       await db.insert(_tableTeste, teste);
-//       print('Teste salvo com sucesso');
-//     } catch (e) {
-//       print('Erro ao salvar teste: $e');
-//     }
-//   }
-//   Future delete()async{
-//     final Database db = await getConnectionTeste();
-//     try {
-//       await db.delete(_tableTeste);
-//       print('Teste deletado com sucesso');
-//     } catch (e) {
-//       print('Erro ao deletar teste: $e');
-//     }
-//   }
-// }

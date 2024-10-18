@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/models/models.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,19 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         floatingActionButton: Row(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'register_questions');
-              },
-              child: Text('Cadastrar\nperguntas'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'pages');
-                // print(resultsList);
-              },
-              child: Text('Pages'),
-            ),
+            Consumer<ModelPoints>(builder: (_, value, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'pages');
+                  value.pointsHits('0');
+                },
+                child: Text('Pages'),
+              );
+            })
           ],
         ));
   }

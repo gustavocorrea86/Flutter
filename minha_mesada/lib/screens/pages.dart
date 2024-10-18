@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_quizMath.dart';
-import 'package:mongodb_api/database/dao_user.dart';
+
 import 'package:mongodb_api/service/service.dart';
 import 'package:mongodb_api/widgets/loading.dart';
 import 'package:mongodb_api/widgets/box_alternativas.dart';
@@ -23,19 +22,6 @@ class _PagesQuestionsState extends State<PagesQuestions> {
   Future _future = Service().getRequest();
   int indexBottomNavigatorBar = 0;
   String userPoints = '0';
-
-  // Future<List<Map<String, dynamic>>> questions() async {
-  //   if (_future != null) {
-  //     _future = Service().getRequest();
-  //     // _future = DaoQuiz().findAll();
-  //   }
-  //   return await _future;
-  // }
-
-  Future points(String name) async {
-    DaoQuizUser().findPoints(name);
-    userPoints = DaoQuizUser.userPoints;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +60,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                           ),
                           controller,
                           question.length.toString(),
-                          index.toString());
+                          index);
                     },
                   ),
                 ],
