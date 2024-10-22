@@ -1,19 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mongodb_api/models/models.dart';
+import 'package:mongodb_api/env/env.dart';
+
 
 class Service {
-  static var api_key = const String.fromEnvironment('API_KEY');
-  static var api_url = const String.fromEnvironment('API_URL');
+  static String api_key = Env.apiKey;
+  static String api_url = const String.fromEnvironment('API_URL',
+      defaultValue: 'URL não encontrada');
+      
 
   static final String apiUrl =
-      'https://$api_key+$api_url';
+      'https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes';
 
+// https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes
   String getApi() {
     return apiUrl;
   }
 
   Future<List<Map<String, dynamic>>> getRequest() async {
+    // print(api_key);
+    // print(api_url);
     http.Response response = await http.get(Uri.parse(getApi()));
 
     var decodedResponse = utf8.decode(response.bodyBytes);
@@ -31,7 +37,7 @@ class Service {
       print('Falha na busca dos dados: $erro');
     }
 
-    print(result);
+    // print(result);
     return result;
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
 import 'package:provider/provider.dart';
 
@@ -40,25 +42,69 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('./assets/images/ball-7280265_640.jpg'),
-                  fit: BoxFit.cover)),
+        body: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Lottie.asset('./assets/lotties/backgroud_blue.json',
+                  fit: BoxFit.cover),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  child: Column(
+                    children: [
+                      Text('Pontos'),
+                      Card(child: Consumer<ModelPoints>(
+                          builder: (context, value, child) {
+                        return Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              color: Colors.indigo,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text(
+                            value.hits,
+                            style: TextStyle(color: Colors.white, fontSize: 40),
+                          )),
+                        );
+                      }))
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         floatingActionButton: Row(
           children: [
-            Consumer<ModelPoints>(builder: (_, value, child) {
-              return ElevatedButton(
+            Consumer<ModelPoints>(
+              builder: (_, value, child) {
+                return ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'pages');
+                    value.pointsHits('0');
+                    DaoUserResum().insertPoints('0');
+                  },
+                  child: Text('Pages'),
+                );
+              },
+            ),
+            ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'pages');
-                  value.pointsHits('0');
+                  Navigator.pushNamed(context, 'initial');
                 },
-                child: Text('Pages'),
-              );
-            })
+                child: Text('Tela inicial'),),
+                ElevatedButton(
+                onPressed: () {
+                   DaoUserResum().delete();
+                },
+                child: Text('Deletar pontos'))
           ],
         ));
   }

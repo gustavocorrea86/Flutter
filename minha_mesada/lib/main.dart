@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
+
 import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/models/models_user_resum.dart';
+
 import 'package:mongodb_api/screens/elementary_school.dart';
 import 'package:mongodb_api/screens/elementary_school_1.dart';
 import 'package:mongodb_api/screens/elementary_school_2.dart';
@@ -23,7 +24,11 @@ void main() {
       )
     ], child: const MyApp()),
   );
-  Service().getRequest();
+  // DaoUserResum().insertPoints('6');
+  // DaoUserResum().updatePoints('10','4');
+  DaoUserResum().findPoints();
+  // DaoUserResum().findAll();
+ 
 }
 
 class MyApp extends StatelessWidget {

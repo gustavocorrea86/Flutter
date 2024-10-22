@@ -11,64 +11,65 @@ class Login extends StatelessWidget {
         toolbarHeight: 5,
         backgroundColor: const Color.fromARGB(255, 131, 98, 0),
       ),
-      body: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color.fromARGB(255, 247, 204, 140),
-              Colors.orange,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 200,
-              height: 200,
-              child: Lottie.network(
-                  'https://lottie.host/bd4ba235-1f26-4498-a2f7-1616fb24635b/GXIiq9SuaY.json',
-                  fit: BoxFit.cover),
+      body: ListView(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color.fromARGB(255, 247, 204, 140),
+                  Colors.orange,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-            Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          label: Text(
-                        'Email',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        label: Text(
-                          'Senha',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: 300,
+                    height: 300,
+                    child: Lottie.asset('./assets/lotties/animation_login.json')),
+                Container(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              label: Text(
+                            'Email',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
                         ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            label: Text(
+                              'Senha',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'home');
+                          },
+                          child: Text('Entrar'))
+                    ],
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'home');
-                      },
-                      child: Text('Entrar'))
-                ],
-              ),
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -10,14 +10,15 @@ class ScreenInitial extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color.fromARGB(255, 247, 204, 140),
-              Colors.orange,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          image: DecorationImage(image: AssetImage('./assets/images/cubs.png'),fit: BoxFit.cover)
+          // gradient: LinearGradient(
+          //   colors: [
+          //     const Color.fromARGB(255, 247, 204, 140),
+          //     Colors.orange,
+          //   ],
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          // ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

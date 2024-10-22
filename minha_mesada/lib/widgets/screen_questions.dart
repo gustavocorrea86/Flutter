@@ -50,39 +50,39 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 child: Container(
                   margin: EdgeInsets.only(bottom: 20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.white),
-                            color: Colors.amber,
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment(.2, 1),
-                                colors: <Color>[
-                                  Colors.amber,
-                                  Colors.yellow,
-                                  Colors.amber
-                                ]),
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage(
-                                    './assets/images/finance-634901_640.png'),
-                                fit: BoxFit.cover,
-                                opacity: .2)),
-                        child: Column(
-                          children: [
-                            Text(
-                              '1000',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            child: Text('Pontos'),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            child: Text('Pontos'),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            width: 70,
+                            height: 70,
+                            child: Text('Pontos'),
+                          ),
                         ),
                       ),
                     ],
@@ -209,3 +209,21 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
     );
   }
 }
+// decoration: BoxDecoration(
+                        //   border: Border.all(width: 1, color: Colors.white),
+                        //   color: Colors.amber,
+                        //   gradient: LinearGradient(
+                        //       begin: Alignment.topLeft,
+                        //       end: Alignment(.2, 1),
+                        //       colors: <Color>[
+                        //         Colors.amber,
+                        //         Colors.yellow,
+                        //         Colors.amber
+                        //       ]),
+                        //   shape: BoxShape.circle,
+                        //   image: DecorationImage(
+                        //       image: AssetImage(
+                        //           './assets/images/finance-634901_640.png'),
+                        //       fit: BoxFit.cover,
+                        //       opacity: .2),
+                        // ),

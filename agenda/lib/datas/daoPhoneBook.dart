@@ -79,11 +79,6 @@ class Daophonebook {
     }
   }
 
-  // void updateOp(PhoneBook update) async {
-  //   final Database database = await getDatabase();
-  //   await database.update(_tablename, toMap(update), where:'$_name = ?', whereArgs: [update.name]);
-  // }
-
   Future update(String updateName, String updateNumber, String findName) async {
     final Database database = await getDatabase();
     int count = await database.rawUpdate(

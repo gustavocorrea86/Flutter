@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class BoxAlternatives extends StatefulWidget {
 }
 
 class _BoxAlternativesState extends State<BoxAlternatives> {
+  DaoUserResum databasePoints = DaoUserResum();
   Color corAlternativa = Colors.white;
 
   static int pointHit = 0;
@@ -41,6 +43,13 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
       corAlternativa = Colors.green;
       countPoints();
       print('Pontos:$pointHit');
+
+      String currentPoint = DaoUserResum.totalPoints;
+      print(currentPoint);
+      // databasePoints.insertPoints(currentPoint);
+      databasePoints.updatePoints(pointHit.toString(), currentPoint);
+      databasePoints.findPoints();
+      databasePoints.findAll();
 
       hitOrErr = 'Acertou!';
       widthContainer = 70;

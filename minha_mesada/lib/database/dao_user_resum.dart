@@ -3,7 +3,7 @@ import 'package:mongodb_api/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoUserResum {
-  static const String _tableName = 'resumTable ';
+  static const String _tableName = 'resumTable';
 
   static const String _name = 'name';
   static const String _lastName = 'lastName';
@@ -17,6 +17,8 @@ class DaoUserResum {
   static const String _totalError = 'totalError';
   static const String _monthError = 'monthError';
 
+  static String totalPoints = '0';
+
   static const String tableSql = 'CREATE TABLE $_tableName('
       '$_name TEXT,'
       '$_lastName TEXT,'
@@ -29,8 +31,6 @@ class DaoUserResum {
       '$_monthHits TEXT,'
       '$_totalError TEXT,'
       '$_monthError TEXT)';
-
-  
 
   Map<String, dynamic> toMap(ModelsUserResum resumUser) {
     return {
@@ -65,18 +65,50 @@ class DaoUserResum {
     print(table);
   }
 
-  Future close() async{
+  Future insertPoints(String value) async {
     final db = await getConnection();
-    try{
+    try {
+      int points = await db
+          .rawInsert('INSERT INTO $_tableName($_totalPoints) VALUES($value)');
+      print('Dados inseridos com sucesso');
+      print(points);
+    } catch (erro) {
+      print('Erro ao inserir pontos: $erro');
+    }
+  }
+
+  Future findPoints() async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> points = await db.query(_tableName);
+    print(points[0]['totalPoints']);
+    totalPoints = points[0]['totalPoints'];
+    
+  }
+
+  Future updatePoints(String value, String lastValue) async {
+    final Database db = await getConnection();
+    try {
+      int updated = await db.rawUpdate(
+          'UPDATE $_tableName SET $_totalPoints = ? WHERE $_totalPoints = ?',
+          [value, lastValue]);
+      print('Atualização = $updated');
+      print('Dados atualizados com sucesso');
+    } catch (erro) {
+      print('Erro ao atualizar pontos: $erro');
+    }
+  }
+
+  Future close() async {
+    final db = await getConnection();
+    try {
       await db.close();
       print('Banco de dados fechado com sucesso');
-    }
-    catch (e) {
+    } catch (e) {
       print('Erro ao fechar o banco de dados: $e');
     }
   }
 
-  Future delete()async{
+  Future delete() async {
     final db = await getConnection();
     try {
       await db.delete(_tableName);
@@ -85,7 +117,8 @@ class DaoUserResum {
       print('Erro ao excluir dados: $e');
     }
   }
-  Future deleteDatabse()async{
+
+  Future deleteDatabse() async {
     final db = await getConnection();
     try {
       await db.database;
@@ -95,4 +128,3 @@ class DaoUserResum {
     }
   }
 }
-
