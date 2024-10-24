@@ -9,11 +9,11 @@ class ElementarySchool1 extends StatelessWidget {
       appBar: AppBar(),
       body: ListView(
         children: [
-          ElevatedButton(onPressed: (){}, child: Text('1º Ano')),
-          ElevatedButton(onPressed: (){}, child: Text('2º Ano')),
-          ElevatedButton(onPressed: (){}, child: Text('3º Ano')),
-          ElevatedButton(onPressed: (){}, child: Text('4º Ano')),
-          ElevatedButton(onPressed: (){}, child: Text('5º Ano')),
+          ElevatedButton(onPressed: (){}, child: const Text('1º Ano')),
+          ElevatedButton(onPressed: (){}, child: const Text('2º Ano')),
+          ElevatedButton(onPressed: (){}, child: const Text('3º Ano')),
+          ElevatedButton(onPressed: (){}, child: const Text('4º Ano')),
+          ElevatedButton(onPressed: (){}, child: const Text('5º Ano')),
           
         ],
       ),

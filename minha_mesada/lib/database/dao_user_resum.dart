@@ -1,4 +1,5 @@
 import 'package:mongodb_api/database/database.dart';
+import 'package:mongodb_api/models/models.dart';
 import 'package:mongodb_api/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -71,7 +72,10 @@ class DaoUserResum {
       int points = await db
           .rawInsert('INSERT INTO $_tableName($_totalPoints) VALUES($value)');
       print('Dados inseridos com sucesso');
-      print(points);
+      if (points == 1) {
+        points = 0;
+      }
+      print('Pontos inseridos = $points');
     } catch (erro) {
       print('Erro ao inserir pontos: $erro');
     }
@@ -80,18 +84,19 @@ class DaoUserResum {
   Future findPoints() async {
     final Database db = await getConnection();
     List<Map<String, dynamic>> points = await db.query(_tableName);
-    print(points[0]['totalPoints']);
+
     totalPoints = points[0]['totalPoints'];
+    print('totalPoints = $totalPoints');
     
   }
 
-  Future updatePoints(String value, String lastValue) async {
+  Future updatePoints(String lastValue, String currentValue) async {
     final Database db = await getConnection();
     try {
-      int updated = await db.rawUpdate(
+      await db.rawUpdate(
           'UPDATE $_tableName SET $_totalPoints = ? WHERE $_totalPoints = ?',
-          [value, lastValue]);
-      print('Atualização = $updated');
+          [lastValue, currentValue]);
+      print('Pontos atualização para $lastValue');
       print('Dados atualizados com sucesso');
     } catch (erro) {
       print('Erro ao atualizar pontos: $erro');
@@ -121,7 +126,7 @@ class DaoUserResum {
   Future deleteDatabse() async {
     final db = await getConnection();
     try {
-      await db.database;
+      db.database;
       print('Todos os dados foram excluídos');
     } catch (e) {
       print('Erro ao excluir dados: $e');

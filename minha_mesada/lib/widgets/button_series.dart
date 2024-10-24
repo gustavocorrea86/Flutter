@@ -9,14 +9,14 @@ class ButtonSeries extends StatelessWidget {
       alignment: Alignment.center,
       width: 100,
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(colors: <Color>[
           Colors.indigo,
           Colors.lightBlue,
           Colors.indigo
         ],)
       ),
-      child: Text('5º série'),
+      child: const Text('5º série'),
     );
   }
 }

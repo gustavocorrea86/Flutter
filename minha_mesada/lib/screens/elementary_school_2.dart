@@ -9,10 +9,10 @@ class ElementarySchool2 extends StatelessWidget {
       appBar: AppBar(),
       body: ListView(
         children: [
-          ElevatedButton(onPressed: () {}, child: Text('6º Ano')),
-          ElevatedButton(onPressed: () {}, child: Text('7º Ano')),
-          ElevatedButton(onPressed: () {}, child: Text('8º Ano')),
-          ElevatedButton(onPressed: () {}, child: Text('9º Ano')),
+          ElevatedButton(onPressed: () {}, child: const Text('6º Ano')),
+          ElevatedButton(onPressed: () {}, child: const Text('7º Ano')),
+          ElevatedButton(onPressed: () {}, child: const Text('8º Ano')),
+          ElevatedButton(onPressed: () {}, child: const Text('9º Ano')),
         ],
       ),
     );

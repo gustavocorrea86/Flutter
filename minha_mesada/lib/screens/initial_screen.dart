@@ -9,7 +9,7 @@ class ScreenInitial extends StatelessWidget {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage('./assets/images/cubs.png'),fit: BoxFit.cover)
           // gradient: LinearGradient(
           //   colors: [
@@ -35,14 +35,14 @@ class ScreenInitial extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Colors.black54,
                           blurRadius: 2,
                           spreadRadius: 1,
                         )
                       ]),
-                  child: Center(
+                  child: const Center(
                     child: Text('Login'),
                   ),
                 ),
@@ -52,7 +52,7 @@ class ScreenInitial extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: (){
-                  Navigator.pushNamed(context,'userRegister1');
+                  Navigator.pushNamed(context,'userRegister');
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -60,13 +60,13 @@ class ScreenInitial extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [BoxShadow(
+                    boxShadow: const [BoxShadow(
                         color: Colors.black54,
                         blurRadius: 2,
                         spreadRadius: 1,
                       )]
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text('Cadastrar'),
                   ),
                 ),

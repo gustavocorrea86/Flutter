@@ -24,6 +24,8 @@ dependencies:
   build_runner: ^2.4.13
   flutter_native_splash: ^2.4.2
 
+  flare_flutter: ^3.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,13 +37,11 @@ flutter:
   assets:
     - assets/images/
     - assets/lotties/
+# flutter_native_splash:
+#   color: "#3817E5"
+#   image: assets/images/lampada.png
+#   android_12:
+#     color: "#42a5f5"
+#     image: assets/images/lampada.png
+#     icon_background_color: "#4d1245"
 
-flutter_native_splash:
-  color: "#3817E5"
-  image: assets/images/lampada.png
-  android_12:
-    color: "#42a5f5"
-    image: assets/images/lampada.png
-    icon_background_color: "#4d1245"
- 
-   

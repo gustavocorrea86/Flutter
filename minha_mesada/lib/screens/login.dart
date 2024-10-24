@@ -17,10 +17,10 @@ class Login extends StatelessWidget {
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 247, 204, 140),
+                  Color.fromARGB(255, 247, 204, 140),
                   Colors.orange,
                 ],
                 begin: Alignment.topLeft,
@@ -30,17 +30,18 @@ class Login extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                     width: 300,
                     height: 300,
-                    child: Lottie.asset('./assets/lotties/animation_login.json')),
+                    child:
+                        Lottie.asset('./assets/lotties/animation_login.json')),
                 Container(
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               label: Text(
                             'Email',
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -50,7 +51,7 @@ class Login extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             label: Text(
                               'Senha',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -59,10 +60,16 @@ class Login extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, 'home');
+                        },
+                        child: const Text('Entrar'),
+                      ),
+                      TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'home');
+                            Navigator.pushNamed(context, 'userRegister');
                           },
-                          child: Text('Entrar'))
+                          child: const Text('Cadastre-se'))
                     ],
                   ),
                 )

@@ -21,7 +21,7 @@ class PointsAndErrors extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                           color: Colors.black26,
                           offset: Offset(1, 2),
@@ -30,8 +30,8 @@ class PointsAndErrors extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    '+${storedValue.hits}',
-                    style: TextStyle(
+                    storedValue.hits,
+                    style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
@@ -44,7 +44,7 @@ class PointsAndErrors extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red[300],
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                       color: Colors.black26,
                       offset: Offset(1, 2),
@@ -54,7 +54,7 @@ class PointsAndErrors extends StatelessWidget {
               ),
               child: Text(
                 storedValue.error,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),

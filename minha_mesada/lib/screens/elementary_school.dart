@@ -13,10 +13,10 @@ class ElementarySchool extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, 'elementary_school_1');
               },
-              child: Text('Ensino fundamental 1')),
+              child: const Text('Ensino fundamental 1')),
           ElevatedButton(onPressed: () {
              Navigator.pushNamed(context, 'elementary_school_2');
-          }, child: Text('Ensino fundamental 2'))
+          }, child: const Text('Ensino fundamental 2'))
         ],
       ),
     );

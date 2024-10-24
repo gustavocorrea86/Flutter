@@ -13,22 +13,20 @@ import 'package:mongodb_api/screens/login.dart';
 import 'package:mongodb_api/screens/pages.dart';
 
 import 'package:mongodb_api/screens/user_register1.dart';
-import 'package:mongodb_api/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
-        create: (context) => ModelPoints('0', '0'),
+        create: (context) => ModelPoints('0', '0', DaoUserResum.totalPoints),
       )
     ], child: const MyApp()),
   );
   // DaoUserResum().insertPoints('6');
   // DaoUserResum().updatePoints('10','4');
-  DaoUserResum().findPoints();
-  // DaoUserResum().findAll();
- 
+  // DaoUserResum().findPoints();
+  // DaoUserResum().delete();
 }
 
 class MyApp extends StatelessWidget {
@@ -39,12 +37,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'QuizMesada',
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.blue)),
+      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300])),
       initialRoute: 'initial',
       routes: {
         'initial': (context) => const ScreenInitial(),
         'login': (context) => const Login(),
-        'userRegister1': (context) => UserRegister1(),
+        'userRegister': (context) => UserRegister1(),
         'home': (context) => const HomeScreen(),
         'pages': (context) => const PagesQuestions(),
         'elementary_school': (context) => const ElementarySchool(),

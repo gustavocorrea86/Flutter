@@ -9,8 +9,9 @@ class BoxAlternatives extends StatefulWidget {
   final String option;
   final String response;
   final String? correct;
+  final bool isAnswered;
 
-  BoxAlternatives(this.alt, this.option, this.response,
+  const BoxAlternatives(this.alt, this.option, this.response, this.isAnswered,
       {this.correct, super.key});
 
   @override
@@ -20,13 +21,17 @@ class BoxAlternatives extends StatefulWidget {
 class _BoxAlternativesState extends State<BoxAlternatives> {
   DaoUserResum databasePoints = DaoUserResum();
   Color corAlternativa = Colors.white;
+  String currentPoint = '';
 
   static int pointHit = 0;
   static int countErros = 0;
 
   String hitOrErr = '';
-  double widthContainer = 0;
+
   double heightContainer = 0;
+  bool? answered;
+  double widthContainer = 0;
+  double heightBoxIsAnswered = 0;
 
   int countPoints() {
     pointHit++;
@@ -38,63 +43,76 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
     return countErros;
   }
 
+  @override
+  void initState() {
+    super.initState();
+    // answered = false;
+    currentPoint = DaoUserResum.totalPoints;
+  }
+
   isCorrect() {
-    if (widget.response == widget.alt) {
-      corAlternativa = Colors.green;
-      countPoints();
-      print('Pontos:$pointHit');
-
-      String currentPoint = DaoUserResum.totalPoints;
-      print(currentPoint);
-      // databasePoints.insertPoints(currentPoint);
-      databasePoints.updatePoints(pointHit.toString(), currentPoint);
-      databasePoints.findPoints();
-      databasePoints.findAll();
-
-      hitOrErr = 'Acertou!';
-      widthContainer = 70;
-      heightContainer = 20;
+    if (widget.isAnswered) {
+      heightBoxIsAnswered = 30;
+      print('widget.isAnswered = ${widget.isAnswered}');
+      print('answered = $answered');
     } else {
-      corAlternativa = Colors.red;
-      countErrors();
-      print('Erros:$countErros');
-      hitOrErr = 'Errou';
-      widthContainer = 70;
-      heightContainer = 20;
+      if (widget.response == widget.alt) {
+        corAlternativa = Colors.green;
+        countPoints();
+        currentPoint = DaoUserResum.totalPoints;
+        print('currentPoints = $currentPoint');
+        print('widget.isAnswered = ${widget.isAnswered}');
+        print('answered = $answered');
+        databasePoints.updatePoints(pointHit.toString(), currentPoint);
+        
+        hitOrErr = 'Acertou!';
+        widthContainer = 70;
+        heightContainer = 20;
+      } else {
+        print('widget.isAnswered = ${widget.isAnswered}');
+        print('answered = $answered');
+        
+        corAlternativa = Colors.red;
+        countErrors();
+        print('Erros:$countErros');
+        hitOrErr = 'Errou';
+        widthContainer = 70;
+        heightContainer = 20;
+      }
     }
+
     return Text(hitOrErr);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, right: 8),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 100),
-              width: MediaQuery.of(context).size.width,
-              // height: 60,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(1, 3),
-                      blurRadius: 1,
-                      spreadRadius: 1)
-                ],
-                color: corAlternativa,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  width: 2,
-                  color: Colors.black38,
-                ),
-              ),
-              child: Consumer<ModelPoints>(
-                builder: (_, value, child) {
-                  return InkWell(
+        padding: const EdgeInsets.only(left: 8, right: 8),
+        child: Consumer<ModelPoints>(builder: (context, value, child) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 100),
+                  width: MediaQuery.of(context).size.width,
+                  // height: 60,
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(1, 3),
+                          blurRadius: 1,
+                          spreadRadius: 1)
+                    ],
+                    color: corAlternativa,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.black38,
+                    ),
+                  ),
+                  child: InkWell(
                     child: ListTile(
                       leading: Container(
                         width: 50,
@@ -106,47 +124,51 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                             color: Colors.white),
                         child: Text(
                           widget.option,
-                          style: TextStyle(fontSize: 30),
+                          style: const TextStyle(fontSize: 30),
                         ),
                       ),
                       title: Text(
                         widget.alt,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                     onTap: () {
                       setState(() {
+                        answered = true;
                         isCorrect();
+                        value.actBoxAnswered(heightBoxIsAnswered);
+                        value.answered(answered!);
                         value.pointsHits(pointHit.toString());
                         value.errors(countErros.toString());
+                        if (widget.response == widget.alt) {
+                          value.showPoints(currentPoint);
+                        }
                       });
                     },
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: widthContainer,
-                    height: heightContainer,
-                    decoration: BoxDecoration(
-                        color: corAlternativa,
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Text(
-                      hitOrErr,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  )),
+              Row(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: widthContainer,
+                        height: heightContainer,
+                        decoration: BoxDecoration(
+                            color: corAlternativa,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Text(
+                          hitOrErr,
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      )),
+                ],
+              )
             ],
-          )
-        ],
-      ),
-    );
+          );
+        }));
   }
 }

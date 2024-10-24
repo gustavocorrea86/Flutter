@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 
 class UserRegister1 extends StatefulWidget {
-  UserRegister1({super.key});
+  const UserRegister1({super.key});
 
   @override
   State<UserRegister1> createState() => _UserRegisterState();
@@ -27,28 +28,28 @@ class _UserRegisterState extends State<UserRegister1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro'),
+        title: const Text('Cadastro'),
       ),
       body: ListView(
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                  const Color.fromARGB(255, 253, 226, 184),
+                  Color.fromARGB(255, 253, 226, 184),
                   Colors.orange,
                 ])),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
                     controller: _name,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'idade',
                       label: Text('Nome'),
                     ),
@@ -58,25 +59,28 @@ class _UserRegisterState extends State<UserRegister1> {
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
                     controller: _lastName,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text('Sobrenome'),
                     ),
                   ),
                 ),
                 Row(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 200,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             label: Text('Ano de nascimento'),
                           ),
                         ),
                       ),
                     ),
-                    Text('Idade: 38', style: TextStyle(fontSize: 20),),
+                    const Text(
+                      'Idade: 38',
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ],
                 ),
                 Padding(
@@ -84,7 +88,7 @@ class _UserRegisterState extends State<UserRegister1> {
                     child: Container(
                       child: DropdownButtonFormField(
                           decoration:
-                              InputDecoration(label: Text('Nível escolar')),
+                              const InputDecoration(label: Text('Nível escolar')),
                           items: schoolLevel.map<DropdownMenuItem<String>>(
                             (String value) {
                               return DropdownMenuItem<String>(
@@ -102,7 +106,7 @@ class _UserRegisterState extends State<UserRegister1> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text('Série'),
                     ),
                   ),
@@ -110,7 +114,7 @@ class _UserRegisterState extends State<UserRegister1> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text('Senha'),
                     ),
                   ),
@@ -118,17 +122,17 @@ class _UserRegisterState extends State<UserRegister1> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       label: Text('Confirme a senha'),
                     ),
                   ),
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      print(currentYears.year);
-                      
+                      DaoUserResum().insertPoints('0');
+                      Navigator.pushNamed(context, 'login');
                     },
-                    child: Text('Cadastrar'))
+                    child: const Text('Cadastrar'))
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
 import 'package:mongodb_api/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
@@ -31,13 +32,15 @@ class ScreenQuestions extends StatefulWidget {
 
 class _ScreenQuestionsState extends State<ScreenQuestions> {
   Color corAlternativa = Colors.white;
+  double heightAnswered = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+        body: Consumer<ModelPoints>(builder: (context, value, child) {
+      return Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('./assets/images/ball-7280265_640.jpg'),
                 fit: BoxFit.cover)),
@@ -46,61 +49,79 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Card(
-                        child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            alignment: Alignment.center,
-                            width: 70,
-                            height: 70,
-                            child: Text('Pontos'),
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                color: Colors.amber[50],
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Text('Pontos'),
+                                  const Text('Totais'),
+                                  Text(value.hits)
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        child: Padding(
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            alignment: Alignment.center,
-                            width: 70,
-                            height: 70,
-                            child: Text('Pontos'),
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.amber[50],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  const Text('Pontos'),
+                                  const Text('Acumulados'),
+                                  Text(value.pointsDb)
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 70,
-                            height: 70,
-                            child: Text('Pontos'),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                alignment: Alignment.center,
+                                width: 70,
+                                height: 70,
+                                child: Column(
+                                  children: [Text('Erros'), Text('Totais')],
+                                )),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                      ],
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white70,
                       borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                           image: AssetImage(
                               './assets/images/ball-7280265_640.jpg'),
                           fit: BoxFit.cover,
                           opacity: 0.2),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Colors.black26,
                             offset: Offset(1, 3),
@@ -116,16 +137,16 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           children: [
                             Text(
                               'Questão ${widget.question + 1} / ${widget.qdtQuestoes}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.bold),
                             ),
-                            PointsAndErrors()
+                            const PointsAndErrors()
                           ],
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.black26,
                         thickness: 1,
                         indent: 10,
@@ -136,8 +157,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                       widget.boxAlternativesB,
                       widget.boxAlternativesC,
                       widget.boxAlternativesD,
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Divider(
                           color: Colors.black26,
                           thickness: 1,
@@ -145,6 +166,19 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           endIndent: 10,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Container(
+                          height: value.boxIsAnswered,
+                          child: Text(
+                            'Pergunta já respondida!',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 145, 18, 9)),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -154,19 +188,19 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 child: Container(
                   child: Column(
                     children: [
-                      Consumer(builder: (_, value, chid) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            widget.controller.nextPage(
-                                duration: Duration(microseconds: 500),
-                                curve: Curves.ease);
-                          },
-                          child: Text('Próximo'),
-                        );
-                      }),
+                      ElevatedButton(
+                        onPressed: () {
+                          widget.controller.nextPage(
+                              duration: const Duration(microseconds: 500),
+                              curve: Curves.ease);
+                          value.answered(false);
+                          value.actBoxAnswered(0);
+                        },
+                        child: const Text('Próximo'),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,10 +209,11 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                 onPressed: () {
                                   widget.controller.animateToPage(
                                       widget.question - 1,
-                                      duration: Duration(microseconds: 500),
+                                      duration:
+                                          const Duration(microseconds: 500),
                                       curve: Curves.ease);
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Voltar',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
@@ -188,7 +223,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Sair',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
@@ -205,8 +240,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
             ],
           ),
         ),
-      ),
-    );
+      );
+    }));
   }
 }
 // decoration: BoxDecoration(

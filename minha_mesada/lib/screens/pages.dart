@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:mongodb_api/models/models.dart';
 
 import 'package:mongodb_api/service/service.dart';
 import 'package:mongodb_api/widgets/loading.dart';
@@ -7,6 +8,7 @@ import 'package:mongodb_api/widgets/box_alternativas.dart';
 import 'package:mongodb_api/widgets/box_questions.dart';
 
 import 'package:mongodb_api/widgets/screen_questions.dart';
+import 'package:provider/provider.dart';
 
 class PagesQuestions extends StatefulWidget {
   const PagesQuestions({super.key});
@@ -16,13 +18,11 @@ class PagesQuestions extends StatefulWidget {
 }
 
 class _PagesQuestionsState extends State<PagesQuestions> {
-  
-
   final controller = PageController();
   int activePage = 0;
   final Color green = Colors.green;
   final Color red = Colors.red;
-  Future _future = Service().getRequest();
+  final Future _future = Service().getRequest();
   int indexBottomNavigatorBar = 0;
   String userPoints = '0';
 
@@ -33,44 +33,49 @@ class _PagesQuestionsState extends State<PagesQuestions> {
         toolbarHeight: 5,
         automaticallyImplyLeading: false,
       ),
-      body: FutureBuilder(
-          future: _future,
-          builder: (context, snapshot) {
-            List<Map<String, dynamic>>? question = snapshot.data;
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Loading();
-            } else if (snapshot.hasData) {
-              // && questions != null
-              return Stack(
-                children: [
-                  PageView.builder(
-                    controller: controller,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: question!.length,
-                    itemBuilder: (context, index) {
-                      return ScreenQuestions(
-                          BoxQuestions(question[index]['pergunta']),
-                          BoxAlternatives(question[index]['alternativas'][0],
-                              'A', question[index]['resposta']),
-                          BoxAlternatives(question[index]['alternativas'][1],
-                              'B', question[index]['resposta']),
-                          BoxAlternatives(question[index]['alternativas'][2],
-                              'C', question[index]['resposta']),
-                          BoxAlternatives(
-                            question[index]['alternativas'][3],
-                            'D',
-                            question[index]['resposta'],
-                          ),
-                          controller,
-                          question.length.toString(),
-                          index);
-                    },
-                  ),
-                ],
-              );
-            }
-            return Center(child: Text('Nenhuma pergunta cadastrada'));
-          }),
+      body: Consumer<ModelPoints>(
+        builder: (context, value, child) {
+          return FutureBuilder(
+            future: _future,
+            builder: (context, snapshot) {
+              List<Map<String, dynamic>>? question = snapshot.data;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Loading();
+              } else if (snapshot.hasData) {
+                // && questions != null
+                return Stack(
+                  children: [
+                    PageView.builder(
+                      controller: controller,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: question!.length,
+                      itemBuilder: (context, index) {
+                        return ScreenQuestions(
+                            BoxQuestions(question[index]['pergunta']),
+                            BoxAlternatives(question[index]['alternativas'][0],
+                                'A', question[index]['resposta'], value.isAnswered),
+                            BoxAlternatives(question[index]['alternativas'][1],
+                                'B', question[index]['resposta'], value.isAnswered),
+                            BoxAlternatives(question[index]['alternativas'][2],
+                                'C', question[index]['resposta'], value.isAnswered),
+                            BoxAlternatives(
+                              question[index]['alternativas'][3],
+                              'D',
+                              question[index]['resposta'], value.isAnswered
+                            ),
+                            controller,
+                            question.length.toString(),
+                            index);
+                      },
+                    ),
+                  ],
+                );
+              }
+              return const Center(child: Text('Nenhuma pergunta cadastrada'));
+            },
+          );
+        },
+      ),
     );
   }
 }

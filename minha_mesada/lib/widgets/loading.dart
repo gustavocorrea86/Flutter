@@ -15,10 +15,9 @@ class Loading extends StatelessWidget {
               'https://lottie.host/14e6645a-b8fd-4dfe-bf6e-1d8f8b81cc44/7GsukhT0EK.json',
               width: 200,
               height: 200),
-          Text('Carregando...')
+          const Text('Carregando...')
         ],
       ),
     );
-    ;
   }
 }

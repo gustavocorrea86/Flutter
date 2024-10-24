@@ -9,7 +9,7 @@ class Service {
       defaultValue: 'URL não encontrada');
       
 
-  static final String apiUrl =
+  static const String apiUrl =
       'https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes';
 
 // https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes
