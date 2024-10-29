@@ -19,14 +19,17 @@ void main() {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
-        create: (context) => ModelPoints('0', '0', DaoUserResum.totalPoints),
+        create: (context) => ModelPoints(
+            '0', '0', DaoUserResum.totalPoints, DaoUserResum.totalErrors, DaoUserResum.answeredQuestions),
       )
     ], child: const MyApp()),
   );
-  // DaoUserResum().insertPoints('6');
-  // DaoUserResum().updatePoints('10','4');
-  // DaoUserResum().findPoints();
-  // DaoUserResum().delete();
+  //DaoUserResum().close();
+  //DaoUserResum().findAll();
+  // DaoUserResum().findErrors();
+  //DaoUserResum().delete();
+  //DaoUserResum().findUserName();
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -37,12 +40,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'QuizMesada',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300])),
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300])),
       initialRoute: 'initial',
       routes: {
         'initial': (context) => const ScreenInitial(),
         'login': (context) => const Login(),
-        'userRegister': (context) => UserRegister1(),
+        'userRegister': (context) => const UserRegister1(),
         'home': (context) => const HomeScreen(),
         'pages': (context) => const PagesQuestions(),
         'elementary_school': (context) => const ElementarySchool(),

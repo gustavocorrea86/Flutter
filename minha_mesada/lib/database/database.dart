@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 
 
 Future<Database> getConnection() async {
-  String path = join(await getDatabasesPath(), 'userDashboard');
+  String path = join(await getDatabasesPath(), 'User');
   return await openDatabase(path, version: 1, onCreate: (db, version) {
     return db.execute(DaoUserResum.tableSql);
   });

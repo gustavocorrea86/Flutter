@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 
 class ScreenInitial extends StatelessWidget {
   const ScreenInitial({super.key});
@@ -10,16 +11,18 @@ class ScreenInitial extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('./assets/images/cubs.png'),fit: BoxFit.cover)
-          // gradient: LinearGradient(
-          //   colors: [
-          //     const Color.fromARGB(255, 247, 204, 140),
-          //     Colors.orange,
-          //   ],
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          // ),
-        ),
+            image: DecorationImage(
+                image: AssetImage('./assets/images/cubs.png'),
+                fit: BoxFit.cover)
+            // gradient: LinearGradient(
+            //   colors: [
+            //     const Color.fromARGB(255, 247, 204, 140),
+            //     Colors.orange,
+            //   ],
+            //   begin: Alignment.topLeft,
+            //   end: Alignment.bottomRight,
+            // ),
+            ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -27,6 +30,9 @@ class ScreenInitial extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
+                  DaoUserResum().findPoints();
+                  DaoUserResum().findErrors();
+                  DaoUserResum().findAnswereds();
                   Navigator.pushNamed(context, 'login');
                 },
                 child: Container(
@@ -51,21 +57,22 @@ class ScreenInitial extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                onTap: (){
-                  Navigator.pushNamed(context,'userRegister');
+                onTap: () {
+                  Navigator.pushNamed(context, 'userRegister');
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [BoxShadow(
-                        color: Colors.black54,
-                        blurRadius: 2,
-                        spreadRadius: 1,
-                      )]
-                  ),
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black54,
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                        )
+                      ]),
                   child: const Center(
                     child: Text('Cadastrar'),
                   ),

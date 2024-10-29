@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/models/models.dart';
+import 'package:mongodb_api/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class PointsAndErrors extends StatelessWidget {
-  
   const PointsAndErrors({super.key});
 
   @override
@@ -30,7 +30,8 @@ class PointsAndErrors extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    storedValue.hits,
+                    
+                    Counter.countPoints.toString(),
                     style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -53,7 +54,7 @@ class PointsAndErrors extends StatelessWidget {
                 ],
               ),
               child: Text(
-                storedValue.error,
+                Counter.countErrors.toString(),
                 style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -66,3 +67,4 @@ class PointsAndErrors extends StatelessWidget {
     );
   }
 }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:mongodb_api/models/models_user_resum.dart';
 
 class UserRegister1 extends StatefulWidget {
   const UserRegister1({super.key});
@@ -11,9 +12,12 @@ class UserRegister1 extends StatefulWidget {
 class _UserRegisterState extends State<UserRegister1> {
   String dropDownValue = '';
   DateTime currentYears = DateTime.now();
+  String currentAge = '';
+  DaoUserResum database = DaoUserResum();
   final TextEditingController _name = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
-  final TextEditingController _email = TextEditingController();
+
+  final TextEditingController _grade = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _birthYear = TextEditingController();
@@ -50,7 +54,7 @@ class _UserRegisterState extends State<UserRegister1> {
                   child: TextFormField(
                     controller: _name,
                     decoration: const InputDecoration(
-                      hintText: 'idade',
+                      hintText: 'Nome',
                       label: Text('Nome'),
                     ),
                   ),
@@ -71,15 +75,19 @@ class _UserRegisterState extends State<UserRegister1> {
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: TextFormField(
+                          onChanged: (String value) {
+                            int age = currentYears.year - int.parse(value);
+                            currentAge = '${age.toString()} anos';
+                          },
                           decoration: const InputDecoration(
                             label: Text('Ano de nascimento'),
                           ),
                         ),
                       ),
                     ),
-                    const Text(
-                      'Idade: 38',
-                      style: TextStyle(fontSize: 20),
+                    Text(
+                      'Idade: $currentAge',
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ],
                 ),
@@ -87,8 +95,8 @@ class _UserRegisterState extends State<UserRegister1> {
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
                       child: DropdownButtonFormField(
-                          decoration:
-                              const InputDecoration(label: Text('Nível escolar')),
+                          decoration: const InputDecoration(
+                              label: Text('Nível escolar')),
                           items: schoolLevel.map<DropdownMenuItem<String>>(
                             (String value) {
                               return DropdownMenuItem<String>(
@@ -106,6 +114,7 @@ class _UserRegisterState extends State<UserRegister1> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
+                    controller: _grade,
                     decoration: const InputDecoration(
                       label: Text('Série'),
                     ),
@@ -129,8 +138,21 @@ class _UserRegisterState extends State<UserRegister1> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      DaoUserResum().insertPoints('0');
+                      // DaoUserResum().insertPoints('0');
                       Navigator.pushNamed(context, 'login');
+                      database.insertUser(
+                        ModelsUserResum(
+                            name: _name.text,
+                            lastName: _lastName.text,
+                            age: currentAge,
+                            elementarySchool: dropDownValue,
+                            grade: _grade.text,
+                            monthPoints: '0',
+                            totalPoints: '0',
+                            totalOfQuestions: '0',
+                            totalError: '0',
+                            monthErrors: '0'),
+                      );
                     },
                     child: const Text('Cadastrar'))
               ],

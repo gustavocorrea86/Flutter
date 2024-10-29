@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
+import 'package:mongodb_api/service/service.dart';
+import 'package:mongodb_api/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class BoxAlternatives extends StatefulWidget {
@@ -8,23 +10,27 @@ class BoxAlternatives extends StatefulWidget {
   final String alt;
   final String option;
   final String response;
-  final String? correct;
-  final bool isAnswered;
 
-  const BoxAlternatives(this.alt, this.option, this.response, this.isAnswered,
-      {this.correct, super.key});
+  final bool isAnswered;
+  final int indexQuestion;
+
+  const BoxAlternatives(
+      this.alt, this.option, this.response, this.isAnswered, this.indexQuestion,
+      {super.key});
 
   @override
   State<BoxAlternatives> createState() => _BoxAlternativesState();
 }
 
 class _BoxAlternativesState extends State<BoxAlternatives> {
-  DaoUserResum databasePoints = DaoUserResum();
+  DaoUserResum database = DaoUserResum();
   Color corAlternativa = Colors.white;
   String currentPoint = '';
+  String currentErrors = '';
+  String currentAnswered = '';
+  int pointHit = 0;
 
-  static int pointHit = 0;
-  static int countErros = 0;
+  int countErros = 0;
 
   String hitOrErr = '';
 
@@ -32,63 +38,70 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
   bool? answered;
   double widthContainer = 0;
   double heightBoxIsAnswered = 0;
+  List wrongQuestion = [];
+  List hitQuestion = [];
 
-  int countPoints() {
-    pointHit++;
-    return pointHit;
+  void answereds() {
+    currentAnswered = DaoUserResum.answeredQuestions;
+    int answeredQuestions = int.parse(currentAnswered) + 1;
+    database.updateAnswereds(answeredQuestions.toString(), currentAnswered);
+    currentAnswered = answeredQuestions.toString();
+    Provider.of<ModelPoints>(context, listen: false)
+        .counterOfAnswereds(currentAnswered);
   }
 
-  int countErrors() {
-    countErros++;
-    return countErros;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // answered = false;
-    currentPoint = DaoUserResum.totalPoints;
-  }
-
-  isCorrect() {
+  void isCorrect() {
     if (widget.isAnswered) {
       heightBoxIsAnswered = 30;
-      print('widget.isAnswered = ${widget.isAnswered}');
-      print('answered = $answered');
     } else {
       if (widget.response == widget.alt) {
         corAlternativa = Colors.green;
-        countPoints();
+        print('index da questão: ${widget.indexQuestion}');
+
         currentPoint = DaoUserResum.totalPoints;
-        print('currentPoints = $currentPoint');
-        print('widget.isAnswered = ${widget.isAnswered}');
-        print('answered = $answered');
-        databasePoints.updatePoints(pointHit.toString(), currentPoint);
-        
+        int countPoint = int.parse(currentPoint) + 1;
+        database.updatePoints(countPoint.toString(), currentPoint);
+        currentPoint = countPoint.toString();
+
+        hitQuestion.add(Service.result[widget.indexQuestion]);
+        print(hitQuestion);
+        Counter().counterOfPoints();
         hitOrErr = 'Acertou!';
         widthContainer = 70;
         heightContainer = 20;
+        Provider.of<ModelPoints>(context, listen: false)
+            .showPoints(currentPoint);
+        answereds();
       } else {
-        print('widget.isAnswered = ${widget.isAnswered}');
-        print('answered = $answered');
-        
+        wrongQuestion.add(Service.result[widget.indexQuestion]);
+        print(wrongQuestion);
+
+        currentErrors = DaoUserResum.totalErrors;
+        int countError = int.parse(currentErrors) + 1;
+        database.updateErrors(countError.toString(), currentErrors);
+        currentErrors = countError.toString();
+        // currentPoint = DaoUserResum.totalPoints;
+        // pointHit = int.parse(currentPoint);
+        print('index da questão: ${widget.indexQuestion}');
+        Counter().counterOfErrors();
         corAlternativa = Colors.red;
-        countErrors();
-        print('Erros:$countErros');
+        Provider.of<ModelPoints>(context, listen: false)
+            .showErrors(currentErrors);
+
         hitOrErr = 'Errou';
         widthContainer = 70;
         heightContainer = 20;
+        answereds();
       }
     }
-
-    return Text(hitOrErr);
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8),
-        child: Consumer<ModelPoints>(builder: (context, value, child) {
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: Consumer<ModelPoints>(
+        builder: (context, value, child) {
           return Column(
             children: [
               Padding(
@@ -140,9 +153,6 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                         value.answered(answered!);
                         value.pointsHits(pointHit.toString());
                         value.errors(countErros.toString());
-                        if (widget.response == widget.alt) {
-                          value.showPoints(currentPoint);
-                        }
                       });
                     },
                   ),
@@ -169,6 +179,8 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
               )
             ],
           );
-        }));
+        },
+      ),
+    );
   }
 }

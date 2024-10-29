@@ -11,11 +11,12 @@ class Loading extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Lottie.network(
-              'https://lottie.host/14e6645a-b8fd-4dfe-bf6e-1d8f8b81cc44/7GsukhT0EK.json',
-              width: 200,
-              height: 200),
-          const Text('Carregando...')
+          Lottie.asset('./assets/lotties/loading_cashed.json', width: 200, height: 200)
+          // Lottie.network(
+          //     'https://lottie.host/14e6645a-b8fd-4dfe-bf6e-1d8f8b81cc44/7GsukhT0EK.json',
+          //     width: 200,
+          //     height: 200),
+          // const Text('Carregando...')
         ],
       ),
     );

@@ -6,9 +6,8 @@ class ModelsUserResum {
   final String grade;
   final String monthPoints;
   final String totalPoints;
-  final String totalHits;
-  final String monthHits;
-  final String totalErrors;
+  final String totalOfQuestions;
+  final String totalError;
   final String monthErrors;
 
   const ModelsUserResum({
@@ -19,9 +18,8 @@ class ModelsUserResum {
     required this.grade,
     required this.monthPoints,
     required this.totalPoints,
-    required this.totalHits,
-    required this.monthHits,
-    required this.totalErrors,
+    required this.totalOfQuestions,
+    required this.totalError,
     required this.monthErrors,
   });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
 
 import 'package:mongodb_api/service/service.dart';
@@ -24,7 +23,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
   final Color red = Colors.red;
   final Future _future = Service().getRequest();
   int indexBottomNavigatorBar = 0;
-  String userPoints = '0';
+  // String userPoints = '0';
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +52,15 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                         return ScreenQuestions(
                             BoxQuestions(question[index]['pergunta']),
                             BoxAlternatives(question[index]['alternativas'][0],
-                                'A', question[index]['resposta'], value.isAnswered),
+                                'A', question[index]['resposta'], value.isAnswered, index),
                             BoxAlternatives(question[index]['alternativas'][1],
-                                'B', question[index]['resposta'], value.isAnswered),
+                                'B', question[index]['resposta'], value.isAnswered, index),
                             BoxAlternatives(question[index]['alternativas'][2],
-                                'C', question[index]['resposta'], value.isAnswered),
+                                'C', question[index]['resposta'], value.isAnswered, index),
                             BoxAlternatives(
                               question[index]['alternativas'][3],
                               'D',
-                              question[index]['resposta'], value.isAnswered
+                              question[index]['resposta'], value.isAnswered, index
                             ),
                             controller,
                             question.length.toString(),
