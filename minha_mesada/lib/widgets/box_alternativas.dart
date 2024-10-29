@@ -50,6 +50,22 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
         .counterOfAnswereds(currentAnswered);
   }
 
+  void counterPoints() {
+    currentPoint = DaoUserResum.totalPoints;
+    int countPoint = int.parse(currentPoint) + 1;
+    database.updatePoints(countPoint.toString(), currentPoint);
+    currentPoint = countPoint.toString();
+    Provider.of<ModelPoints>(context, listen: false).showPoints(currentPoint);
+  }
+
+  void counterErrors() {
+    currentErrors = DaoUserResum.totalErrors;
+    int countError = int.parse(currentErrors) + 1;
+    database.updateErrors(countError.toString(), currentErrors);
+    currentErrors = countError.toString();
+    Provider.of<ModelPoints>(context, listen: false).showErrors(currentErrors);
+  }
+
   void isCorrect() {
     if (widget.isAnswered) {
       heightBoxIsAnswered = 30;
@@ -58,35 +74,22 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
         corAlternativa = Colors.green;
         print('index da questão: ${widget.indexQuestion}');
 
-        currentPoint = DaoUserResum.totalPoints;
-        int countPoint = int.parse(currentPoint) + 1;
-        database.updatePoints(countPoint.toString(), currentPoint);
-        currentPoint = countPoint.toString();
-
         hitQuestion.add(Service.result[widget.indexQuestion]);
         print(hitQuestion);
         Counter().counterOfPoints();
         hitOrErr = 'Acertou!';
         widthContainer = 70;
         heightContainer = 20;
-        Provider.of<ModelPoints>(context, listen: false)
-            .showPoints(currentPoint);
+        counterPoints();
         answereds();
       } else {
         wrongQuestion.add(Service.result[widget.indexQuestion]);
         print(wrongQuestion);
 
-        currentErrors = DaoUserResum.totalErrors;
-        int countError = int.parse(currentErrors) + 1;
-        database.updateErrors(countError.toString(), currentErrors);
-        currentErrors = countError.toString();
-        // currentPoint = DaoUserResum.totalPoints;
-        // pointHit = int.parse(currentPoint);
+        counterErrors();
         print('index da questão: ${widget.indexQuestion}');
         Counter().counterOfErrors();
         corAlternativa = Colors.red;
-        Provider.of<ModelPoints>(context, listen: false)
-            .showErrors(currentErrors);
 
         hitOrErr = 'Errou';
         widthContainer = 70;

@@ -25,13 +25,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
           appBar: AppBar(
-            title: Text('Minha Mesada'),
+            title: const Text('Minha Mesada'),
             actions: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   value.countAnswered,
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: const TextStyle(fontSize: 20, color: Colors.white),
                 ),
               )
             ],
@@ -93,10 +93,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   BoxResum(
                     value.errorsDb,
                     'Erros do Mês',
-                    Lottie.asset('./assets/lotties/coins_grey_animated.json'),
+                    Lottie.asset('./assets/lotties/alert.json'),
                   ),
+                  Container(
+                      alignment: Alignment.center,
+                      width: 200,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(40)),
+                      child: Text(
+                        'Iniciar',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ))
                 ],
-              )
+              ),
             ],
           ),
           floatingActionButton: Row(
