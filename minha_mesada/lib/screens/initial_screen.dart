@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_ritgh.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:mongodb_api/database/dao_wrong.dart';
 
-class ScreenInitial extends StatelessWidget {
+class ScreenInitial extends StatefulWidget {
   const ScreenInitial({super.key});
+
+  @override
+  State<ScreenInitial> createState() => _ScreenInitialState();
+}
+
+class _ScreenInitialState extends State<ScreenInitial> {
+  // @override
+  // void initState() {
+  //   DaoUserResum().findPoints(); // faz a busca do total de pontos
+  //   DaoUserResum().findErrors(); // faz busca do total de erros
+  //   DaoUserResum()
+  //       .findAnswereds(); // faz busca do total de perguntas respondidas
+  //   DaoRight().findMatterAsRight(); // faz busca das ques
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +30,7 @@ class ScreenInitial extends StatelessWidget {
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('./assets/images/cubs.png'),
-                fit: BoxFit.cover)
-            // gradient: LinearGradient(
-            //   colors: [
-            //     const Color.fromARGB(255, 247, 204, 140),
-            //     Colors.orange,
-            //   ],
-            //   begin: Alignment.topLeft,
-            //   end: Alignment.bottomRight,
-            // ),
-            ),
+                fit: BoxFit.cover)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -30,9 +38,6 @@ class ScreenInitial extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  DaoUserResum().findPoints();
-                  DaoUserResum().findErrors();
-                  DaoUserResum().findAnswereds();
                   Navigator.pushNamed(context, 'login');
                 },
                 child: Container(
@@ -78,6 +83,29 @@ class ScreenInitial extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                DaoWrong().deleteTableWrong();
+                DaoRight().deleteTableRight();
+                DaoUserResum().delete();
+              },
+              child: const Text('Reset Database'),
+            ),
+            TextButton(
+              onPressed: () {
+                DaoUserResum().close();
+              },
+              child: const Text('Close Database'),
             ),
           ],
         ),

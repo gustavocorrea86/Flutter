@@ -7,6 +7,8 @@ class Service {
   static String api_url = const String.fromEnvironment('API_URL',
       defaultValue: 'URL não encontrada');
 
+  
+
   static const String apiUrl =
       'https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes';
 
@@ -30,6 +32,7 @@ class Service {
         for (var listMap in list) {
           result.add(listMap);
         }
+        print(api_key);
       }
     } catch (erro) {
       print('Falha na busca dos dados: $erro');

@@ -206,6 +206,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.7"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      sha256: b0fe8d49a030315e9eef6c7ac84ca964250155a6224d491c1365061bc974a9e1
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.9"
   envied:
     dependency: "direct main"
     description:
@@ -254,14 +262,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
-  flare_flutter:
-    dependency: "direct main"
-    description:
-      name: flare_flutter
-      sha256: "99d63c60f00fac81249ce6410ee015d7b125c63d8278a30da81edf3317a1f6a0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.2"
   flutter:
     dependency: "direct main"
     description: flutter

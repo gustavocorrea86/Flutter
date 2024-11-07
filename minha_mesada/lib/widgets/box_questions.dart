@@ -8,7 +8,7 @@ class BoxQuestions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(question, style: const TextStyle(fontSize: 30),),
+      child: Text(question, style: const TextStyle(fontSize: 20),),
     );
   }
 }

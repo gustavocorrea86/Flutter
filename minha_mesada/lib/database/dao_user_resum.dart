@@ -1,16 +1,16 @@
+import 'package:mongodb_api/database/dao_ritgh.dart';
 import 'package:mongodb_api/database/database.dart';
 import 'package:mongodb_api/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoUserResum {
-  static const String _tableName = 'resumTable';
-
+  static const String _user = 'resumTable';
+  // static const int _id = 0;
   static const String _name = 'name';
   static const String _lastName = 'lastName';
   static const String _age = 'age';
   static const String _elementarySchool = 'elementarySchool';
   static const String _grade = 'grade';
-
   static const String _password = 'password';
   static const String _monthPoints = 'monthPoints';
   static const String _totalPoints = 'totalPoints';
@@ -22,8 +22,12 @@ class DaoUserResum {
   static String totalErrors = '0';
   static String userName = '';
   static String answeredQuestions = '0';
+  static List<Map<String, dynamic>> id = [];
+  static List<Map<String, dynamic>> table = [];
+  DaoRight databaseRight = DaoRight();
 
-  static const String tableSql = 'CREATE TABLE $_tableName('
+  static const String tableUser = 'CREATE TABLE $_user('
+      //'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       '$_name TEXT,'
       '$_lastName TEXT,'
       '$_age TEXT,'
@@ -54,7 +58,7 @@ class DaoUserResum {
     final db = await getConnection();
     final Map<String, dynamic> resumUser = toMap(datas);
     try {
-      await db.insert(_tableName, resumUser);
+      await db.insert(_user, resumUser);
       print('Dados salvo com sucesso');
     } catch (e) {
       print('Erro ao salvar dados: $e');
@@ -63,7 +67,7 @@ class DaoUserResum {
 
   Future findAll() async {
     final db = await getConnection();
-    final List<Map<String, dynamic>> table = await db.query(_tableName);
+    table = await db.query(_user);
 
     print(table);
   }
@@ -71,8 +75,7 @@ class DaoUserResum {
   Future insertPoints(String value) async {
     final db = await getConnection();
     try {
-      await db
-          .rawInsert('INSERT INTO $_tableName($_totalPoints) VALUES($value)');
+      await db.rawInsert('INSERT INTO $_user($_totalPoints) VALUES($value)');
 
       print('Pontos inseridos com sucesso');
     } catch (erro) {
@@ -84,7 +87,7 @@ class DaoUserResum {
     final db = await getConnection();
     final Map<String, dynamic> user = toMap(userRegister);
     try {
-      await db.insert(_tableName, user);
+      await db.insert(_user, user);
       print('Usuário inserido com sucesso');
     } catch (erro) {
       print('Erro ao inserir dados do usuário: $erro');
@@ -94,8 +97,7 @@ class DaoUserResum {
   Future insertPassword(String password) async {
     final db = await getConnection();
     try {
-      await db
-          .rawInsert('INSERT INTO $_tableName($_password) VALUES("password")');
+      await db.rawInsert('INSERT INTO $_user($_password) VALUES("password")');
       print('Senha inserida com sucesso');
     } catch (erro) {
       print('Erro ao inserir senha: $erro');
@@ -104,40 +106,81 @@ class DaoUserResum {
 
   Future findPoints() async {
     final Database db = await getConnection();
-    List<Map<String, dynamic>> points = await db.query(_tableName);
-    totalPoints = points[0]['totalPoints'];
+    List<Map<String, dynamic>> points = await db.query(_user);
+    try {
+      if (points[0]['totalPoints'] == null) {
+        totalPoints = '0';
+      } else {
+        totalPoints = points[0]['totalPoints'];
+      }
+    } catch (erro) {
+      print('Erro ao encontrar pontos: $erro');
+    }
+
     print('totalPoints= $totalPoints');
   }
 
   Future findErrors() async {
     final Database db = await getConnection();
-    List<Map<String, dynamic>> errors = await db.query(_tableName);
-    totalErrors = errors[0]['totalError'];
+    List<Map<String, dynamic>> errors = await db.query(_user);
+    try {
+      if (errors[0]['totalError'] == null) {
+        totalErrors = '0';
+      } else {
+        totalErrors = errors[0]['totalError'];
+      }
+    } catch (erro) {
+      print('Erro ao encontrar erros: $erro');
+    }
+
     print('totalErrors = $totalErrors');
   }
 
   Future findUserName() async {
     final Database db = await getConnection();
-    List<Map<String, dynamic>> user = await db.query(_tableName);
+    List<Map<String, dynamic>> user = await db.query(_user);
     userName = user[0]['name'];
     print(userName);
   }
 
-  Future findAnswereds() async {
+  // Future findId() async {
+  //   final Database db = await getConnection();
+  //   id = await db.query(_user, distinct: true, columns: ['id']);
+  //   print('id = $id');
+  // }
+
+  Future findAnswered() async {
     final Database db = await getConnection();
-    List<Map<String, dynamic>> answered = await db.query(_tableName);
-    answeredQuestions = answered[0]['totalOfQuestions'];
-    print(
-        'Total de respondidas = $answeredQuestions');
+    List<Map<String, dynamic>> answered = await db.query(_user);
+
+    try {
+      if (answered[0]['totalOfQuestions'] == null) {
+        answeredQuestions = '0';
+      } else {
+        answeredQuestions = answered[0]['totalOfQuestions'];
+        findPoints();
+        findErrors();
+        databaseRight
+            .findMatterAsRight(); // faz busca das meterias das questoes respodidas certas
+        databaseRight
+            .findSubjectAsRight(); // faz busca dos assuntos das questoes respodidas certas
+        databaseRight
+            .lenghtSubject(); // faz busca de quantas questões resposidascertas por assunto
+      }
+    } catch (erro) {
+      print('Erro ao pegar quantidade de perguntas respondidas: $erro');
+    }
+
+    print('Total de respondidas = $answeredQuestions');
   }
 
   Future updatePoints(String lastValue, String currentValue) async {
     final Database db = await getConnection();
     try {
       await db.rawUpdate(
-          'UPDATE $_tableName SET $_totalPoints = ? WHERE $_totalPoints = ?',
+          'UPDATE $_user SET $_totalPoints = ? WHERE $_totalPoints = ?',
           [lastValue, currentValue]);
-      List<Map<String, dynamic>> points = await db.query(_tableName);
+      List<Map<String, dynamic>> points = await db.query(_user);
       totalPoints = points[0]['totalPoints'];
       print('totalPoints no updatePoints = $totalPoints');
       print('Pontos atualização para $lastValue');
@@ -151,9 +194,9 @@ class DaoUserResum {
     final Database db = await getConnection();
     try {
       await db.rawUpdate(
-          'UPDATE $_tableName SET $_totalError = ? WHERE $_totalError = ?',
+          'UPDATE $_user SET $_totalError = ? WHERE $_totalError = ?',
           [lastValue, currentValue]);
-      List<Map<String, dynamic>> errors = await db.query(_tableName);
+      List<Map<String, dynamic>> errors = await db.query(_user);
       totalErrors = errors[0]['totalError'];
       print('totalErrors = $totalErrors');
       // print('Pontos atualização para $lastValue');
@@ -167,10 +210,10 @@ class DaoUserResum {
     final Database db = await getConnection();
     try {
       await db.rawUpdate(
-          'UPDATE $_tableName SET $_totalOfQuestions = ? WHERE $_totalOfQuestions = ?',
+          'UPDATE $_user SET $_totalOfQuestions = ? WHERE $_totalOfQuestions = ?',
           [lastValue, currentValue]);
-          List<Map<String, dynamic>> answered = await db.query(_tableName);
-          answeredQuestions = answered[0]['totalOfQuestions'];
+      List<Map<String, dynamic>> answered = await db.query(_user);
+      answeredQuestions = answered[0]['totalOfQuestions'];
       print('Número de respostas feitas com sucesso');
     } catch (erro) {
       print('Erro ao atualizar respostas feitas: $erro');
@@ -190,7 +233,7 @@ class DaoUserResum {
   Future delete() async {
     final db = await getConnection();
     try {
-      await db.delete(_tableName);
+      await db.delete(_user);
       print('Todos os dados foram excluídos');
     } catch (e) {
       print('Erro ao excluir dados: $e');

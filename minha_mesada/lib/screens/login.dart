@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/models.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +11,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  double noRegister = 0;
+  @override
+  void initState() {
+    // DaoUserResum().findPoints(); // faz a busca do total de pontos
+    // DaoUserResum().findErrors(); // faz busca do total de erros
+    
+    // DaoRight().findMatterAsRight(); // faz busca das meterias respondidas
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
@@ -70,15 +79,13 @@ class _LoginState extends State<Login> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'home');
-                            // DaoUserResum().findPoints();
-
-                            value.showPoints(DaoUserResum.totalPoints);
-                            value.showErrors(DaoUserResum.totalErrors);
-                            value.counterOfAnswereds(
-                                DaoUserResum.answeredQuestions);
+                            Navigator.pushNamed(context, 'loadingNextPage');
                           },
                           child: const Text('Entrar'),
+                        ),
+                        SizedBox(
+                          height: noRegister,
+                          child: const Text('Nenhum cadastro encontrado!'),
                         ),
                         TextButton(
                             onPressed: () {

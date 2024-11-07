@@ -24,7 +24,7 @@ class BoxResumScreenQuestions extends StatelessWidget {
                     padding: EdgeInsets.all(widthPadding),
                     child: Text(
                       text,
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     ),
                   )
                 ],

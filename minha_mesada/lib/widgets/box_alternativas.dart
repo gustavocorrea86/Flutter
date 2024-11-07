@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_ritgh.dart';
 import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:mongodb_api/database/dao_wrong.dart';
+import 'package:mongodb_api/models/model_right.dart';
+import 'package:mongodb_api/models/model_wrongs.dart';
 import 'package:mongodb_api/models/models.dart';
 import 'package:mongodb_api/service/service.dart';
 import 'package:mongodb_api/widgets/screen_questions.dart';
@@ -66,6 +70,36 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
     Provider.of<ModelPoints>(context, listen: false).showErrors(currentErrors);
   }
 
+  void saveQuestionRight() {
+    DaoRight().insertQuestionRight(
+      ModelRight(
+        materia: Service.result[widget.indexQuestion]['materia'],
+        assunto: Service.result[widget.indexQuestion]['assunto'],
+        pergunta: Service.result[widget.indexQuestion]['pergunta'],
+        resposta: Service.result[widget.indexQuestion]['resposta'],
+        alternativaA: Service.result[widget.indexQuestion]['alternativas'][0],
+        alternativaB: Service.result[widget.indexQuestion]['alternativas'][1],
+        alternativaC: Service.result[widget.indexQuestion]['alternativas'][2],
+        alternativaD: Service.result[widget.indexQuestion]['alternativas'][3],
+      ),
+    );
+  }
+
+  void saveQuestionWrong() {
+    DaoWrong().insertQuestionWrong(
+      ModelWrong(
+        materia: Service.result[widget.indexQuestion]['materia'],
+        assunto: Service.result[widget.indexQuestion]['assunto'],
+        pergunta: Service.result[widget.indexQuestion]['pergunta'],
+        resposta: Service.result[widget.indexQuestion]['resposta'],
+        alternativaA: Service.result[widget.indexQuestion]['alternativas'][0],
+        alternativaB: Service.result[widget.indexQuestion]['alternativas'][1],
+        alternativaC: Service.result[widget.indexQuestion]['alternativas'][2],
+        alternativaD: Service.result[widget.indexQuestion]['alternativas'][3],
+      ),
+    );
+  }
+
   void isCorrect() {
     if (widget.isAnswered) {
       heightBoxIsAnswered = 30;
@@ -73,7 +107,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
       if (widget.response == widget.alt) {
         corAlternativa = Colors.green;
         print('index da questão: ${widget.indexQuestion}');
-
+        saveQuestionRight();
         hitQuestion.add(Service.result[widget.indexQuestion]);
         print(hitQuestion);
         Counter().counterOfPoints();
@@ -85,7 +119,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
       } else {
         wrongQuestion.add(Service.result[widget.indexQuestion]);
         print(wrongQuestion);
-
+        saveQuestionWrong();
         counterErrors();
         print('index da questão: ${widget.indexQuestion}');
         Counter().counterOfErrors();
@@ -156,6 +190,8 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                         value.answered(answered!);
                         value.pointsHits(pointHit.toString());
                         value.errors(countErros.toString());
+                        DaoRight().findAllQuestionRight();
+                        DaoWrong().findAllQuestionWrong();
                       });
                     },
                   ),

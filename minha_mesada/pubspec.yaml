@@ -23,8 +23,9 @@ dependencies:
   envied_generator: ^0.5.4+1
   build_runner: ^2.4.13
   flutter_native_splash: ^2.4.2
+  dropdown_button2: ^2.3.9
 
-  flare_flutter: ^3.0.2
+  
 
 dev_dependencies:
   flutter_test:

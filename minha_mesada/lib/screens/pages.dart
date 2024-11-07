@@ -64,7 +64,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                             ),
                             controller,
                             question.length.toString(),
-                            index);
+                            index, question[index]['materia'], question[index]['assunto']);
                       },
                     ),
                   ],

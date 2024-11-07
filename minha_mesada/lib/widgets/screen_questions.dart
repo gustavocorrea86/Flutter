@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mongodb_api/database/dao_ritgh.dart';
+import 'package:mongodb_api/database/dao_user_resum.dart';
 
 import 'package:mongodb_api/models/models.dart';
 import 'package:mongodb_api/widgets/box_resum_screenQuestions.dart';
@@ -15,6 +17,8 @@ class ScreenQuestions extends StatefulWidget {
   final PageController controller;
   final String qdtQuestoes;
   final int question;
+  final String matter;
+  final String subject;
 
   const ScreenQuestions(
       this.boxQuestions,
@@ -25,7 +29,8 @@ class ScreenQuestions extends StatefulWidget {
       this.controller,
       this.qdtQuestoes,
       this.question,
-      // this.index,
+      this.matter,
+      this.subject,
       {super.key});
 
   @override
@@ -35,6 +40,8 @@ class ScreenQuestions extends StatefulWidget {
 class _ScreenQuestionsState extends State<ScreenQuestions> {
   Color corAlternativa = Colors.white;
   double heightAnswered = 0;
+  DaoUserResum databeseUserResum = DaoUserResum();
+  DaoRight databaseRight = DaoRight();
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +63,11 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 children: [
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'Pontos',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      Text(
+                      const Text(
                         'Acumulados',
                         style: TextStyle(color: Colors.white, fontSize: 10),
                       ),
@@ -77,10 +84,10 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text('Erros',
+                        const Text('Erros',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 18)),
-                        Text('Acumulados',
+                        const Text('Acumulados',
                             style:
                                 TextStyle(color: Colors.white, fontSize: 10)),
                         BoxResumScreenQuestions(
@@ -95,11 +102,11 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                   ),
                   Column(
                     children: [
-                      Text(
+                      const Text(
                         'Mesada',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
-                      Text(
+                      const Text(
                         'do Mês',
                         style: TextStyle(color: Colors.white, fontSize: 10),
                       ),
@@ -129,7 +136,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.only(
+                          left: 8.0, right: 8.0, top: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -143,6 +151,20 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           const PointsAndErrors()
                         ],
                       ),
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            '${widget.matter} / ${widget.subject}',
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Color.fromARGB(255, 255, 239, 99),
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
                     ),
                     const Divider(
                       color: Colors.black26,
@@ -181,8 +203,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 '* 1 ponto = R\$ 1,00',
                 style: TextStyle(color: Colors.white),
@@ -204,7 +226,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                       child: const Text('Próximo'),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.only(top: 5),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: Row(
@@ -226,6 +248,9 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
+                                databaseRight.findSubjectAsRight();
+                                databaseRight.lenghtSubject();
+                                databaseRight.findMatterAsRight();
                               },
                               child: const Text(
                                 'Sair',
