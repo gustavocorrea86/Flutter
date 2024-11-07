@@ -19,11 +19,12 @@ dependencies:
   path: ^1.9.0
   http: ^1.2.2
   provider: ^6.1.2
-  envied: ^0.5.4+1
-  envied_generator: ^0.5.4+1
-  build_runner: ^2.4.13
+  # envied: ^0.5.4+1
+  # envied_generator: ^0.5.4+1
+  # build_runner: ^2.4.13
   flutter_native_splash: ^2.4.2
   dropdown_button2: ^2.3.9
+  flutter_dotenv: ^5.2.1
 
   
 
@@ -38,6 +39,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lotties/
+    - .env
 # flutter_native_splash:
 #   color: "#3817E5"
 #   image: assets/images/lampada.png

@@ -1,9 +1,9 @@
-import 'package:envied/envied.dart';
+// import 'package:envied/envied.dart';
 
-part 'env.g.dart';
+// part 'env.g.dart';
 
-@Envied(path: '.env', obfuscate: true)
-abstract class Env {
-  @EnviedField(varName: 'API_KEY')
-  static const apiKey = '_Env.apiKey';
-}
+// @Envied(path: '.env', obfuscate: true)
+// abstract class Env {
+//   @EnviedField(varName: 'API_KEY')
+//   static const apiKey = '_Env.apiKey';
+// }

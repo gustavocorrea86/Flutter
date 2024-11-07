@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:mongodb_api/database/dao_user_resum.dart';
 import 'package:mongodb_api/models/model_right.dart';
@@ -20,7 +21,8 @@ import 'package:mongodb_api/screens/pages.dart';
 import 'package:mongodb_api/screens/user_register1.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(

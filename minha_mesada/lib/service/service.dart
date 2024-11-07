@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mongodb_api/env/env.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Service {
-  static String api_key = Env.apiKey;
-  static String api_url = const String.fromEnvironment('API_URL',
-      defaultValue: 'URL não encontrada');
+  static String api_key = dotenv.env['API_KEY']!;
+  static String api_url = dotenv.env['API_URL']!; 
 
-  
-
-  static const String apiUrl =
-      'https://670cf70d7e5a228ec1d2214f.mockapi.io/api/v1/questoes';
+  String apiUrl = 'https://$api_key$api_url';
 
   static List currentQuestion = [];
   String getApi() {
