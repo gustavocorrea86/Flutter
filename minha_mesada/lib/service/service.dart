@@ -4,10 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Service {
-  static String api_key = dotenv.env['API_KEY']!;
-  static String api_url = dotenv.env['API_URL']!; 
+  static String apikey = dotenv.env['API_KEY']!;
+  static String apiurl = dotenv.env['API_URL']!;
 
-  String apiUrl = 'https://$api_key$api_url';
+  String apiUrl = 'https://$apikey$apiurl';
 
   static List currentQuestion = [];
   String getApi() {
@@ -29,7 +29,6 @@ class Service {
         for (var listMap in list) {
           result.add(listMap);
         }
-        print(api_key);
       }
     } catch (erro) {
       print('Falha na busca dos dados: $erro');
