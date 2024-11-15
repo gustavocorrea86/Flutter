@@ -3,7 +3,6 @@ import 'package:minha_mesada/database/dao_ritgh.dart';
 import 'package:minha_mesada/models/model_right.dart';
 import 'package:minha_mesada/widgets/list_matter_subjects.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AccumulatedRight extends StatefulWidget {
   const AccumulatedRight({super.key});

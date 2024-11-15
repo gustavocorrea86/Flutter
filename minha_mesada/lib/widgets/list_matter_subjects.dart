@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
 import 'package:minha_mesada/models/model_right.dart';
 import 'package:minha_mesada/widgets/animated_box_subject.dart';
 

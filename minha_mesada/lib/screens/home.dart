@@ -6,7 +6,6 @@ import 'package:minha_mesada/models/models.dart';
 import 'package:minha_mesada/widgets/box_resum.dart';
 import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -194,27 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       );
-      //Row(
-      //   children: [
-      //     ElevatedButton(
-      //       onPressed: () {
-
-      //       },
-      //       child: const Text('Pages'),
-      //     ),
-      //     ElevatedButton(
-      //       onPressed: () {
-      //         Navigator.pushNamed(context, 'initial');
-      //       },
-      //       child: const Text('Tela inicial'),
-      //     ),
-      //     ElevatedButton(
-      //         onPressed: () {
-      //           DaoUserResum().delete();
-      //         },
-      //         child: const Text('Deletar pontos'))
-      //   ],
-      // ));
+      
     });
   }
 }

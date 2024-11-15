@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
 import 'package:minha_mesada/database/dao_wrong.dart';
-import 'package:minha_mesada/models/model_right.dart';
 import 'package:minha_mesada/widgets/list_matter_subjects.dart';
-import 'package:provider/provider.dart';
 
 class AccumulatedWrongs extends StatefulWidget {
   const AccumulatedWrongs({super.key});

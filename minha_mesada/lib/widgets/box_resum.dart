@@ -32,10 +32,10 @@ class BoxResum extends StatelessWidget {
             children: [
               Container(
                   width: 80,
-                  height: 100,
+                  height: 90,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(176, 121, 135, 203),
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10),
                     ),
@@ -53,8 +53,8 @@ class BoxResum extends StatelessWidget {
                   )),
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(190, 197, 202, 233),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(190, 197, 202, 233),
                     // boxShadow: <BoxShadow>[
                     //   BoxShadow(
                     //     color: Colors.black26.withOpacity(0.2),
@@ -65,7 +65,7 @@ class BoxResum extends StatelessWidget {
                   ),
 
                   //width: 150,
-                  height: 100,
+                  height: 90,
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -98,11 +98,11 @@ class BoxResum extends StatelessWidget {
                     //     ),
                     //   ],
                     color: Colors.indigo[300],
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10))),
                 //width: 40,
-                height: 100,
+                height: 90,
                 child: RotatedBox(
                   quarterTurns: -1,
                   child: textButton,

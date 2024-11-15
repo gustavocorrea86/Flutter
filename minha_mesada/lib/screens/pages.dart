@@ -19,8 +19,8 @@ class PagesQuestions extends StatefulWidget {
 class _PagesQuestionsState extends State<PagesQuestions> {
   final controller = PageController();
   int activePage = 0;
-  final Color green = Colors.green;
-  final Color red = Colors.red;
+  // final Color green = Colors.green;
+  // final Color red = Colors.red;
   final Future _future = Service().getRequest();
   int indexBottomNavigatorBar = 0;
   // String userPoints = '0';

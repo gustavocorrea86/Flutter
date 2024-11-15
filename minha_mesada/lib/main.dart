@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
 import 'package:minha_mesada/models/model_right.dart';
 
 import 'package:minha_mesada/models/models.dart';
@@ -20,7 +19,6 @@ import 'package:minha_mesada/screens/login.dart';
 import 'package:minha_mesada/screens/pages.dart';
 
 import 'package:minha_mesada/screens/user_register1.dart';
-import 'package:minha_mesada/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

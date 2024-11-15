@@ -9,7 +9,7 @@ class Service {
 
   String apiUrl = 'https://$apikey$apiurl';
 
-  static List currentQuestion = [];
+  //static List currentQuestion = [];
   String getApi() {
     return apiUrl;
   }
