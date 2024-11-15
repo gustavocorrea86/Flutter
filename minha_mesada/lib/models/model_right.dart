@@ -23,16 +23,19 @@ class ModelRight {
 }
 
 class ModelNumberOfSubject extends ChangeNotifier {
-  int lengthSubject;
-  String assunto;
-  ModelNumberOfSubject({
-    required this.lengthSubject,
-    required this.assunto,
-  });
+  double boxShowSubjects;
+  List<String> subjects;
+  List<String> lengthSubjects;
 
-  void updateQtd(int qtd, String assunto) {
-    lengthSubject = qtd;
-    assunto = assunto;
+  ModelNumberOfSubject(
+    this.boxShowSubjects,
+    this.subjects,
+    this.lengthSubjects,
+  );
+
+  void heightBoxSubject(double height) {
+    boxShowSubjects = height;
+
     notifyListeners();
   }
 }
@@ -41,6 +44,7 @@ class ModelLengthQuestions extends ChangeNotifier {
   int lengthQuestions;
   String subject;
   List<String> addSubject;
+
   ModelLengthQuestions({
     required this.lengthQuestions,
     required this.subject,
@@ -52,7 +56,8 @@ class ModelLengthQuestions extends ChangeNotifier {
     print(addSubject);
     notifyListeners();
   }
-  void removeSub(String value){
+
+  void removeSub(String value) {
     addSubject.remove(value);
     print(addSubject);
     notifyListeners();

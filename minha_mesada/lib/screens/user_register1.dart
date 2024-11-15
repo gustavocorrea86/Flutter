@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
-import 'package:mongodb_api/models/models_user_resum.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/models/models_user_resum.dart';
 
 class UserRegister1 extends StatefulWidget {
   const UserRegister1({super.key});

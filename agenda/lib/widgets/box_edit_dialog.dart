@@ -21,13 +21,13 @@ class _BoxEditDialogState extends State<BoxEditDialog> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: 200,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Atualizar',
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),
@@ -37,7 +37,7 @@ class _BoxEditDialogState extends State<BoxEditDialog> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  icon: Icon(Icons.person),
+                  icon: const Icon(Icons.person),
                   hintText: widget.contactsIndexName.toString()),
               controller: widget.updateName,
             ),
@@ -47,7 +47,7 @@ class _BoxEditDialogState extends State<BoxEditDialog> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
-                  icon: Icon(Icons.phone),
+                  icon: const Icon(Icons.phone),
                   hintText: (widget.contactsIndexNumber.toString())),
               controller: widget.updateNumber,
             ),
@@ -70,7 +70,7 @@ class _BoxEditDialogState extends State<BoxEditDialog> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     'Cancelar',
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),

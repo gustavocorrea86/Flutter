@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
-import 'package:mongodb_api/database/dao_wrong.dart';
+import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_wrong.dart';
 
 class ScreenInitial extends StatefulWidget {
   const ScreenInitial({super.key});
@@ -99,13 +99,13 @@ class _ScreenInitialState extends State<ScreenInitial> {
                 DaoRight().deleteTableRight();
                 DaoUserResum().delete();
               },
-              child: const Text('Reset Database'),
+              child: const Text('Reset Database (teste)'),
             ),
             TextButton(
               onPressed: () {
                 DaoUserResum().close();
               },
-              child: const Text('Close Database'),
+              child: const Text('Close Database (teste)'),
             ),
           ],
         ),

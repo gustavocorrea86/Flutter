@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/models/models.dart';
+import 'package:minha_mesada/models/models.dart';
 
-import 'package:mongodb_api/service/service.dart';
-import 'package:mongodb_api/widgets/loading.dart';
-import 'package:mongodb_api/widgets/box_alternativas.dart';
-import 'package:mongodb_api/widgets/box_questions.dart';
+import 'package:minha_mesada/service/service.dart';
+import 'package:minha_mesada/widgets/loading.dart';
+import 'package:minha_mesada/widgets/box_alternativas.dart';
+import 'package:minha_mesada/widgets/box_questions.dart';
 
-import 'package:mongodb_api/widgets/screen_questions.dart';
+import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class PagesQuestions extends StatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:mongodb_api/database/database.dart';
-import 'package:mongodb_api/models/model_wrongs.dart';
+import 'package:minha_mesada/database/database.dart';
+import 'package:minha_mesada/models/model_wrongs.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoWrong {
@@ -12,6 +12,11 @@ class DaoWrong {
   static const String _alternativaB = 'alternativaB';
   static const String _alternativaC = 'alternativaC';
   static const String _alternativaD = 'alternativaD';
+  static List<Map<String, dynamic>> listOfWrongSubjects = [];
+  static List<String> subjects = [];
+  static List<String> lengthSubject = [];
+  static List<String> displice = [];
+  static List<Map<String, dynamic>> listQuestionsWrongs = [];
 
   static const String tableWrong = 'CREATE TABLE $_wrong('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
@@ -52,6 +57,94 @@ class DaoWrong {
     final Database db = await getConnection();
     final List<Map<String, dynamic>> itsRight = await db.query(_wrong);
     print(itsRight);
+  }
+
+  Future<List<String>> findDispliceAsWrongs() async {
+    final Database db = await getConnection();
+    displice.clear();
+    final List<Map<String, dynamic>> materia =
+        await db.query(_wrong, distinct: true, columns: [_materia]);
+
+    for (var element in materia) {
+      displice.add(element[_materia]);
+    }
+    //print(materia);
+    print(displice);
+    return displice;
+  }
+
+  Future<List> findForMatter_subjectAndLength(String matter) async {
+    final Database db = await getConnection();
+
+    listOfWrongSubjects.clear();
+    subjects.clear();
+    lengthSubject.clear();
+    Map<String, dynamic> listSub;
+    List<Map<String, dynamic>> subjectForMatter = await db.query(_wrong,
+        where: 'materia = ?',
+        whereArgs: [matter],
+        distinct: true,
+        columns: [_assunto]);
+
+    for (var sub in subjectForMatter) {
+      subjects.add(sub[_assunto]);
+    }
+
+    for (var lengthAssunto in subjects) {
+      final List<Map<String, dynamic>> questions = await db
+          .query(_wrong, where: 'assunto = ? ', whereArgs: [lengthAssunto]);
+
+      lengthSubject.add(questions.length.toString());
+    }
+
+    for (var sub in subjects) {
+      listSub = {
+        'assunto': sub,
+        'tamanho': lengthSubject[subjects.indexOf(sub)]
+      };
+      listOfWrongSubjects.add(listSub);
+    }
+    print(listOfWrongSubjects);
+    //print('$subjects, $lengthSubject');
+    return listOfWrongSubjects;
+  }
+
+  Future<List<Map<String , dynamic>>> findMatterAsWrong() async {
+    final Database db = await getConnection();
+    //List<String>? materias = [];
+    //materias.clear();
+    final List<Map<String, dynamic>> materia =
+        await db.query(_wrong, distinct: true, columns: [_materia]);
+
+    // for (var element in materia) {
+    //   materias.add(element[_materia]);
+    // }
+    
+    //print(materia);
+   // print('materias = $materias');
+    return materia;
+  }
+
+  Future removeQuestionsDetails(String question) async {
+    for (var obj in listQuestionsWrongs) {
+      if (obj['assunto'] == question) {
+        listQuestionsWrongs.removeWhere((item) => item['assunto'] == question);
+        break;
+      }
+    }
+    print('listQuestions = $listQuestionsWrongs');
+  }
+
+  Future getQuestions(String assunto) async {
+    final Database db = await getConnection();
+
+    final List<Map<String, dynamic>> questions =
+        await db.query(_wrong, where: 'assunto = ? ', whereArgs: [assunto]);
+    for (var question in questions) {
+      listQuestionsWrongs.add(question);
+    }
+    print('listQuestions = $listQuestionsWrongs');
+    return listQuestionsWrongs;
   }
 
   Future deleteTableWrong() async {

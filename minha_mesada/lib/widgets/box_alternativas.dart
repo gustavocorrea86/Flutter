@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
-import 'package:mongodb_api/database/dao_wrong.dart';
-import 'package:mongodb_api/models/model_right.dart';
-import 'package:mongodb_api/models/model_wrongs.dart';
-import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/service/service.dart';
-import 'package:mongodb_api/widgets/screen_questions.dart';
+import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_wrong.dart';
+import 'package:minha_mesada/models/model_right.dart';
+import 'package:minha_mesada/models/model_wrongs.dart';
+import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/service/service.dart';
+import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class BoxAlternatives extends StatefulWidget {

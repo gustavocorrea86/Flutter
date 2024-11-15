@@ -24,8 +24,8 @@ class _BoxcardState extends State<Boxcard> {
                 style: GoogleFonts.bebasNeue(fontSize: 25),
               ),
               subtitle: Text(widget.number, style: GoogleFonts.bebasNeue(fontSize: 15),),
-              leading: Icon(Icons.contact_phone),
-              trailing: Container(
+              leading: const Icon(Icons.contact_phone),
+              trailing: SizedBox(
                 width: 100,
                 child: Row(
                   children: [widget.delete, widget.update],

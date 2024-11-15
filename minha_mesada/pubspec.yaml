@@ -1,4 +1,4 @@
-name: mongodb_api
+name: minha_mesada
 description: "A new Flutter project."
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -21,6 +21,7 @@ dependencies:
   flutter_native_splash: ^2.4.2
   dropdown_button2: ^2.3.9
   flutter_dotenv: ^5.2.1
+  google_fonts: ^6.2.1
 
   
 
@@ -35,6 +36,7 @@ flutter:
   assets:
     - assets/images/
     - assets/lotties/
+    - assets/fonts/
     - .env
 # flutter_native_splash:
 #   color: "#3817E5"

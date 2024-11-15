@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
 
 class ModelPoints extends ChangeNotifier {
   String hits;

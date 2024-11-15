@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/widgets/checkbox.dart';
-import 'package:mongodb_api/widgets/subject.dart';
+import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:minha_mesada/models/model_right.dart';
+import 'package:minha_mesada/widgets/list_matter_subjects.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AccumulatedRight extends StatefulWidget {
   const AccumulatedRight({super.key});
@@ -11,133 +13,93 @@ class AccumulatedRight extends StatefulWidget {
 }
 
 class _AccumulatedRightState extends State<AccumulatedRight> {
-  String? dropDownValue;
-  String? checkedValue;
-  bool? checked = false;
-  DaoRight databaseRight = DaoRight();
+  bool checked = false;
+  //DaoRight databaseRight = DaoRight();
 
-  @override
-  void initState() {
-    DaoRight.listQuestions = [];
-    super.initState();
+  String msgNoneDisplice = '';
+  final Future _future = DaoRight().findMatterAsRight();
+  onChecked() {
+    setState(() {
+      checked = !checked;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Acertos acumulados'),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('./assets/images/ball-7280265_640.jpg'),
-              fit: BoxFit.cover),
+    return Consumer<ModelNumberOfSubject>(builder: (context, value, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Acertos acumulados'),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(188, 255, 255, 255),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Column(
-                      children: [
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: DaoRight.materias.length,
-                          itemBuilder: (_, int index) {
-                            return CheckboxWidget(DaoRight.materias[index]);
-                          },
-                        ),
-                      ],
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('./assets/images/ball-7280265_640.jpg'),
+                fit: BoxFit.cover),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              //alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(188, 255, 255, 255),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                     
+                      child: FutureBuilder(
+                        future: _future,
+                        builder: (context, snapshot) {
+                          List<Map<String, dynamic>>? displice = snapshot.data;
+                          print('displice = $displice');
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (snapshot.hasData && displice != null) {
+                            if (displice.isNotEmpty) {
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: displice.length,
+                                itemBuilder: (context, int index) {
+                                  return ListMatterAndSubjects(
+                                      displice[index]['materia'],
+                                      DaoRight(),
+                                      DaoRight.subjects,
+                                      DaoRight.lengthSubject,
+                                      DaoRight.listOfRightSubject);
+                                },
+                              );
+                            }
+                          }
+                          return const Center(
+                            child: Text('Nenhuma questão respondida'),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: DaoRight.assuntos.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Subject(DaoRight.questionsForSubject[index],
-                          DaoRight.assuntos[index]);
-                    }),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Divider(
-                    color: Colors.black45,
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(
+                      color: Colors.black45,
+                    ),
                   ),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Card(
-                //     child: DropdownButtonHideUnderline(
-                //       child: DropdownButton2<String>(
-                //         iconStyleData: const IconStyleData(
-                //           icon: Icon(
-                //             Icons.arrow_drop_down,
-                //             weight: 5,
-                //           ),
-                //           iconSize: 40,
-                //         ),
-                //         isExpanded: true,
-                //         dropdownStyleData: DropdownStyleData(
-                //           padding: const EdgeInsets.all(8.0),
-                //           width: 350,
-                //           offset: Offset.zero,
-                //           decoration: BoxDecoration(
-                //             borderRadius: BorderRadius.circular(10),
-                //           ),
-                //         ),
-                //         menuItemStyleData: const MenuItemStyleData(height: 50),
-                //         hint: const Row(
-                //           children: [
-                //             Padding(
-                //               padding: EdgeInsets.all(8.0),
-                //               child: Text('Busca por assunto'),
-                //             )
-                //           ],
-                //         ),
-                //         items: DaoRight.assuntos
-                //             .map(
-                //               (String itens) => DropdownMenuItem(
-                //                 value: itens,
-                //                 child: Text(itens),
-                //               ),
-                //             )
-                //             .toList(),
-                //         value: dropDownValue,
-                //         onChanged: (String? item) {
-                //           setState(
-                //             () {
-                //               dropDownValue = item;
-                //               print(dropDownValue);
-                //               DaoRight().findForSubject(dropDownValue!);
-                //             },
-                //           );
-                //         },
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // const Padding(
-                //   padding: EdgeInsets.all(8.0),
-                //   child: Divider(
-                //     color: Colors.black45,
-                //   ),
-                // ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

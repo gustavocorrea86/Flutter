@@ -29,7 +29,7 @@ class Daophonebook {
 
   Map<String, dynamic> toMap(PhoneBook contact) {
     // print('Convertendo para Map');
-    final Map<String, dynamic> mapContact = Map();
+    final Map<String, dynamic> mapContact = {};
     mapContact[_name] = contact.name;
     mapContact[_number] = contact.number;
     // print('Map do Contato: $mapContact');

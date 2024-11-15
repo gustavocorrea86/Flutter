@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
-import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/widgets/loading.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 class LoadingNextPage extends StatefulWidget {
@@ -35,10 +34,8 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
     });
   }
 
-// value.showPoints(DaoUserResum.totalPoints);
-  // value.showErrors(DaoUserResum.totalErrors);
-  // value.counterOfAnswereds(
-  //     DaoUserResum.answeredQuestions);
+  
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

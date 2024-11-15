@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_wrong.dart';
 
-import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/widgets/box_resum_screenQuestions.dart';
+import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/widgets/box_resum_screenQuestions.dart';
 
-import 'package:mongodb_api/widgets/pointsAndErrors.dart';
+import 'package:minha_mesada/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
@@ -42,6 +43,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   double heightAnswered = 0;
   DaoUserResum databeseUserResum = DaoUserResum();
   DaoRight databaseRight = DaoRight();
+  DaoWrong databaseWrongs = DaoWrong();
 
   @override
   Widget build(BuildContext context) {
@@ -248,9 +250,10 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
-                                databaseRight.findSubjectAsRight();
-                                databaseRight.lenghtSubject();
+                                //databaseRight.findSubjectAsRight();
+                                //databaseRight.lenghtSubject();
                                 databaseRight.findMatterAsRight();
+                                databaseWrongs.findDispliceAsWrongs();
                               },
                               child: const Text(
                                 'Sair',

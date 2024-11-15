@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:mongodb_api/database/dao_user_resum.dart';
-import 'package:mongodb_api/models/model_right.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/database/dao_wrong.dart';
+import 'package:minha_mesada/models/model_right.dart';
 
-import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/screens/accumulated_month.dart';
-import 'package:mongodb_api/screens/accumulated_right.dart';
+import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/screens/accumulated_right.dart';
+import 'package:minha_mesada/screens/accumulated_wrongs.dart';
 
-import 'package:mongodb_api/screens/elementary_school.dart';
-import 'package:mongodb_api/screens/elementary_school_1.dart';
-import 'package:mongodb_api/screens/elementary_school_2.dart';
+import 'package:minha_mesada/screens/elementary_school.dart';
+import 'package:minha_mesada/screens/elementary_school_1.dart';
+import 'package:minha_mesada/screens/elementary_school_2.dart';
 
-import 'package:mongodb_api/screens/home.dart';
-import 'package:mongodb_api/screens/initial_screen.dart';
-import 'package:mongodb_api/screens/loading_next_page.dart';
-import 'package:mongodb_api/screens/login.dart';
-import 'package:mongodb_api/screens/pages.dart';
+import 'package:minha_mesada/screens/home.dart';
+import 'package:minha_mesada/screens/initial_screen.dart';
+import 'package:minha_mesada/screens/loading_next_page.dart';
+import 'package:minha_mesada/screens/login.dart';
+import 'package:minha_mesada/screens/pages.dart';
 
-import 'package:mongodb_api/screens/user_register1.dart';
+import 'package:minha_mesada/screens/user_register1.dart';
+import 'package:minha_mesada/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,19 +32,15 @@ void main() async {
             DaoUserResum.totalErrors, DaoUserResum.answeredQuestions),
       ),
       ChangeNotifierProvider(
-          create: (context) => ModelLengthQuestions(
-              lengthQuestions: 0, subject: 'Sem assunto', addSubject: [])),
+        create: (context) => ModelLengthQuestions(
+            lengthQuestions: 0, subject: 'Sem assunto', addSubject: []),
+      ),
+      ChangeNotifierProvider(
+          create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
-  //DaoRight().findForMateria('Matémática');
-
-  //DaoUserResum().findAll();
-
-  //DaoRight().findAllQuestionRight();
-  // DaoWrong().findAllQuestionWrong();
-  // DaoRight().findAssuntoAsRight();
-  //DaoRight().findSubjectAsRight();
-  // DaoRight().findForSubject('Multiplicação');
+  //Service().getRequest();
+  //DaoWrong().findAllQuestionWrong();
 }
 
 class MyApp extends StatelessWidget {
@@ -63,7 +61,7 @@ class MyApp extends StatelessWidget {
         'userRegister': (context) => const UserRegister1(),
         'home': (context) => const HomeScreen(),
         'accumulatedRight': (context) => const AccumulatedRight(),
-        'accumulatedMonth': (context) => Test(),
+        'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         'pages': (context) => const PagesQuestions(),
         'elementary_school': (context) => const ElementarySchool(),
         'elementary_school_1': (context) => const ElementarySchool1(),

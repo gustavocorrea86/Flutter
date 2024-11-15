@@ -17,7 +17,7 @@ class Service {
   static List<Map<String, dynamic>> result = [];
 
   Future<List<Map<String, dynamic>>> getRequest() async {
-    result = [];
+    result.clear();
     http.Response response = await http.get(Uri.parse(getApi()));
 
     var decodedResponse = utf8.decode(response.bodyBytes);
@@ -34,7 +34,7 @@ class Service {
       print('Falha na busca dos dados: $erro');
     }
 
-    // print(result);
+    print(result.length);
     return result;
   }
 }

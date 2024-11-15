@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mongodb_api/models/models.dart';
-import 'package:mongodb_api/widgets/screen_questions.dart';
+import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class PointsAndErrors extends StatelessWidget {

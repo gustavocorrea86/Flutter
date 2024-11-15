@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mongodb_api/models/models.dart';
+import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:minha_mesada/models/models.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
@@ -12,14 +13,6 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   double noRegister = 0;
-  @override
-  void initState() {
-    // DaoUserResum().findPoints(); // faz a busca do total de pontos
-    // DaoUserResum().findErrors(); // faz busca do total de erros
-    
-    // DaoRight().findMatterAsRight(); // faz busca das meterias respondidas
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +20,7 @@ class _LoginState extends State<Login> {
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: 5,
-          backgroundColor: const Color.fromARGB(255, 131, 98, 0),
+          backgroundColor:Colors.black,
         ),
         body: ListView(
           children: [
@@ -38,8 +31,10 @@ class _LoginState extends State<Login> {
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color.fromARGB(255, 247, 204, 140),
-                    Colors.orange,
+                    Colors.indigoAccent,
+                    Colors.white54
+                    
+                     
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -80,6 +75,12 @@ class _LoginState extends State<Login> {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, 'loadingNextPage');
+                            if (DaoUserResum.table == []) {
+                              print('Nenhum registro encontrado');
+                            } else {
+                              print('registro encontrado');
+                            }
+                            
                           },
                           child: const Text('Entrar'),
                         ),

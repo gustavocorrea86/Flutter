@@ -1,6 +1,7 @@
-import 'package:mongodb_api/database/dao_ritgh.dart';
-import 'package:mongodb_api/database/database.dart';
-import 'package:mongodb_api/models/models_user_resum.dart';
+import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:minha_mesada/database/dao_wrong.dart';
+import 'package:minha_mesada/database/database.dart';
+import 'package:minha_mesada/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoUserResum {
@@ -25,9 +26,10 @@ class DaoUserResum {
   static List<Map<String, dynamic>> id = [];
   static List<Map<String, dynamic>> table = [];
   DaoRight databaseRight = DaoRight();
+  DaoWrong databaseWrong = DaoWrong();
 
   static const String tableUser = 'CREATE TABLE $_user('
-      //'id INTEGER PRIMARY KEY AUTOINCREMENT,'
+      'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       '$_name TEXT,'
       '$_lastName TEXT,'
       '$_age TEXT,'
@@ -162,10 +164,8 @@ class DaoUserResum {
         findErrors();
         databaseRight
             .findMatterAsRight(); // faz busca das meterias das questoes respodidas certas
-        databaseRight
-            .findSubjectAsRight(); // faz busca dos assuntos das questoes respodidas certas
-        databaseRight
-            .lenghtSubject(); // faz busca de quantas questões resposidascertas por assunto
+        databaseWrong
+            .findDispliceAsWrongs(); // faz busca das meterias das questoes respodidas
       }
     } catch (erro) {
       print('Erro ao pegar quantidade de perguntas respondidas: $erro');

@@ -4,7 +4,6 @@ import 'package:agenda/widgets/boxCard.dart';
 import 'package:agenda/widgets/box_edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -50,7 +49,7 @@ class _HomeState extends State<Home> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Os campos devem ser preenchidos corretamente.'),
           backgroundColor: Colors.red,
         ),
@@ -70,7 +69,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Agenda Telefônica',
           style: TextStyle(color: Colors.white),
         ),
@@ -81,7 +80,7 @@ class _HomeState extends State<Home> {
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: Container(
+              child: SizedBox(
                 height: 250,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +106,7 @@ class _HomeState extends State<Home> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          icon: Icon(Icons.person_2_outlined),
+                          icon: const Icon(Icons.person_2_outlined),
                         ),
                         controller: name,
                       ),
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          icon: Icon(Icons.phone),
+                          icon: const Icon(Icons.phone),
                         ),
                         controller: number,
                       ),
@@ -145,7 +144,7 @@ class _HomeState extends State<Home> {
                               });
                               // Daophonebook().findAll();
                             },
-                            child: Text('Cadastrar'),
+                            child: const Text('Cadastrar'),
                           ),
                         ),
                       ],
@@ -164,9 +163,9 @@ class _HomeState extends State<Home> {
                     builder: (context, snapshot) {
                       List<PhoneBook>? contacts = snapshot.data;
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Column(
+                        return const Column(
                           children: [
-                            const CircularProgressIndicator(),
+                            CircularProgressIndicator(),
                             Text('Loading...')
                           ],
                         );
@@ -191,7 +190,7 @@ class _HomeState extends State<Home> {
                                         },
                                       );
                                     },
-                                    icon: Icon(Icons.delete),
+                                    icon: const Icon(Icons.delete),
                                   ),
                                   IconButton(
                                       onPressed: () {
@@ -231,7 +230,7 @@ class _HomeState extends State<Home> {
                                                       }
                                                     });
                                                   },
-                                                  child: Text(
+                                                  child: const Text(
                                                     'Ok',
                                                     style: TextStyle(
                                                         fontSize: 20,
@@ -245,7 +244,7 @@ class _HomeState extends State<Home> {
                                           ),
                                         );
                                       },
-                                      icon: Icon(Icons.edit)),
+                                      icon: const Icon(Icons.edit)),
                                   contacts[index].name,
                                   contacts[index].number,
                                 ),
@@ -253,12 +252,12 @@ class _HomeState extends State<Home> {
                             },
                           );
                         }
-                        return Text(
+                        return const Text(
                           'No Contacts found',
                           style: TextStyle(fontSize: 32),
                         );
                       }
-                      return Text('Error to loading Contacts');
+                      return const Text('Error to loading Contacts');
                     },
                   ),
                 ),
