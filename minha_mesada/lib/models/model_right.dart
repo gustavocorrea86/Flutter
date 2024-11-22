@@ -33,33 +33,24 @@ class ModelNumberOfSubject extends ChangeNotifier {
     this.lengthSubjects,
   );
 
-  void heightBoxSubject(double height) {
-    boxShowSubjects = height;
+  // void heightBoxSubject(double height) {
+  //   boxShowSubjects = height;
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }
 
-class ModelLengthQuestions extends ChangeNotifier {
-  int lengthQuestions;
-  String subject;
-  List<String> addSubject;
-
-  ModelLengthQuestions({
-    required this.lengthQuestions,
-    required this.subject,
-    required this.addSubject,
-  });
-
-  void addSub(String value) {
-    addSubject.add(value);
-    print(addSubject);
-    notifyListeners();
-  }
-
-  void removeSub(String value) {
-    addSubject.remove(value);
-    print(addSubject);
-    notifyListeners();
-  }
-}
+// class ModelQuestionsRight extends ModelQuestions {
+//   ModelQuestionsRight(
+//       {required super.id,
+//       required super.elementarySchool,
+//       required super.series,
+//       required super.displice,
+//       required super.subject,
+//       required super.question,
+//       required super.response,
+//       required super.alternativeA,
+//       required super.alternativeB,
+//       required super.alternativeC,
+//       required super.alternativeD});
+// }

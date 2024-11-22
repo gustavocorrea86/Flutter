@@ -71,7 +71,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                                 itemCount: displice.length,
                                 itemBuilder: (context, int index) {
                                   return ListMatterAndSubjects(
-                                      displice[index]['materia'],
+                                      displice[index]['displice'],
                                       DaoRight(),
                                       DaoRight.subjects,
                                       DaoRight.lengthSubject,

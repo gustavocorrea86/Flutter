@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minha_mesada/models/model_questions.dart';
 import 'package:minha_mesada/models/models.dart';
 
 import 'package:minha_mesada/service/service.dart';
@@ -18,11 +19,11 @@ class PagesQuestions extends StatefulWidget {
 
 class _PagesQuestionsState extends State<PagesQuestions> {
   final controller = PageController();
-  int activePage = 0;
+  //int activePage = 0;
   // final Color green = Colors.green;
   // final Color red = Colors.red;
-  final Future _future = Service().getRequest();
-  int indexBottomNavigatorBar = 0;
+  final Future _future = Service().getQuestions();
+  //int indexBottomNavigatorBar = 0;
   // String userPoints = '0';
 
   @override
@@ -37,7 +38,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
           return FutureBuilder(
             future: _future,
             builder: (context, snapshot) {
-              List<Map<String, dynamic>>? question = snapshot.data;
+              List<ModelQuestions>? question = snapshot.data;
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loading();
               } else if (snapshot.hasData) {
@@ -50,21 +51,21 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                       itemCount: question!.length,
                       itemBuilder: (context, index) {
                         return ScreenQuestions(
-                            BoxQuestions(question[index]['pergunta']),
-                            BoxAlternatives(question[index]['alternativas'][0],
-                                'A', question[index]['resposta'], value.isAnswered, index),
-                            BoxAlternatives(question[index]['alternativas'][1],
-                                'B', question[index]['resposta'], value.isAnswered, index),
-                            BoxAlternatives(question[index]['alternativas'][2],
-                                'C', question[index]['resposta'], value.isAnswered, index),
+                            BoxQuestions(question[index].question),
+                            BoxAlternatives(question[index].alternativeA,
+                                'A', question[index].response, value.isAnswered, index),
+                            BoxAlternatives(question[index].alternativeB,
+                                'B', question[index].response, value.isAnswered, index),
+                            BoxAlternatives(question[index].alternativeC,
+                                'C', question[index].response, value.isAnswered, index),
                             BoxAlternatives(
-                              question[index]['alternativas'][3],
+                              question[index].alternativeD,
                               'D',
-                              question[index]['resposta'], value.isAnswered, index
+                              question[index].response, value.isAnswered, index
                             ),
                             controller,
                             question.length.toString(),
-                            index, question[index]['materia'], question[index]['assunto']);
+                            index, question[index].displice, question[index].subject, question[index].id, question[index].elementarySchool, question[index].series);
                       },
                     ),
                   ],

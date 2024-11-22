@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:minha_mesada/controller/counter_errors.dart';
+import 'package:minha_mesada/controller/counter_points.dart';
 import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class PointsAndErrors extends StatelessWidget {
-  const PointsAndErrors({super.key});
+  PointsAndErrors({super.key});
+  CounterErrors counterErrors = CounterErrors();
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +32,7 @@ class PointsAndErrors extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    
-                    Counter.countPoints.toString(),
+                    CounterPoints.points.toString(),
                     style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -54,7 +55,7 @@ class PointsAndErrors extends StatelessWidget {
                 ],
               ),
               child: Text(
-                Counter.countErrors.toString(),
+                CounterErrors.errors.toString(),
                 style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
@@ -67,4 +68,3 @@ class PointsAndErrors extends StatelessWidget {
     );
   }
 }
-

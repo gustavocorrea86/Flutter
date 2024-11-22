@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:minha_mesada/controller/controller_questions.dart';
 
 import 'package:minha_mesada/database/dao_user_resum.dart';
+
 import 'package:minha_mesada/models/model_right.dart';
 
 import 'package:minha_mesada/models/models.dart';
 import 'package:minha_mesada/screens/accumulated_right.dart';
 import 'package:minha_mesada/screens/accumulated_wrongs.dart';
 
-import 'package:minha_mesada/screens/elementary_school.dart';
-import 'package:minha_mesada/screens/elementary_school_1.dart';
-import 'package:minha_mesada/screens/elementary_school_2.dart';
+import 'package:minha_mesada/screens/filter_questions.dart';
 
 import 'package:minha_mesada/screens/home.dart';
 import 'package:minha_mesada/screens/initial_screen.dart';
 import 'package:minha_mesada/screens/loading_next_page.dart';
 import 'package:minha_mesada/screens/login.dart';
+import 'package:minha_mesada/screens/menuDrawer/math.dart';
+import 'package:minha_mesada/screens/menuDrawer/portuguese.dart';
 import 'package:minha_mesada/screens/pages.dart';
 
 import 'package:minha_mesada/screens/user_register1.dart';
+import 'package:minha_mesada/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,15 +33,18 @@ void main() async {
             DaoUserResum.totalErrors, DaoUserResum.answeredQuestions),
       ),
       ChangeNotifierProvider(
-        create: (context) => ModelLengthQuestions(
-            lengthQuestions: 0, subject: 'Sem assunto', addSubject: []),
-      ),
-      ChangeNotifierProvider(
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
+  //Service().getFilmes();
   //Service().getRequest();
+  //Service().getQuestions();
   //DaoWrong().findAllQuestionWrong();
+  //DaoUserResum().findElementarySchoolAndGrade();
+  //DaoUserResum().findAll();
+  //DaoWrong().findMatterAsWrong();
+  //DaoRight().findAllQuestionRight();
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -47,7 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'QuizMesada',
+      title: 'Study and Cash',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300])),
@@ -61,9 +67,9 @@ class MyApp extends StatelessWidget {
         'accumulatedRight': (context) => const AccumulatedRight(),
         'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         'pages': (context) => const PagesQuestions(),
-        'elementary_school': (context) => const ElementarySchool(),
-        'elementary_school_1': (context) => const ElementarySchool1(),
-        'elementary_school_2': (context) => const ElementarySchool2()
+        'filterQuestions': (context) => const FilterQuestions(),
+        'portuguese': (context) => const Portuguese(),
+        'math': (context) => Math(),
       },
     );
   }

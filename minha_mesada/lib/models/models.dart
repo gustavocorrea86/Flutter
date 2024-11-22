@@ -22,7 +22,7 @@ class ModelPoints extends ChangeNotifier {
   }
 
   Future showPoints(String points) async {
-    DaoUserResum().findPoints();
+    //DaoUserResum().findPoints();
 
     pointsDb = points;
     print('pointDb = $pointsDb');
@@ -50,4 +50,5 @@ class ModelPoints extends ChangeNotifier {
     countAnswered = value;
     notifyListeners();
   }
+  
 }

@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
-import 'package:minha_mesada/models/model_right.dart';
-import 'package:minha_mesada/models/model_wrongs.dart';
+import 'package:minha_mesada/controller/controller_questions.dart';
 import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/service/service.dart';
-import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class BoxAlternatives extends StatefulWidget {
   // final Color cor;
-  final String alt;
+  final String alternative;
   final String option;
   final String response;
-
   final bool isAnswered;
   final int indexQuestion;
 
-  const BoxAlternatives(
-      this.alt, this.option, this.response, this.isAnswered, this.indexQuestion,
+  const BoxAlternatives(this.alternative, this.option, this.response,
+      this.isAnswered, this.indexQuestion,
       {super.key});
 
   @override
@@ -27,112 +20,9 @@ class BoxAlternatives extends StatefulWidget {
 }
 
 class _BoxAlternativesState extends State<BoxAlternatives> {
-  DaoUserResum database = DaoUserResum();
-  Color corAlternativa = Colors.white;
-  String currentPoint = '';
-  String currentErrors = '';
-  String currentAnswered = '';
-  int pointHit = 0;
+  final ControllerQuestions _controllerQuestions = ControllerQuestions();
 
-  int countErros = 0;
-
-  String hitOrErr = '';
-
-  double heightContainer = 0;
-  bool? answered;
-  double widthContainer = 0;
-  double heightBoxIsAnswered = 0;
-  List wrongQuestion = [];
-  List hitQuestion = [];
-
-  void answereds() {
-    currentAnswered = DaoUserResum.answeredQuestions;
-    int answeredQuestions = int.parse(currentAnswered) + 1;
-    database.updateAnswereds(answeredQuestions.toString(), currentAnswered);
-    currentAnswered = answeredQuestions.toString();
-    Provider.of<ModelPoints>(context, listen: false)
-        .counterOfAnswereds(currentAnswered);
-  }
-
-  void counterPoints() {
-    currentPoint = DaoUserResum.totalPoints;
-    int countPoint = int.parse(currentPoint) + 1;
-    database.updatePoints(countPoint.toString(), currentPoint);
-    currentPoint = countPoint.toString();
-    Provider.of<ModelPoints>(context, listen: false).showPoints(currentPoint);
-  }
-
-  void counterErrors() {
-    currentErrors = DaoUserResum.totalErrors;
-    int countError = int.parse(currentErrors) + 1;
-    database.updateErrors(countError.toString(), currentErrors);
-    currentErrors = countError.toString();
-    Provider.of<ModelPoints>(context, listen: false).showErrors(currentErrors);
-  }
-
-  void saveQuestionRight() {
-    DaoRight().insertQuestionRight(
-      ModelRight(
-        materia: Service.result[widget.indexQuestion]['materia'],
-        assunto: Service.result[widget.indexQuestion]['assunto'],
-        pergunta: Service.result[widget.indexQuestion]['pergunta'],
-        resposta: Service.result[widget.indexQuestion]['resposta'],
-        alternativaA: Service.result[widget.indexQuestion]['alternativas'][0],
-        alternativaB: Service.result[widget.indexQuestion]['alternativas'][1],
-        alternativaC: Service.result[widget.indexQuestion]['alternativas'][2],
-        alternativaD: Service.result[widget.indexQuestion]['alternativas'][3],
-      ),
-    );
-  }
-
-  void saveQuestionWrong() {
-    DaoWrong().insertQuestionWrong(
-      ModelWrong(
-        materia: Service.result[widget.indexQuestion]['materia'],
-        assunto: Service.result[widget.indexQuestion]['assunto'],
-        pergunta: Service.result[widget.indexQuestion]['pergunta'],
-        resposta: Service.result[widget.indexQuestion]['resposta'],
-        alternativaA: Service.result[widget.indexQuestion]['alternativas'][0],
-        alternativaB: Service.result[widget.indexQuestion]['alternativas'][1],
-        alternativaC: Service.result[widget.indexQuestion]['alternativas'][2],
-        alternativaD: Service.result[widget.indexQuestion]['alternativas'][3],
-      ),
-    );
-  }
-
-  void isCorrect() {
-    if (widget.isAnswered) {
-      heightBoxIsAnswered = 30;
-    } else {
-      if (widget.response == widget.alt) {
-        corAlternativa = Colors.green;
-        print('index da questão: ${widget.indexQuestion}');
-        saveQuestionRight();
-        hitQuestion.add(Service.result[widget.indexQuestion]);
-        print(hitQuestion);
-        Counter().counterOfPoints();
-        hitOrErr = 'Acertou!';
-        widthContainer = 70;
-        heightContainer = 20;
-        counterPoints();
-        answereds();
-      } else {
-        wrongQuestion.add(Service.result[widget.indexQuestion]);
-        print(wrongQuestion);
-        saveQuestionWrong();
-        counterErrors();
-        print('index da questão: ${widget.indexQuestion}');
-        Counter().counterOfErrors();
-        corAlternativa = Colors.red;
-
-        hitOrErr = 'Errou';
-        widthContainer = 70;
-        heightContainer = 20;
-        answereds();
-      }
-    }
-  }
-
+  bool answered = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -155,7 +45,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                           blurRadius: 1,
                           spreadRadius: 1)
                     ],
-                    color: corAlternativa,
+                    color: _controllerQuestions.corAlternativa,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 2,
@@ -178,21 +68,21 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                         ),
                       ),
                       title: Text(
-                        widget.alt,
+                        widget.alternative,
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),
                     onTap: () {
-                      setState(() {
-                        answered = true;
-                        isCorrect();
-                        value.actBoxAnswered(heightBoxIsAnswered);
-                        value.answered(answered!);
-                        value.pointsHits(pointHit.toString());
-                        value.errors(countErros.toString());
-                        DaoRight().findAllQuestionRight();
-                        DaoWrong().findAllQuestionWrong();
-                      });
+                      answered = true;
+                      _controllerQuestions.isCorrect(
+                          widget.isAnswered,
+                          widget.response,
+                          widget.alternative,
+                          widget.indexQuestion,
+                          context);
+                      value.actBoxAnswered(
+                          _controllerQuestions.heightBoxIsAnswered);
+                      value.answered(answered);
                     },
                   ),
                 ),
@@ -203,13 +93,13 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       padding: const EdgeInsets.only(left: 8),
                       child: Container(
                         alignment: Alignment.center,
-                        width: widthContainer,
-                        height: heightContainer,
+                        width: _controllerQuestions.widthContainer,
+                        height: _controllerQuestions.heightContainer,
                         decoration: BoxDecoration(
-                            color: corAlternativa,
+                            color: _controllerQuestions.corAlternativa,
                             borderRadius: BorderRadius.circular(50)),
                         child: Text(
-                          hitOrErr,
+                          _controllerQuestions.hitOrErr,
                           style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),

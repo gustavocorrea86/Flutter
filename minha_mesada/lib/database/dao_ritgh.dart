@@ -1,18 +1,21 @@
 import 'package:minha_mesada/database/database.dart';
-import 'package:minha_mesada/models/model_right.dart';
+import 'package:minha_mesada/models/model_questions.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoRight {
   static const String _right = 'right';
 
-  static const String _materia = 'materia';
-  static const String _assunto = 'assunto';
-  static const String _pergunta = 'pergunta';
-  static const String _resposta = 'resposta';
-  static const String _alternativaA = 'alternativaA';
-  static const String _alternativaB = 'alternativaB';
-  static const String _alternativaC = 'alternativaC';
-  static const String _alternativaD = 'alternativaD';
+  static const String _id = 'id';
+  static const String _elementarySchool = 'elementarySchool';
+  static const String _series = 'series';
+  static const String _displice = 'displice';
+  static const String _subject = 'subject';
+  static const String _question = 'question';
+  static const String _response = 'response';
+  static const String _alternativeA = 'alternativeA';
+  static const String _alternativeB = 'alternativeB';
+  static const String _alternativeC = 'alternativeC';
+  static const String _alternativeD = 'alternativeD';
 
   static List<String> assuntos = [];
   //static List<String> materias = [];
@@ -24,30 +27,35 @@ class DaoRight {
   //static List<Map<String, dynamic>> subjectForMatter = [];
 
   static const String tableRight = 'CREATE TABLE $_right('
-      'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-      '$_materia TEXT,'
-      '$_assunto TEXT,'
-      '$_pergunta TEXT,'
-      '$_resposta TEXT,'
-      '$_alternativaA TEXT,'
-      '$_alternativaB TEXT,'
-      '$_alternativaC TEXT,'
-      '$_alternativaD TEXT)';
+      '$_id TEXT,'
+      '$_elementarySchool TEXT,'
+      '$_series TEXT,'
+      '$_displice TEXT,'
+      '$_subject TEXT,'
+      '$_question TEXT,'
+      '$_response TEXT,'
+      '$_alternativeA TEXT,'
+      '$_alternativeB TEXT,'
+      '$_alternativeC TEXT,'
+      '$_alternativeD TEXT)';
 
-  Map<String, dynamic> toMap(ModelRight right) {
+  Map<String, dynamic> toMap(ModelQuestions right) {
     return {
-      _materia: right.materia,
-      _assunto: right.assunto,
-      _pergunta: right.pergunta,
-      _resposta: right.resposta,
-      _alternativaA: right.alternativaA,
-      _alternativaB: right.alternativaB,
-      _alternativaC: right.alternativaC,
-      _alternativaD: right.alternativaD
+      _id: right.id,
+      _elementarySchool: right.elementarySchool,
+      _series: right.series,
+      _displice: right.displice,
+      _subject: right.subject,
+      _question: right.question,
+      _response: right.response,
+      _alternativeA: right.alternativeA,
+      _alternativeB: right.alternativeB,
+      _alternativeC: right.alternativeC,
+      _alternativeD: right.alternativeD
     };
   }
 
-  Future insertQuestionRight(ModelRight datas) async {
+  Future insertQuestionRight(ModelQuestions datas) async {
     final Database db = await getConnection();
     final Map<String, dynamic> question = toMap(datas);
     try {
@@ -90,18 +98,18 @@ class DaoRight {
     lengthSubject.clear();
     Map<String, dynamic> listSub;
     List<Map<String, dynamic>> subjectForMatter = await db.query(_right,
-        where: 'materia = ?',
+        where: 'displice = ?',
         whereArgs: [matter],
         distinct: true,
-        columns: [_assunto]);
+        columns: [_subject]);
 
     for (var sub in subjectForMatter) {
-      subjects.add(sub[_assunto]);
+      subjects.add(sub[_subject]);
     }
 
     for (var lengthAssunto in subjects) {
       final List<Map<String, dynamic>> questions = await db
-          .query(_right, where: 'assunto = ? ', whereArgs: [lengthAssunto]);
+          .query(_right, where: 'subject = ? ', whereArgs: [lengthAssunto]);
 
       lengthSubject.add(questions.length.toString());
     }
@@ -121,15 +129,15 @@ class DaoRight {
   Future findForSubject(String assunto) async {
     final Database db = await getConnection();
     final List<Map<String, dynamic>> questions =
-        await db.query(_right, where: 'assunto = ? ', whereArgs: [assunto]);
+        await db.query(_right, where: 'subject = ? ', whereArgs: [assunto]);
 
     print(questions);
   }
 
   Future removeQuestionsDetails(String question) async {
     for (var obj in listQuestionsRight) {
-      if (obj['assunto'] == question) {
-        listQuestionsRight.removeWhere((item) => item['assunto'] == question);
+      if (obj['subject'] == question) {
+        listQuestionsRight.removeWhere((item) => item['subject'] == question);
         break;
       }
     }
@@ -140,7 +148,7 @@ class DaoRight {
     final Database db = await getConnection();
 
     final List<Map<String, dynamic>> questions =
-        await db.query(_right, where: 'assunto = ? ', whereArgs: [assunto]);
+        await db.query(_right, where: 'subject = ? ', whereArgs: [assunto]);
     for (var question in questions) {
       listQuestionsRight.add(question);
     }
@@ -151,7 +159,7 @@ class DaoRight {
   Future findForSubjectOfRight(String value) async {
     final Database db = await getConnection();
     final List<Map<String, dynamic>> questions =
-        await db.query(_right, distinct: true, columns: [_assunto]);
+        await db.query(_right, distinct: true, columns: [_subject]);
     //await db.query(_right, where: 'assunto = ? ', whereArgs: [value]);
 
     listOfRightSubject.add(questions[0]);
@@ -163,10 +171,10 @@ class DaoRight {
     final Database db = await getConnection();
     assuntos.clear();
     final List<Map<String, dynamic>> assunt =
-        await db.query(_right, distinct: true, columns: [_assunto]);
+        await db.query(_right, distinct: true, columns: [_subject]);
 
     for (var element in assunt) {
-      assuntos.add(element[_assunto]);
+      assuntos.add(element[_subject]);
     }
 
     print('assuntos = $assuntos');
@@ -179,15 +187,15 @@ class DaoRight {
     //List<String>? materias;
     //materias.clear();
     final List<Map<String, dynamic>> materia =
-        await db.query(_right, distinct: true, columns: [_materia]);
+        await db.query(_right, distinct: true, columns: [_displice]);
 
     // for (var element in materia) {
     //   materias.add(element[_materia]);
     // }
-    
-    //print(materia);
-   // print('materias = $materias');
-  
+
+    print(materia);
+    // print('materias = $materias');
+
     return materia;
   }
 }

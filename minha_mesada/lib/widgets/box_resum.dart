@@ -17,7 +17,7 @@ class BoxResum extends StatelessWidget {
         child: Container(
           //height: 100,
           decoration: BoxDecoration(
-              color: const Color.fromARGB(178, 255, 255, 255),
+              color: const Color.fromARGB(190, 197, 202, 233),
               borderRadius: BorderRadius.circular(10),
               boxShadow: <BoxShadow>[
                 BoxShadow(
@@ -30,39 +30,17 @@ class BoxResum extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                  width: 80,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(176, 121, 135, 203),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                    ),
-                     boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.black26.withOpacity(0.2),
-                        spreadRadius: 2.0,
-                        blurRadius: 2.0,
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: image,
-                  )),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: image,
+                ),
+              ),
               Expanded(
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(190, 197, 202, 233),
-                    // boxShadow: <BoxShadow>[
-                    //   BoxShadow(
-                    //     color: Colors.black26.withOpacity(0.2),
-                    //     spreadRadius: 3.0,
-                    //     blurRadius: 2.0,
-                    //   ),
-                    // ],
-                  ),
+                  decoration: const BoxDecoration(),
 
                   //width: 150,
                   height: 90,
@@ -75,13 +53,15 @@ class BoxResum extends StatelessWidget {
                       children: [
                         Text(
                           value,
-                          style: GoogleFonts.neucha(fontSize: 30),
+                          style: GoogleFonts.aboreto(
+                            fontSize: 30,
+                            ),
                         ),
-                        Text(
-                          description,
-                          style: GoogleFonts.neucha(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
+                        Text(description,
+                            style: GoogleFonts.aboreto(
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold
+                            ))
                       ],
                     ),
                   ),
@@ -89,24 +69,14 @@ class BoxResum extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.centerRight,
-                decoration: BoxDecoration(
-                    // boxShadow: <BoxShadow>[
-                    //     BoxShadow(
-                    //       color: Colors.black26.withOpacity(0.2),
-                    //       spreadRadius: 2.0,
-                    //       blurRadius: 2.0,
-                    //     ),
-                    //   ],
-                    color: Colors.indigo[300],
-                    borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(207, 121, 135, 203),
+                    borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10),
                         bottomRight: Radius.circular(10))),
                 //width: 40,
                 height: 90,
-                child: RotatedBox(
-                  quarterTurns: -1,
-                  child: textButton,
-                ),
+                child: RotatedBox(quarterTurns: -1, child: textButton),
               )
             ],
           ),

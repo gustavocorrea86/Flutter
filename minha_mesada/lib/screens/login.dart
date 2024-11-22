@@ -20,7 +20,7 @@ class _LoginState extends State<Login> {
       return Scaffold(
         appBar: AppBar(
           toolbarHeight: 5,
-          backgroundColor:Colors.black,
+          backgroundColor: Colors.black,
         ),
         body: ListView(
           children: [
@@ -30,12 +30,7 @@ class _LoginState extends State<Login> {
               height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [
-                    Colors.indigoAccent,
-                    Colors.white54
-                    
-                     
-                  ],
+                  colors: [Colors.indigoAccent, Colors.white54],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -80,7 +75,6 @@ class _LoginState extends State<Login> {
                             } else {
                               print('registro encontrado');
                             }
-                            
                           },
                           child: const Text('Entrar'),
                         ),

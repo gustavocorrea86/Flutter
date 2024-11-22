@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 Future<Database> getConnection() async {
-  String path = join(await getDatabasesPath(), 'test2.db');
+  String path = join(await getDatabasesPath(), 'testeDb04');
   return await openDatabase(path, version: 1, onCreate: (db, version) {
     List tables = [
       DaoUserResum.tableUser,

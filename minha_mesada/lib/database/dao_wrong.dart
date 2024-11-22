@@ -1,17 +1,21 @@
 import 'package:minha_mesada/database/database.dart';
-import 'package:minha_mesada/models/model_wrongs.dart';
+import 'package:minha_mesada/models/model_questions.dart';
+
 import 'package:sqflite/sqflite.dart';
 
 class DaoWrong {
   static const String _wrong = 'wrong';
-  static const String _materia = 'materia';
-  static const String _assunto = 'assunto';
-  static const String _pergunta = 'pergunta';
-  static const String _resposta = 'resposta';
-  static const String _alternativaA = 'alternativaA';
-  static const String _alternativaB = 'alternativaB';
-  static const String _alternativaC = 'alternativaC';
-  static const String _alternativaD = 'alternativaD';
+  static const String _id = 'id';
+  static const String _elementarySchool = 'elementarySchool';
+  static const String _series = 'series';
+  static const String _displice = 'displice';
+  static const String _subject = 'subject';
+  static const String _question = 'question';
+  static const String _response = 'response';
+  static const String _alternativeA = 'alternativeA';
+  static const String _alternativeB = 'alternativeB';
+  static const String _alternativeC = 'alternativeC';
+  static const String _alternativeD = 'alternativeD';
   static List<Map<String, dynamic>> listOfWrongSubjects = [];
   static List<String> subjects = [];
   static List<String> lengthSubject = [];
@@ -19,30 +23,35 @@ class DaoWrong {
   static List<Map<String, dynamic>> listQuestionsWrongs = [];
 
   static const String tableWrong = 'CREATE TABLE $_wrong('
-      'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-      '$_materia TEXT,'
-      '$_assunto TEXT,'
-      '$_pergunta TEXT,'
-      '$_resposta TEXT,'
-      '$_alternativaA TEXT,'
-      '$_alternativaB TEXT,'
-      '$_alternativaC TEXT,'
-      '$_alternativaD TEXT)';
+      '$_id TEXT,'
+      '$_elementarySchool TEXT,'
+      '$_series TEXT,'
+      '$_displice TEXT,'
+      '$_subject TEXT,'
+      '$_question TEXT,'
+      '$_response TEXT,'
+      '$_alternativeA TEXT,'
+      '$_alternativeB TEXT,'
+      '$_alternativeC TEXT,'
+      '$_alternativeD TEXT)';
 
-  Map<String, dynamic> toMap(ModelWrong wrong) {
+  Map<String, dynamic> toMap(ModelQuestions wrong) {
     return {
-      _materia: wrong.materia,
-      _assunto: wrong.assunto,
-      _pergunta: wrong.pergunta,
-      _resposta: wrong.resposta,
-      _alternativaA: wrong.alternativaA,
-      _alternativaB: wrong.alternativaB,
-      _alternativaC: wrong.alternativaC,
-      _alternativaD: wrong.alternativaD
+      _id: wrong.id,
+      _elementarySchool: wrong.elementarySchool,
+      _series: wrong.series,
+      _displice: wrong.displice,
+      _subject: wrong.subject,
+      _question: wrong.question,
+      _response: wrong.response,
+      _alternativeA: wrong.alternativeA,
+      _alternativeB: wrong.alternativeB,
+      _alternativeC: wrong.alternativeC,
+      _alternativeD: wrong.alternativeD
     };
   }
 
-  Future insertQuestionWrong(ModelWrong datas) async {
+  Future insertQuestionWrong(ModelQuestions datas) async {
     final Database db = await getConnection();
     final Map<String, dynamic> question = toMap(datas);
     try {
@@ -63,17 +72,17 @@ class DaoWrong {
     final Database db = await getConnection();
     displice.clear();
     final List<Map<String, dynamic>> materia =
-        await db.query(_wrong, distinct: true, columns: [_materia]);
+        await db.query(_wrong, distinct: true, columns: [_displice]);
 
     for (var element in materia) {
-      displice.add(element[_materia]);
+      displice.add(element[_displice]);
     }
     //print(materia);
     print(displice);
     return displice;
   }
 
-  Future<List> findForMatter_subjectAndLength(String matter) async {
+  Future<List> findForMatter_subjectAndLength(String displice) async {
     final Database db = await getConnection();
 
     listOfWrongSubjects.clear();
@@ -81,18 +90,18 @@ class DaoWrong {
     lengthSubject.clear();
     Map<String, dynamic> listSub;
     List<Map<String, dynamic>> subjectForMatter = await db.query(_wrong,
-        where: 'materia = ?',
-        whereArgs: [matter],
+        where: 'displice = ?',
+        whereArgs: [displice],
         distinct: true,
-        columns: [_assunto]);
+        columns: [_subject]);
 
     for (var sub in subjectForMatter) {
-      subjects.add(sub[_assunto]);
+      subjects.add(sub[_subject]);
     }
 
     for (var lengthAssunto in subjects) {
       final List<Map<String, dynamic>> questions = await db
-          .query(_wrong, where: 'assunto = ? ', whereArgs: [lengthAssunto]);
+          .query(_wrong, where: 'subject = ? ', whereArgs: [lengthAssunto]);
 
       lengthSubject.add(questions.length.toString());
     }
@@ -109,26 +118,20 @@ class DaoWrong {
     return listOfWrongSubjects;
   }
 
-  Future<List<Map<String , dynamic>>> findMatterAsWrong() async {
+  Future<List<Map<String, dynamic>>> findMatterAsWrong() async {
     final Database db = await getConnection();
     //List<String>? materias = [];
     //materias.clear();
     final List<Map<String, dynamic>> materia =
-        await db.query(_wrong, distinct: true, columns: [_materia]);
+        await db.query(_wrong, distinct: true, columns: [_displice]);
 
-    // for (var element in materia) {
-    //   materias.add(element[_materia]);
-    // }
-    
-    //print(materia);
-   // print('materias = $materias');
     return materia;
   }
 
   Future removeQuestionsDetails(String question) async {
     for (var obj in listQuestionsWrongs) {
-      if (obj['assunto'] == question) {
-        listQuestionsWrongs.removeWhere((item) => item['assunto'] == question);
+      if (obj['subject'] == question) {
+        listQuestionsWrongs.removeWhere((item) => item['subject'] == question);
         break;
       }
     }
@@ -139,7 +142,7 @@ class DaoWrong {
     final Database db = await getConnection();
 
     final List<Map<String, dynamic>> questions =
-        await db.query(_wrong, where: 'assunto = ? ', whereArgs: [assunto]);
+        await db.query(_wrong, where: 'subject = ? ', whereArgs: [assunto]);
     for (var question in questions) {
       listQuestionsWrongs.add(question);
     }

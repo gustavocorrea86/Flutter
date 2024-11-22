@@ -57,7 +57,7 @@ class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
                                   itemCount: displice.length,
                                   itemBuilder: (context, int index) {
                                     return ListMatterAndSubjects(
-                                        displice[index]['materia'],
+                                        displice[index]['displice'],
                                         DaoWrong(),
                                         DaoWrong.subjects,
                                         DaoWrong.lengthSubject,

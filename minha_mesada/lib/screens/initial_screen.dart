@@ -1,3 +1,4 @@
+//  ESSA É A TELA INICIAL ONDE O USUARIO SE CADASTRA OU CHAMA A TELA PARA FAZER O LOGIN.
 import 'package:flutter/material.dart';
 import 'package:minha_mesada/database/dao_ritgh.dart';
 import 'package:minha_mesada/database/dao_user_resum.dart';
@@ -11,15 +12,7 @@ class ScreenInitial extends StatefulWidget {
 }
 
 class _ScreenInitialState extends State<ScreenInitial> {
-  // @override
-  // void initState() {
-  //   DaoUserResum().findPoints(); // faz a busca do total de pontos
-  //   DaoUserResum().findErrors(); // faz busca do total de erros
-  //   DaoUserResum()
-  //       .findAnswereds(); // faz busca do total de perguntas respondidas
-  //   DaoRight().findMatterAsRight(); // faz busca das ques
-  //   super.initState();
-  // }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +56,7 @@ class _ScreenInitialState extends State<ScreenInitial> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
+                  //  Chama a tela login.dart onde o usuário insere os dados para logar
                   Navigator.pushNamed(context, 'userRegister');
                 },
                 child: Container(

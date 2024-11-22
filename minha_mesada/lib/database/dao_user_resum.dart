@@ -145,28 +145,31 @@ class DaoUserResum {
     print(userName);
   }
 
-  // Future findId() async {
-  //   final Database db = await getConnection();
-  //   id = await db.query(_user, distinct: true, columns: ['id']);
-  //   print('id = $id');
-  // }
+  Future findElementarySchoolAndSeries() async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user =
+        await db.query(_user, distinct: true, columns: [_elementarySchool]);
+    print(user);
+    //print('Escola primária: ${user[0]['elementarySchool']}, Grau: ${user[0]['grade']}' );
+  }
 
   Future findAnswered() async {
     final Database db = await getConnection();
     List<Map<String, dynamic>> answered = await db.query(_user);
 
     try {
-      if (answered[0]['totalOfQuestions'] == null) {
-        answeredQuestions = '0';
-      } else {
-        answeredQuestions = answered[0]['totalOfQuestions'];
-        findPoints();
-        findErrors();
-        databaseRight
-            .findMatterAsRight(); // faz busca das meterias das questoes respodidas certas
-        databaseWrong
-            .findDispliceAsWrongs(); // faz busca das meterias das questoes respodidas
-      }
+      answeredQuestions = answered[0]['totalOfQuestions'];
+      findPoints();
+      findErrors();
+      databaseRight
+          .findMatterAsRight(); // faz busca das meterias das questoes respodidas certas
+      databaseWrong
+          .findDispliceAsWrongs(); // faz busca das meterias das questoes respodidas
+      // if (answered[0]['totalOfQuestions'] == null) {
+      //   answeredQuestions = '0';
+      // } else {
+
+      // }
     } catch (erro) {
       print('Erro ao pegar quantidade de perguntas respondidas: $erro');
     }

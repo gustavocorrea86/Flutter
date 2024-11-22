@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:minha_mesada/controller/counter_errors.dart';
+import 'package:minha_mesada/controller/counter_points.dart';
 import 'package:minha_mesada/database/dao_ritgh.dart';
 import 'package:minha_mesada/database/dao_wrong.dart';
 import 'package:minha_mesada/models/models.dart';
+import 'package:minha_mesada/service/service.dart';
 import 'package:minha_mesada/widgets/box_resum.dart';
-import 'package:minha_mesada/widgets/screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,22 +18,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Future? _future;
+
+  @override
+  void initState() {
+    _future = Service().getDisplice();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Kids Cash'),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                value.countAnswered,
-                style: const TextStyle(fontSize: 20, color: Colors.white),
+            title: Text(
+          'Ensino Fundamental 1 - 5ª série',
+          style: GoogleFonts.aboreto(
+            fontSize: 15,
+            color: Colors.white,
+            shadows: <Shadow>[
+              const Shadow(
+                offset: Offset(0, 1),
+                blurRadius: 4.0,
+                color: Colors.black,
               ),
-            )
-          ],
-        ),
+            ],
+          ),
+        )),
         drawer: Drawer(
           child: ListView(
             children: [
@@ -39,35 +53,60 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text('Header'),
               ),
               ListTile(
-                leading: const Icon(Icons.manage_history),
-                title: const Text('Matemática'),
-                trailing: const Icon(Icons.arrow_forward),
+                title: Text(
+                  'Matemática',
+                  style: GoogleFonts.robotoFlex(fontSize: 20),
+                ),
+                trailing: Icon(Icons.arrow_forward),
                 onTap: () {
-                  Navigator.pushNamed(context, 'elementary_school');
+                  Navigator.pushNamed(context, 'math');
                 },
               ),
+              Divider(),
               ListTile(
-                leading: const Icon(Icons.manage_history),
-                title: const Text('Português'),
-                trailing: const Icon(Icons.arrow_forward),
-                onTap: () {},
+                title: Text(
+                  'Português',
+                  style: GoogleFonts.robotoFlex(fontSize: 20),
+                ),
+                trailing: Icon(Icons.arrow_forward),
               ),
+              Divider(),
             ],
           ),
         ),
         body: Stack(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+          children: <Widget>[
+            SizedBox.expand(
               child: Lottie.asset('./assets/lotties/backgroud_blue.json',
                   fit: BoxFit.cover),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: ListView(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                        alignment: Alignment.topRight,
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'Total de questões respondidas: ',
+                            style: GoogleFonts.aboreto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13),
+                            children: [
+                              TextSpan(
+                                text: value.countAnswered,
+                                style: GoogleFonts.aboreto(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              )
+                            ],
+                          ),
+                        )),
+                  ),
                   BoxResum(
                     value.pointsDb,
                     'Acertos Acumulados',
@@ -77,18 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pushNamed(context, 'accumulatedRight');
                         DaoRight.listQuestionsRight.clear();
                       },
-                      child: const Text(
+                      child: Text(
                         'Detalhes',
-                        style: TextStyle(
-                          color: Colors.white,
-                          // shadows: [
-                          //   Shadow(
-                          //     color: Colors.black,
-                          //     offset: Offset(0, 1.0),
-                          //     blurRadius: 1.0,
-                          //   ),
-                          // ],
-                        ),
+                        style: GoogleFonts.roboto(color: Colors.white),
                       ),
                     ),
                   ),
@@ -100,13 +130,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           // Navigator.pushNamed(context, 'accumulatedMonth');
                         },
-                        child: const Text('Detalhes')),
+                        child: Text(
+                          'Detalhes',
+                          style: GoogleFonts.roboto(color: Colors.white),
+                        )),
                   ),
                   BoxResum(
                     value.pointsDb,
                     'Acertos do Mês',
                     Lottie.asset('./assets/lotties/coins2_animated.json'),
-                    TextButton(onPressed: () {}, child: const Text('Detalhes')),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Detalhes',
+                          style: GoogleFonts.roboto(color: Colors.white),
+                        )),
                   ),
                   BoxResum(
                     value.errorsDb,
@@ -117,13 +155,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.pushNamed(context, 'accumulatedWrongs');
                           DaoWrong.listQuestionsWrongs.clear();
                         },
-                        child: const Text('Detalhes')),
+                        child: Text(
+                          'Detalhes',
+                          style: GoogleFonts.roboto(color: Colors.yellow),
+                        )),
                   ),
                   BoxResum(
                     value.errorsDb,
                     'Erros do Mês',
                     Lottie.asset('./assets/lotties/alert.json'),
-                    TextButton(onPressed: () {}, child: const Text('Detalhes')),
+                    TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Detalhes',
+                          style: GoogleFonts.roboto(color: Colors.yellow),
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -133,8 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         value.pointsHits('0');
                         value.answered(false);
                         value.actBoxAnswered(0);
-                        Counter.countPoints = 0;
-                        Counter.countErrors = 0;
+                        CounterPoints.points = 0;
+                        CounterErrors.errors = 0;
                         // DaoUserResum().findAll();
                       },
                       child: Container(
@@ -168,13 +214,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ]),
                         child: const Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Iniciar',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
+                          child: Text('Iniciar',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20)),
                         ),
                       ),
                     ),
@@ -193,7 +237,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       );
-      
     });
   }
 }
