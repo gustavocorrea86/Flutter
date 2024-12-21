@@ -1,4 +1,4 @@
-name: minha_mesada
+name: estudamais
 description: "A new Flutter project."
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -23,6 +23,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   google_fonts: ^6.2.1
   dio: ^5.7.0
+  web_socket_channel: ^3.0.1
 
   
 

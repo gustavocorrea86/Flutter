@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:minha_mesada/controller/counter_errors.dart';
-import 'package:minha_mesada/controller/counter_points.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
-import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/service/service.dart';
-import 'package:minha_mesada/widgets/box_resum.dart';
+import 'package:estudamais/controller/counter_errors.dart';
+import 'package:estudamais/controller/counter_points.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_wrong.dart';
+import 'package:estudamais/models/models.dart';
+import 'package:estudamais/widgets/box_resum.dart';
+import 'package:estudamais/widgets/listTile_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,14 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  Future? _future;
-
-  @override
-  void initState() {
-    _future = Service().getDisplice();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
@@ -52,25 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(color: Colors.blue),
                 child: Text('Header'),
               ),
-              ListTile(
-                title: Text(
-                  'Matemática',
-                  style: GoogleFonts.robotoFlex(fontSize: 20),
-                ),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  Navigator.pushNamed(context, 'math');
-                },
-              ),
-              Divider(),
-              ListTile(
-                title: Text(
-                  'Português',
-                  style: GoogleFonts.robotoFlex(fontSize: 20),
-                ),
-                trailing: Icon(Icons.arrow_forward),
-              ),
-              Divider(),
+              ListTileDrawer('Matemática', 'matematica'),
+              const Divider(),
+              ListTileDrawer('Português', 'portugues'),
+              const Divider(),
             ],
           ),
         ),

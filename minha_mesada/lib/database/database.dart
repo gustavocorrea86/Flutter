@@ -1,6 +1,6 @@
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/database/dao_wrong.dart';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';

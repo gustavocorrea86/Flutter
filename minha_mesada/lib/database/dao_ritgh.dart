@@ -1,5 +1,5 @@
-import 'package:minha_mesada/database/database.dart';
-import 'package:minha_mesada/models/model_questions.dart';
+import 'package:estudamais/database/database.dart';
+import 'package:estudamais/models/model_questions.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoRight {
@@ -42,12 +42,12 @@ class DaoRight {
   Map<String, dynamic> toMap(ModelQuestions right) {
     return {
       _id: right.id,
-      _elementarySchool: right.elementarySchool,
-      _series: right.series,
+      _elementarySchool: right.elementaryschool,
+      _series: right.schoolyear,
       _displice: right.displice,
       _subject: right.subject,
       _question: right.question,
-      _response: right.response,
+      _response: right.answer,
       _alternativeA: right.alternativeA,
       _alternativeB: right.alternativeB,
       _alternativeC: right.alternativeC,
@@ -66,11 +66,11 @@ class DaoRight {
     }
   }
 
-  Future findAllQuestionRight() async {
-    final Database db = await getConnection();
-    final List<Map<String, dynamic>> itsRight = await db.query(_right);
-    print(itsRight);
-  }
+  // Future findAllQuestionRight() async {
+  //   final Database db = await getConnection();
+  //   final List<Map<String, dynamic>> itsRight = await db.query(_right);
+  //   print(itsRight);
+  // }
 
   Future deleteTableRight() async {
     final Database db = await getConnection();

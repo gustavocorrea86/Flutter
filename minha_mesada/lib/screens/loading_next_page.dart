@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/widgets/loading.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/models/models.dart';
+import 'package:estudamais/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
 class LoadingNextPage extends StatefulWidget {

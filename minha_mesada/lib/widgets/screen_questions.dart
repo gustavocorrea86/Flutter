@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/database/dao_wrong.dart';
 
-import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/widgets/box_type_question.dart';
+import 'package:estudamais/models/models.dart';
+import 'package:estudamais/widgets/box_type_question.dart';
 //import 'package:minha_mesada/widgets/box_resum_screenQuestions.dart';
 
-import 'package:minha_mesada/widgets/pointsAndErrors.dart';
+import 'package:estudamais/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
@@ -91,7 +91,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Questão ${widget.id}',
+                                'ID Questão ${widget.id}',
                                 style: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.indigo,
@@ -229,15 +229,4 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   }
 }
 
-// class Counter {
-//   static int countPoints = 0;
-//   static int countErrors = 0;
 
-//   counterOfPoints() {
-//     countPoints++;
-//   }
-
-//   counterOfErrors() {
-//     countErrors++;
-//   }
-//}

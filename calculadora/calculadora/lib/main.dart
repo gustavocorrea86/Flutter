@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:dart_eval/dart_eval.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Center(
+          title: const Center(
               child: Text(
             'Calculadora',
             style: TextStyle(color: Colors.white),
@@ -114,16 +114,16 @@ class _MyAppState extends State<MyApp> {
                 alignment: AlignmentDirectional.topEnd,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color.fromRGBO(90, 116, 97, 0.424),
+                  color: const Color.fromRGBO(90, 116, 97, 0.424),
                 ),
                 child: Text(
                   content,
-                  style: TextStyle(fontSize: 60),
+                  style: const TextStyle(fontSize: 60),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 0),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -135,7 +135,7 @@ class _MyAppState extends State<MyApp> {
                     },
                   ),
                   GestureDetector(
-                    child: BtnDivide(),
+                    child: const BtnDivide(),
                     onTap: () => {valueBtn('/')},
                   ),
                   GestureDetector(
@@ -143,7 +143,7 @@ class _MyAppState extends State<MyApp> {
                           Color.fromARGB(173, 53, 173, 53)),
                       onTap: () => valueBtn('%')),
                   GestureDetector(
-                    child: BackSpace(),
+                    child: const BackSpace(),
                     onTap: () {
                       backSpace();
                     },
@@ -165,90 +165,90 @@ class _MyAppState extends State<MyApp> {
                     },
                   ),
                   GestureDetector(
-                    child: Buttons(
+                    child: const Buttons(
                         Color.fromARGB(66, 82, 82, 82), '8', Colors.blue),
                     onTap: () {
                       valueBtn('8');
                     },
                   ),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '9', Colors.blue),
                       onTap: () => valueBtn('9')),
                   GestureDetector(
-                      child: Buttons(Color.fromARGB(66, 82, 82, 82), 'x',
+                      child: const Buttons(Color.fromARGB(66, 82, 82, 82), 'x',
                           Color.fromARGB(173, 53, 173, 53)),
                       onTap: () => valueBtn('x')),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '4', Colors.blue),
                       onTap: () => valueBtn('4')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '5', Colors.blue),
                       onTap: () => valueBtn('5')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '6', Colors.blue),
                       onTap: () => valueBtn('6')),
                   GestureDetector(
-                      child: Buttons(Color.fromARGB(66, 82, 82, 82), '-',
+                      child: const Buttons(Color.fromARGB(66, 82, 82, 82), '-',
                           Color.fromARGB(173, 53, 173, 53)),
                       onTap: () => valueBtn('-')),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '1', Colors.blue),
                       onTap: () => valueBtn('1')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '2', Colors.blue),
                       onTap: () => valueBtn('2')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '3', Colors.blue),
                       onTap: () => valueBtn('3')),
                   GestureDetector(
-                      child: Buttons(Color.fromARGB(66, 82, 82, 82), '+',
+                      child: const Buttons(Color.fromARGB(66, 82, 82, 82), '+',
                           Color.fromARGB(173, 53, 173, 53)),
                       onTap: () => valueBtn('+')),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
+              padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '+/-', Colors.blue),
                       onTap: () => valueBtn('+/-')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), '0', Colors.blue),
                       onTap: () => valueBtn('0')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(66, 82, 82, 82), ',', Colors.blue),
                       onTap: () => valueBtn(',')),
                   GestureDetector(
-                      child: Buttons(
+                      child: const Buttons(
                           Color.fromARGB(173, 53, 173, 53), '=', Colors.white),
                       onTap: () => calculate()),
                 ],

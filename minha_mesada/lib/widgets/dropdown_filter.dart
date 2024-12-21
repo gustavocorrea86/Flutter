@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:minha_mesada/service/service.dart';
+import 'package:estudamais/service/service.dart';
 
 class DropdownFilter extends StatefulWidget {
   final String hintText;
-  const DropdownFilter(this.hintText, {super.key});
+  final List<String> options;
+
+  const DropdownFilter(this.hintText,this.options,  {super.key});
 
   @override
   State<DropdownFilter> createState() => _DropdownFilterState();
 }
 
 class _DropdownFilterState extends State<DropdownFilter> {
-  final List<String> items = ['Opção 1', 'Opção 2', 'Opção 3'];
-  //List<String> subjects = Service.listSubjects.toSet().toList();
+  //List series = Service().getSeries();
+  @override
+  void initState() {
+    super.initState();
+    //Service().getSeries();
+  }
 
   String? selectValue;
   @override
@@ -25,7 +31,7 @@ class _DropdownFilterState extends State<DropdownFilter> {
           child: DropdownButton2<String>(
             isExpanded: true,
             hint: Text(widget.hintText),
-            items: Service.listSubjects
+            items: widget.options
                 .map((String item) => DropdownMenuItem(
                       value: item,
                       child: Text(item),
@@ -34,10 +40,10 @@ class _DropdownFilterState extends State<DropdownFilter> {
             value: selectValue,
             onChanged: (String? value) {
               setState(() {
-                
                 selectValue = value;
+                //Service().findSubjectsBySerie(value!);
               });
-              print('Disciplina Selecionada: $selectValue');
+              print(selectValue);
             },
             buttonStyleData: const ButtonStyleData(
                 padding: EdgeInsets.symmetric(horizontal: 16),

@@ -1,11 +1,11 @@
 class ModelQuestions {
   String id;
-  String elementarySchool;
-  String series;
+  String elementaryschool;
+  String schoolyear;
   String displice;
   String subject;
   String question;
-  String response;
+  String answer;
   String alternativeA;
   String alternativeB;
   String alternativeC;
@@ -13,30 +13,30 @@ class ModelQuestions {
 
   ModelQuestions({
     required this.id,
-    required this.elementarySchool,
-    required this.series,
+    required this.elementaryschool,
+    required this.schoolyear,
     required this.displice,
     required this.subject,
     required this.question,
-    required this.response,
+    required this.answer,
     required this.alternativeA,
     required this.alternativeB,
     required this.alternativeC,
     required this.alternativeD,
   });
 
-  ModelQuestions.toMap(Map<String, dynamic> question)
-      : id = question['id'],
-        elementarySchool = question['ensino'],
-        series = question['serie'],
-        displice = question['materia'],
-        subject = question['assunto'],
-        question = question['pergunta'],
-        response = question['resposta'],
-        alternativeA = question['alternativas'][0],
-        alternativeB = question['alternativas'][1],
-        alternativeC = question['alternativas'][2],
-        alternativeD = question['alternativas'][3];
+  ModelQuestions.toMap(Map<String, dynamic> ask)
+      : id = ask['id'].toString(),
+        elementaryschool = ask['elementaryschool'],
+        schoolyear = ask['schoolyear'],
+        displice = ask['displice'],
+        subject = ask['subject'],
+        question = ask['question'],
+        answer = ask['answer'],
+        alternativeA = ask['alternativea'],
+        alternativeB = ask['alternativeb'],
+        alternativeC = ask['alternativec'],
+        alternativeD = ask['alternatived'];
 
   // Map<String, dynamic> toMap() {
   //   return {

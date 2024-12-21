@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/service/service.dart';
 import 'package:estudamais/widgets/grid_list.dart';
 import 'package:provider/provider.dart';
 
-class Math extends StatefulWidget {
-  const Math({super.key});
-
-  @override
-  State<Math> createState() => _MathState();
-}
-
-class _MathState extends State<Math> {
-  //final Future _future = Service().getSeries();
+class SchoolYears extends StatelessWidget {
+  const SchoolYears({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ModelPoints>(builder: (context, valueStorege, child) {
+    return Consumer<ModelPoints>(builder: (context, valueStorage, child) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Matemática'),
+          title: Text(valueStorage.titleDisplice),
         ),
         body: Stack(
           children: [
@@ -32,7 +24,6 @@ class _MathState extends State<Math> {
               padding: EdgeInsets.all(8.0),
               child: GridList(),
             ),
-            
           ],
         ),
       );

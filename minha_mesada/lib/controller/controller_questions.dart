@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/controller/answereds_quetions.dart';
-import 'package:minha_mesada/controller/counter_errors.dart';
-import 'package:minha_mesada/controller/counter_points.dart';
-import 'package:minha_mesada/controller/save_questins_right_and_errors.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
-import 'package:minha_mesada/models/models.dart';
+import 'package:estudamais/controller/answereds_quetions.dart';
+import 'package:estudamais/controller/counter_errors.dart';
+import 'package:estudamais/controller/counter_points.dart';
+import 'package:estudamais/controller/save_questins_right_and_errors.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
 class ControllerQuestions {

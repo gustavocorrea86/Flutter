@@ -1,5 +1,5 @@
-import 'package:minha_mesada/database/database.dart';
-import 'package:minha_mesada/models/model_questions.dart';
+import 'package:estudamais/database/database.dart';
+import 'package:estudamais/models/model_questions.dart';
 
 import 'package:sqflite/sqflite.dart';
 
@@ -38,12 +38,12 @@ class DaoWrong {
   Map<String, dynamic> toMap(ModelQuestions wrong) {
     return {
       _id: wrong.id,
-      _elementarySchool: wrong.elementarySchool,
-      _series: wrong.series,
+      _elementarySchool: wrong.elementaryschool,
+      _series: wrong.schoolyear,
       _displice: wrong.displice,
       _subject: wrong.subject,
       _question: wrong.question,
-      _response: wrong.response,
+      _response: wrong.answer,
       _alternativeA: wrong.alternativeA,
       _alternativeB: wrong.alternativeB,
       _alternativeC: wrong.alternativeC,

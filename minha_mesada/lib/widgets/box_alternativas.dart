@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/controller/controller_questions.dart';
-import 'package:minha_mesada/models/models.dart';
+import 'package:estudamais/controller/controller_questions.dart';
+import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
 class BoxAlternatives extends StatefulWidget {

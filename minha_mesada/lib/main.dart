@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:minha_mesada/controller/controller_questions.dart';
 
-import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
 
-import 'package:minha_mesada/models/model_right.dart';
+import 'package:estudamais/models/model_right.dart';
 
-import 'package:minha_mesada/models/models.dart';
-import 'package:minha_mesada/screens/accumulated_right.dart';
-import 'package:minha_mesada/screens/accumulated_wrongs.dart';
+import 'package:estudamais/models/models.dart';
+import 'package:estudamais/screens/accumulated_right.dart';
+import 'package:estudamais/screens/accumulated_wrongs.dart';
 
-import 'package:minha_mesada/screens/filter_questions.dart';
+import 'package:estudamais/screens/home.dart';
+import 'package:estudamais/screens/initial_screen.dart';
+import 'package:estudamais/screens/loading_next_page.dart';
+import 'package:estudamais/screens/login.dart';
 
-import 'package:minha_mesada/screens/home.dart';
-import 'package:minha_mesada/screens/initial_screen.dart';
-import 'package:minha_mesada/screens/loading_next_page.dart';
-import 'package:minha_mesada/screens/login.dart';
-import 'package:minha_mesada/screens/menuDrawer/math.dart';
-import 'package:minha_mesada/screens/menuDrawer/portuguese.dart';
-import 'package:minha_mesada/screens/pages.dart';
+import 'package:estudamais/screens/pages.dart';
+import 'package:estudamais/screens/school_years.dart';
+import 'package:estudamais/screens/subjects.dart';
 
-import 'package:minha_mesada/screens/user_register1.dart';
-import 'package:minha_mesada/service/service.dart';
+import 'package:estudamais/screens/user_register1.dart';
+import 'package:estudamais/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -29,22 +27,28 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
-        create: (context) => ModelPoints('0', '0', DaoUserResum.totalPoints,
-            DaoUserResum.totalErrors, DaoUserResum.answeredQuestions),
+        create: (context) => ModelPoints(
+            '0',
+            '0',
+            DaoUserResum.totalPoints,
+            DaoUserResum.totalErrors,
+            DaoUserResum.answeredQuestions,
+            0,
+            'Disciplina?', 'SchoolYear?', 'getDisplice', 'getSchoolYear'),
       ),
       ChangeNotifierProvider(
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
-  //Service().getFilmes();
+  //Service().getSeries();
   //Service().getRequest();
   //Service().getQuestions();
+  //Service().teste();
   //DaoWrong().findAllQuestionWrong();
   //DaoUserResum().findElementarySchoolAndGrade();
   //DaoUserResum().findAll();
   //DaoWrong().findMatterAsWrong();
   //DaoRight().findAllQuestionRight();
-  
 }
 
 class MyApp extends StatelessWidget {
@@ -67,9 +71,9 @@ class MyApp extends StatelessWidget {
         'accumulatedRight': (context) => const AccumulatedRight(),
         'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         'pages': (context) => const PagesQuestions(),
-        'filterQuestions': (context) => const FilterQuestions(),
-        'portuguese': (context) => const Portuguese(),
-        'math': (context) => Math(),
+        'schoolYears': (context) => const SchoolYears(),
+        'subjects': (context) => const Subjects(),
+       
       },
     );
   }

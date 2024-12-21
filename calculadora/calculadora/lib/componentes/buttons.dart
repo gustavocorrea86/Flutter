@@ -55,7 +55,7 @@ class _BackSpaceState extends State<BackSpace> {
           borderRadius: BorderRadius.circular(50),
           color: const Color.fromARGB(66, 82, 82, 82),
         ),
-        child: Icon(Icons.backspace_sharp, size: 30, color: Colors.white),
+        child: const Icon(Icons.backspace_sharp, size: 30, color: Colors.white),
       ),
     );
   }
@@ -78,7 +78,7 @@ class _BtnDivideState extends State<BtnDivide> {
           borderRadius: BorderRadius.circular(50),
           color: const Color.fromARGB(66, 82, 82, 82),
         ),
-        child: Icon(CupertinoIcons.divide, size: 30, color: Color.fromARGB(173, 53, 173, 53)),
+        child: const Icon(CupertinoIcons.divide, size: 30, color: Color.fromARGB(173, 53, 173, 53)),
     );
   }
 }

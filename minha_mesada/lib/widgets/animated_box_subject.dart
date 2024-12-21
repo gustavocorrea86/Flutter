@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
 
 class AnimatedBoxSubject extends StatefulWidget {
   bool enable = false;

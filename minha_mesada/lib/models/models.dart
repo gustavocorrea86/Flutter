@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
 
 class ModelPoints extends ChangeNotifier {
   String hits;
@@ -9,7 +9,24 @@ class ModelPoints extends ChangeNotifier {
   double boxIsAnswered = 0;
   bool isAnswered = false;
   String countAnswered;
-  ModelPoints(this.hits, this.error, this.pointsDb, this.errorsDb, this.countAnswered);
+  int index;
+  String titleSchoolYears;
+  String titleDisplice;
+  String displiceURL;
+  String schoolYearURL;
+
+  ModelPoints(
+    this.hits,
+    this.error,
+    this.pointsDb,
+    this.errorsDb,
+    this.countAnswered,
+    this.index,
+    this.titleSchoolYears,
+    this.titleDisplice,
+    this.displiceURL,
+    this.schoolYearURL
+  );
 
   void pointsHits(String text) {
     hits = text;
@@ -31,7 +48,7 @@ class ModelPoints extends ChangeNotifier {
   }
 
   Future showErrors(String erros) async {
-    DaoUserResum().findErrors();
+    //DaoUserResum().findErrors();
     errorsDb = erros;
     print('errorsDb = $errorsDb');
   }
@@ -50,5 +67,25 @@ class ModelPoints extends ChangeNotifier {
     countAnswered = value;
     notifyListeners();
   }
-  
+
+  void titleSchoolYear(String title) {
+    titleSchoolYears = title;
+    print(titleSchoolYears);
+    notifyListeners();
+  }
+
+  void titleDisp(String displice) {
+    titleDisplice = displice;
+    notifyListeners();
+  }
+
+  void displiceUrl(String displice) {
+    displiceURL = displice;
+    notifyListeners();
+  }
+
+  void schoolYearUrl(String schoolYear) {
+    schoolYearURL = schoolYear;
+    notifyListeners();
+  }
 }

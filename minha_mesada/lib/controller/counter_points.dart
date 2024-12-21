@@ -1,4 +1,4 @@
-import 'package:minha_mesada/database/dao_user_resum.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
 
 class CounterPoints {
   DaoUserResum databaseUser = DaoUserResum();

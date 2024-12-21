@@ -1,7 +1,7 @@
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/database/dao_wrong.dart';
-import 'package:minha_mesada/database/database.dart';
-import 'package:minha_mesada/models/models_user_resum.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_wrong.dart';
+import 'package:estudamais/database/database.dart';
+import 'package:estudamais/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoUserResum {

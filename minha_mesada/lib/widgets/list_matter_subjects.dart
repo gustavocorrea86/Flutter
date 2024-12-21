@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/models/model_right.dart';
-import 'package:minha_mesada/widgets/animated_box_subject.dart';
+import 'package:estudamais/models/model_right.dart';
+import 'package:estudamais/widgets/animated_box_subject.dart';
 
 import 'package:provider/provider.dart';
 

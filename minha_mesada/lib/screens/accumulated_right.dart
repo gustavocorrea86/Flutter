@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:minha_mesada/database/dao_ritgh.dart';
-import 'package:minha_mesada/models/model_right.dart';
-import 'package:minha_mesada/widgets/list_matter_subjects.dart';
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/models/model_right.dart';
+import 'package:estudamais/widgets/list_matter_subjects.dart';
 import 'package:provider/provider.dart';
 
 class AccumulatedRight extends StatefulWidget {
@@ -15,7 +15,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
   bool checked = false;
   //DaoRight databaseRight = DaoRight();
 
-  String msgNoneDisplice = '';
+  //String msgNoneDisplice = '';
   final Future _future = DaoRight().findMatterAsRight();
   onChecked() {
     setState(() {
