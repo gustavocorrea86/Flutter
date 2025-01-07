@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
@@ -12,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
+  final Image image;
   final Widget boxAlternativesA;
   final Widget boxAlternativesB;
   final Widget boxAlternativesC;
@@ -27,6 +30,7 @@ class ScreenQuestions extends StatefulWidget {
 
   const ScreenQuestions(
       this.boxQuestions,
+      this.image,
       this.boxAlternativesA,
       this.boxAlternativesB,
       this.boxAlternativesC,
@@ -123,6 +127,19 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           endIndent: 10,
                         ),
                         widget.boxQuestions,
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: widget.image,
+                          ),
+                        )
+                        ,
+                        // SizedBox(
+                        //   width: 150,
+                        //   height: 150,
+                        //   child: widget.image
+                        // ),
                         widget.boxAlternativesA,
                         widget.boxAlternativesB,
                         widget.boxAlternativesC,
@@ -142,7 +159,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             child: SizedBox(
                               height: value.boxIsAnswered,
                               child: const Text(
-                                'Pergunta já respondida!',
+                                'Ops, essa você já respondeu!',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -228,5 +245,3 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
     });
   }
 }
-
-

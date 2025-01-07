@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/service/service.dart';
 import 'package:estudamais/widgets/grid_list.dart';
 import 'package:provider/provider.dart';
 

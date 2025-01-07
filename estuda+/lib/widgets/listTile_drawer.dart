@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class ListTileDrawer extends StatelessWidget {
   final String displice;
   final String dipliceURL;
-  ListTileDrawer(this.displice, this.dipliceURL, {super.key});
+  const ListTileDrawer(this.displice, this.dipliceURL, {super.key});
 
   @override
   Widget build(BuildContext context) {

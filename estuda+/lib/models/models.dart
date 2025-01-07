@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_user_resum.dart';
 
 class ModelPoints extends ChangeNotifier {
   String hits;
@@ -14,19 +13,20 @@ class ModelPoints extends ChangeNotifier {
   String titleDisplice;
   String displiceURL;
   String schoolYearURL;
+  String subject;
 
   ModelPoints(
-    this.hits,
-    this.error,
-    this.pointsDb,
-    this.errorsDb,
-    this.countAnswered,
-    this.index,
-    this.titleSchoolYears,
-    this.titleDisplice,
-    this.displiceURL,
-    this.schoolYearURL
-  );
+      this.hits,
+      this.error,
+      this.pointsDb,
+      this.errorsDb,
+      this.countAnswered,
+      this.index,
+      this.titleSchoolYears,
+      this.titleDisplice,
+      this.displiceURL,
+      this.schoolYearURL,
+      this.subject);
 
   void pointsHits(String text) {
     hits = text;
@@ -86,6 +86,11 @@ class ModelPoints extends ChangeNotifier {
 
   void schoolYearUrl(String schoolYear) {
     schoolYearURL = schoolYear;
+    notifyListeners();
+  }
+
+  void subjectSelect(String subjectSelected) {
+    subject = subjectSelected;
     notifyListeners();
   }
 }

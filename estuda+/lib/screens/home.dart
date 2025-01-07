@@ -39,15 +39,21 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         drawer: Drawer(
           child: ListView(
-            children: [
-              const DrawerHeader(
+            children: const [
+              DrawerHeader(
                 decoration: BoxDecoration(color: Colors.blue),
                 child: Text('Header'),
               ),
+              ListTileDrawer('Ciências Naturais', 'ciencias'),
+              Divider(),
               ListTileDrawer('Matemática', 'matematica'),
-              const Divider(),
-              ListTileDrawer('Português', 'portugues'),
-              const Divider(),
+              Divider(),
+              ListTileDrawer('Língua Portuguesa', 'portugues'),
+              Divider(),
+              ListTileDrawer('Geografia', 'geografia'),
+              Divider(),
+              ListTileDrawer('História', 'historia'),
+              Divider(),
             ],
           ),
         ),
@@ -148,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: GoogleFonts.roboto(color: Colors.yellow),
                         )),
                   ),
+                  
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(

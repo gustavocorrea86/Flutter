@@ -38,8 +38,8 @@ class DaoWrong {
   Map<String, dynamic> toMap(ModelQuestions wrong) {
     return {
       _id: wrong.id,
-      _elementarySchool: wrong.elementaryschool,
-      _series: wrong.schoolyear,
+      _elementarySchool: wrong.elementarySchool,
+      _series: wrong.schoolYear,
       _displice: wrong.displice,
       _subject: wrong.subject,
       _question: wrong.question,

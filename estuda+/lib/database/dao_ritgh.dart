@@ -42,8 +42,8 @@ class DaoRight {
   Map<String, dynamic> toMap(ModelQuestions right) {
     return {
       _id: right.id,
-      _elementarySchool: right.elementaryschool,
-      _series: right.schoolyear,
+      _elementarySchool: right.elementarySchool,
+      _series: right.schoolYear,
       _displice: right.displice,
       _subject: right.subject,
       _question: right.question,

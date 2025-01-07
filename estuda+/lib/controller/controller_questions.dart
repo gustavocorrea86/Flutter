@@ -15,7 +15,7 @@ class ControllerQuestions {
   SaveQuestionsRightAndErrors saveQuestions = SaveQuestionsRightAndErrors();
   Color corAlternativa = Colors.white;
   double heightBoxIsAnswered = 0;
-  String hitOrErr = '';
+  //String hitOrErr = '';
   double heightContainer = 0;
   double widthContainer = 0;
 
@@ -26,7 +26,7 @@ class ControllerQuestions {
     } else {
       if (response == alternative) {
         corAlternativa = Colors.green;
-        hitOrErr = 'Acertou!';
+        //hitOrErr = 'Acertou!';
         widthContainer = 70;
         heightContainer = 20;
 
@@ -40,7 +40,7 @@ class ControllerQuestions {
             .counterOfAnswereds(answeredsQuestions.currentAnswered);
       } else {
         corAlternativa = Colors.red;
-        hitOrErr = 'Errou';
+        //hitOrErr = 'Errou';
         widthContainer = 70;
         heightContainer = 20;
         

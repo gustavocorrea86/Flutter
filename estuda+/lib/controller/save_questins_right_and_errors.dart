@@ -10,16 +10,17 @@ class SaveQuestionsRightAndErrors {
   void saveQuestionRight(int indexQuestion) {
     databaseRight.insertQuestionRight(ModelQuestions(
       id: Service.result[indexQuestion]['id'].toString(),
-      elementaryschool: Service.result[indexQuestion]['elementaryschool'],
-      schoolyear: Service.result[indexQuestion]['schoolyear'],
+      elementarySchool: Service.result[indexQuestion]['elementarySchool'],
+      schoolYear: Service.result[indexQuestion]['schoolYear'],
       displice: Service.result[indexQuestion]['displice'],
       subject: Service.result[indexQuestion]['subject'],
       question: Service.result[indexQuestion]['question'],
+      image: Service.result[indexQuestion]['image'],
       answer: Service.result[indexQuestion]['answer'],
-      alternativeA: Service.result[indexQuestion]['alternativea'],
-      alternativeB: Service.result[indexQuestion]['alternativeb'],
-      alternativeC: Service.result[indexQuestion]['alternativec'],
-      alternativeD: Service.result[indexQuestion]['alternatived'],
+      alternativeA: Service.result[indexQuestion]['alternativeA'],
+      alternativeB: Service.result[indexQuestion]['alternativeB'],
+      alternativeC: Service.result[indexQuestion]['alternativeC'],
+      alternativeD: Service.result[indexQuestion]['alternativeD'],
     ));
   }
 
@@ -27,16 +28,17 @@ class SaveQuestionsRightAndErrors {
     DaoWrong().insertQuestionWrong(
       ModelQuestions(
         id: Service.result[indexQuestion]['id'].toString(),
-        elementaryschool: Service.result[indexQuestion]['elementaryschool'],
-        schoolyear: Service.result[indexQuestion]['schoolyear'],
+        elementarySchool: Service.result[indexQuestion]['elementarySchool'],
+        schoolYear: Service.result[indexQuestion]['schoolYear'],
         displice: Service.result[indexQuestion]['displice'],
         subject: Service.result[indexQuestion]['subject'],
         question: Service.result[indexQuestion]['question'],
+        image: Service.result[indexQuestion]['image'],
         answer: Service.result[indexQuestion]['answer'],
-        alternativeA: Service.result[indexQuestion]['alternativea'],
-        alternativeB: Service.result[indexQuestion]['alternativeb'],
-        alternativeC: Service.result[indexQuestion]['alternativec'],
-        alternativeD: Service.result[indexQuestion]['alternatived'],
+        alternativeA: Service.result[indexQuestion]['alternativeA'],
+        alternativeB: Service.result[indexQuestion]['alternativeB'],
+        alternativeC: Service.result[indexQuestion]['alternativeC'],
+        alternativeD: Service.result[indexQuestion]['alternativeD'],
       ),
     );
   }

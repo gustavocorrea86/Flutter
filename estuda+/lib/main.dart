@@ -1,3 +1,5 @@
+import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -19,7 +21,6 @@ import 'package:estudamais/screens/school_years.dart';
 import 'package:estudamais/screens/subjects.dart';
 
 import 'package:estudamais/screens/user_register1.dart';
-import 'package:estudamais/service/service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -34,7 +35,11 @@ void main() async {
             DaoUserResum.totalErrors,
             DaoUserResum.answeredQuestions,
             0,
-            'Disciplina?', 'SchoolYear?', 'getDisplice', 'getSchoolYear'),
+            'Displice?',
+            'SchoolYear?',
+            'getDisplice',
+            'getSchoolYear',
+            'erroSubjetc'),
       ),
       ChangeNotifierProvider(
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
@@ -42,8 +47,14 @@ void main() async {
   );
   //Service().getSeries();
   //Service().getRequest();
-  //Service().getQuestions();
-  //Service().teste();
+  Service().getQuestions();
+  // Service().findSubjectsBySchoolYear('matematica', '4ano');
+  // void teste() {
+  //   Future.delayed(Duration(seconds: 3)).then((value) {
+  //     Service().findQuestionsBySubjects('Divisão');
+  //   });
+  // }
+  
   //DaoWrong().findAllQuestionWrong();
   //DaoUserResum().findElementarySchoolAndGrade();
   //DaoUserResum().findAll();
@@ -73,7 +84,8 @@ class MyApp extends StatelessWidget {
         'pages': (context) => const PagesQuestions(),
         'schoolYears': (context) => const SchoolYears(),
         'subjects': (context) => const Subjects(),
-       
+        'pageQuestionsBySchoolYear': (context) =>
+            const PageQuestionsBySchoolYear()
       },
     );
   }

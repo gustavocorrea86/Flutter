@@ -49,6 +49,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                         itemBuilder: (context, index) {
                           return ScreenQuestions(
                               BoxQuestions(question[index].question),
+                              question[index].image,
                               BoxAlternatives(
                                   question[index].alternativeA,
                                   'A',
@@ -79,8 +80,8 @@ class _PagesQuestionsState extends State<PagesQuestions> {
                               question[index].displice,
                               question[index].subject,
                               question[index].id.toString(),
-                              question[index].elementaryschool,
-                              question[index].schoolyear);
+                              question[index].elementarySchool,
+                              question[index].schoolYear);
                         },
                       ),
                     ],

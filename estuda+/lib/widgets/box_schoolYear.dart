@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BoxSchoolyear extends StatelessWidget {
-  final String titleSchooYear;
   final String schoolYear;
   final String schoolYearURL;
-  const BoxSchoolyear(this.titleSchooYear, this.schoolYear, this.schoolYearURL,
+  const BoxSchoolyear(this.schoolYear, this.schoolYearURL,
       {super.key});
 
   // void screenSubjects(){
@@ -20,9 +19,9 @@ class BoxSchoolyear extends StatelessWidget {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return GestureDetector(
         onTap: () {
-          value.titleSchoolYear(titleSchooYear);
+          value.titleSchoolYear(schoolYear);
           value.schoolYearUrl(schoolYearURL);
-          print(value.schoolYearURL);
+          //print(value.schoolYear);
           Navigator.pushNamed(context, 'subjects');
          
         },
@@ -32,9 +31,9 @@ class BoxSchoolyear extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: GridTile(
-              footer: Text('Teste'),
+              footer: const Text('Teste'),
               child: Text(schoolYear),
             ),
           ),
