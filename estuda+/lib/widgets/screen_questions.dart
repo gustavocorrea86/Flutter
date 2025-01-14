@@ -129,7 +129,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                         widget.boxQuestions,
                         Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Container(
+                          child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: widget.image,
                           ),

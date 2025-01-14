@@ -34,7 +34,7 @@ class Service {
         print(list);
       }
     } catch (err) {
-      print('Erro ao buscar questões: ${err}');
+      print('Erro ao buscar questões: $err');
     }
 
     return List<ModelQuestions>.from(
