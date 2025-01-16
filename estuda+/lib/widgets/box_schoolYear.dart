@@ -8,12 +8,6 @@ class BoxSchoolyear extends StatelessWidget {
   const BoxSchoolyear(this.schoolYear, this.schoolYearURL,
       {super.key});
 
-  // void screenSubjects(){
-  //   Future.delayed(Duration(seconds: 1)).then((value){
-  //       Navigator.pushNamed(context, 'subjects');
-  //   })
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
@@ -21,7 +15,6 @@ class BoxSchoolyear extends StatelessWidget {
         onTap: () {
           value.titleSchoolYear(schoolYear);
           value.schoolYearUrl(schoolYearURL);
-          //print(value.schoolYear);
           Navigator.pushNamed(context, 'subjects');
          
         },

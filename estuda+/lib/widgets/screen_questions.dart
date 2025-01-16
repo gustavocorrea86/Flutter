@@ -55,6 +55,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   DaoUserResum databeseUserResum = DaoUserResum();
   DaoRight databaseRight = DaoRight();
   DaoWrong databaseWrongs = DaoWrong();
+  double heightImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -127,16 +128,15 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           endIndent: 10,
                         ),
                         widget.boxQuestions,
-                        Image.memory(widget.image,
-                            errorBuilder: (context, error, stackTrace) {
-                          print('Erro ao mostrar imagem');
-                          return const Icon(Icons.error);
-                        }),
-                        // SizedBox(
-                        //   width: 150,
-                        //   height: 150,
-                        //   child: widget.image
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.memory(widget.image,
+                              width: MediaQuery.of(context).size.width,
+                              errorBuilder: (context, error, stackTrace) {
+                            print('Without image or image is with error');
+                            return Container();
+                          }),
+                        ),
                         widget.boxAlternativesA,
                         widget.boxAlternativesB,
                         widget.boxAlternativesC,
@@ -184,11 +184,13 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
+                          
                           widget.controller.nextPage(
                               duration: const Duration(microseconds: 500),
                               curve: Curves.ease);
                           value.answered(false);
                           value.actBoxAnswered(0);
+                          print('controller: ${widget.controller}');
                         },
                         child: const Text('Próximo'),
                       ),
@@ -216,10 +218,6 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  //databaseRight.findSubjectAsRight();
-                                  //databaseRight.lenghtSubject();
-                                  // databaseRight.findMatterAsRight();
-                                  // databaseWrongs.findDispliceAsWrongs();
                                 },
                                 child: const Text(
                                   'Sair',
