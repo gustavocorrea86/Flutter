@@ -24,7 +24,7 @@ class Service {
 
   Future<List<ModelQuestions>> getQuestions() async {
     List list = [];
-   
+
     http.Response response =
         await http.get(Uri.parse('http://$_questoesAll/questoes'));
     try {
@@ -38,10 +38,12 @@ class Service {
     return List<ModelQuestions>.from(
       list.map(
         (element) {
+          print('element do getQuestions: $element');
           Uint8List bytesImage =
               Uint8List.fromList(element['image']['data'].cast<int>());
           element['image'] = bytesImage;
           result.add(element);
+
           return ModelQuestions.toMap(element);
         },
       ),
@@ -77,13 +79,16 @@ class Service {
 
   Future<List<String>> findSubjectsBySchoolYear(
       String displice, String year) async {
-    http.Response response =
-        await http.get(Uri.parse('http://$_questoesAll/$displice/$year'));
+    print('displice: $displice year: $year');
+
     List<String> listSubjectBySchoolYear = [];
     result.clear();
     try {
+      http.Response response =
+          await http.get(Uri.parse('http://$_questoesAll/$displice/$year'));
       if (response.statusCode == 200) {
         var list = await json.decode(response.body);
+        print('list $list');
         for (var listMap in list) {
           result.add(listMap);
           listSubjectBySchoolYear.add(listMap['subject']);
@@ -98,13 +103,11 @@ class Service {
   }
 
   Future<List<ModelQuestions>> findQuestionsBySubjects(String subject) async {
-   List list = [];
-   
-    http.Response response =
-        await http.get(Uri.parse('http://$_questoesAll/questoes'));
+    List list = [];
     try {
-      if (response.statusCode == 200) {
-        list = await json.decode(response.body);
+      if (Service.result.isNotEmpty) {
+        list =
+            result.where((element) => element['subject'] == subject).toList();
       }
     } catch (err) {
       print('Erro ao buscar questões: $err');
@@ -117,6 +120,43 @@ class Service {
               Uint8List.fromList(element['image']['data'].cast<int>());
           element['image'] = bytesImage;
           result.add(element);
+          return ModelQuestions.toMap(element);
+        },
+      ),
+    );
+  }
+
+  Future<List<ModelQuestions>> findQuestionsAllBySubjects(
+      String schoolYear, String displice, String subject) async {
+    print('schoolYear $schoolYear, displice $displice, subject $subject');
+    List list = [];
+    // List listResult = [];
+    http.Response response =
+        await http.get(Uri.parse('http://$_questoesAll/questoes'));
+    try {
+      if (response.statusCode == 200) {
+        list = await json.decode(response.body);
+        if (list.isNotEmpty) {
+          list = list
+              .where((element) =>
+                  element['schoolYear'] == schoolYear &&
+                  element['displice'] == displice &&
+                  element['subject'] == subject)
+              .toList();
+        }
+        print('list $list');
+      }
+    } catch (err) {
+      print('Erro ao buscar questões: $err');
+    }
+
+    return List<ModelQuestions>.from(
+      list.map(
+        (element) {
+          Uint8List bytesImage =
+              Uint8List.fromList(element['image']['data'].cast<int>());
+          element['image'] = bytesImage;
+          print('elementooooo: $element');
           return ModelQuestions.toMap(element);
         },
       ),

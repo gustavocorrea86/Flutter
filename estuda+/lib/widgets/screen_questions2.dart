@@ -11,7 +11,7 @@ import 'package:estudamais/widgets/box_type_question.dart';
 import 'package:estudamais/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
 
-class ScreenQuestions extends StatefulWidget {
+class ScreenQuestions2 extends StatefulWidget {
   final Widget boxQuestions;
   final Uint8List image;
   final Widget boxAlternativesA;
@@ -27,7 +27,7 @@ class ScreenQuestions extends StatefulWidget {
   final String elementarySchool;
   final String series;
 
-  const ScreenQuestions(
+  const ScreenQuestions2(
       this.boxQuestions,
       this.image,
       this.boxAlternativesA,
@@ -45,10 +45,10 @@ class ScreenQuestions extends StatefulWidget {
       {super.key});
 
   @override
-  State<ScreenQuestions> createState() => _ScreenQuestionsState();
+  State<ScreenQuestions2> createState() => _ScreenQuestions2State();
 }
 
-class _ScreenQuestionsState extends State<ScreenQuestions> {
+class _ScreenQuestions2State extends State<ScreenQuestions2> {
   Color corAlternativa = Colors.white;
   double heightAnswered = 0;
   DaoUserResum databeseUserResum = DaoUserResum();

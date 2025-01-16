@@ -47,14 +47,15 @@ void main() async {
   );
   //Service().getSeries();
   //Service().getRequest();
-  Service().getQuestions();
-  //Service().findSubjectsBySchoolYear('matematica', '4ano');
+  //Service().getQuestions();
+  //Service().findQuestionsAllBySubjects('4º ano','Matemática', 'Divisão');
+  
   // void teste() {
   //   Future.delayed(Duration(seconds: 3)).then((value) {
   //     Service().findQuestionsBySubjects('Divisão');
   //   });
   // }
-  
+
   //DaoWrong().findAllQuestionWrong();
   //DaoUserResum().findElementarySchoolAndGrade();
   //DaoUserResum().findAll();
@@ -85,7 +86,7 @@ class MyApp extends StatelessWidget {
         'schoolYears': (context) => const SchoolYears(),
         'subjects': (context) => const Subjects(),
         'pageQuestionsBySchoolYear': (context) =>
-            const PageQuestionsBySchoolYear()
+            PageQuestionsBySchoolYear()
       },
     );
   }

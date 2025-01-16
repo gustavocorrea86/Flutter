@@ -20,7 +20,7 @@ class PagesQuestions extends StatefulWidget {
 class _PagesQuestionsState extends State<PagesQuestions> {
   Service service = Service();
   final controller = PageController();
-  
+
   final Future _future = Service().getQuestions();
 
   @override
@@ -36,6 +36,7 @@ class _PagesQuestionsState extends State<PagesQuestions> {
             future: _future,
             builder: (context, snapshot) {
               List<ModelQuestions>? question = snapshot.data;
+
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loading();
               } else if (snapshot.hasData && question != null) {
