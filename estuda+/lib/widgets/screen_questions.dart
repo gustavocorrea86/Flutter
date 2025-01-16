@@ -1,4 +1,4 @@
-
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_ritgh.dart';
@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
-  final Image image;
+  final Uint8List image;
   final Widget boxAlternativesA;
   final Widget boxAlternativesB;
   final Widget boxAlternativesC;
@@ -127,14 +127,11 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           endIndent: 10,
                         ),
                         widget.boxQuestions,
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: widget.image,
-                          ),
-                        )
-                        ,
+                        Image.memory(widget.image,
+                            errorBuilder: (context, error, stackTrace) {
+                          print('Erro ao mostrar imagem');
+                          return const Icon(Icons.error);
+                        }),
                         // SizedBox(
                         //   width: 150,
                         //   height: 150,

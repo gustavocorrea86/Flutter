@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
@@ -18,7 +17,7 @@ class Service {
   // static final String _localhost = dotenv.env['localhost']!;
 
   // String apiUrl = 'https://$_apikey$_apiurl';
-  final String _questoesUrl = dotenv.env['questoes']!;
+  final String _questoesAll = dotenv.env['questoes']!;
 
   static List<Map<String, dynamic>> result = [];
   static List<String> listSubjectBySerie = [];
@@ -27,7 +26,7 @@ class Service {
   Future<List<ModelQuestions>> getQuestions() async {
     List list = [];
     http.Response response =
-        await http.get(Uri.parse('http://192.168.56.1:8080/questoes'));
+        await http.get(Uri.parse('http://$_questoesAll/questoes'));
     try {
       if (response.statusCode == 200) {
         list = await json.decode(response.body);
@@ -40,18 +39,28 @@ class Service {
     return List<ModelQuestions>.from(
       list.map(
         (element) {
-          print(element);
+          // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+          // String base64String = base64Encode(element['image']['data'].cast<int>());
+          // String encoded =
+          //     stringToBase64.encode(base64String);
+          // String decoded = stringToBase64.decode(encoded);
+          String base64String =
+              base64Encode(element['image']['data'].cast<int>());
+          print('base64String $base64String');
+          
+          //print('decoded $decoded');
+
           Uint8List bytesImage =
               Uint8List.fromList(element['image']['data'].cast<int>());
-          element['image'] = Image.memory(
-            bytesImage,
-            width: 200,
-            height: 200,
-            errorBuilder: (context, error, stackTrace) {
-              print('Erro ao carregar imagem: $error');
-              return Container();
-            },
-          );
+          element['image'] = bytesImage;
+
+          // Image.memory(
+          //   bytesImage,
+          //   errorBuilder: (context, error, stackTrace) {
+          //     print('Erro ao carregar imagem: $error');
+          //     return const Icon(Icons.error);
+          //   },
+          // );
 
           result.add(element);
 
@@ -64,7 +73,7 @@ class Service {
   Future<List<ModelQuestions>> findQuestionsBySchoolYear(
       String displice, String year) async {
     http.Response response =
-        await http.get(Uri.parse('http://$_questoesUrl/$displice/$year'));
+        await http.get(Uri.parse('http://$_questoesAll/$displice/$year'));
     List list = [];
 
     try {
@@ -89,7 +98,7 @@ class Service {
   Future<List<String>> findSubjectsBySchoolYear(
       String displice, String year) async {
     http.Response response =
-        await http.get(Uri.parse('http://$_questoesUrl/$displice/$year'));
+        await http.get(Uri.parse('http://$_questoesAll/$displice/$year'));
     List<String> listSubjectBySchoolYear = [];
     result.clear();
     try {

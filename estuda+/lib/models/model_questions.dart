@@ -1,6 +1,6 @@
 
+import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 
 
 class ModelQuestions {
@@ -10,7 +10,7 @@ class ModelQuestions {
   String displice;
   String subject;
   String question;
-  Image image;
+  Uint8List image;
   String answer;
   String alternativeA;
   String alternativeB;
