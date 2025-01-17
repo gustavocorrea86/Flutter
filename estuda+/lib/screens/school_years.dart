@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/grid_list.dart';
@@ -12,7 +13,7 @@ class SchoolYears extends StatelessWidget {
     return Consumer<ModelPoints>(builder: (context, valueStorage, child) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(valueStorage.titleDisplice),
+          title: Text(valueStorage.titleDisplice, style: GoogleFonts.aboreto(color: Colors.black),),
         ),
         body: Stack(
           children: [

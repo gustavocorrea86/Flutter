@@ -1,4 +1,5 @@
 //  ESSA É A TELA INICIAL ONDE O USUARIO SE CADASTRA OU CHAMA A TELA PARA FAZER O LOGIN.
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
@@ -12,8 +13,6 @@ class ScreenInitial extends StatefulWidget {
 }
 
 class _ScreenInitialState extends State<ScreenInitial> {
- 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +30,7 @@ class _ScreenInitialState extends State<ScreenInitial> {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
+                  //print(Service.result[1]);
                   Navigator.pushNamed(context, 'login');
                 },
                 child: Container(

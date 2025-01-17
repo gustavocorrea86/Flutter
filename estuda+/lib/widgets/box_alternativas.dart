@@ -1,3 +1,4 @@
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/controller/controller_questions.dart';
 import 'package:estudamais/models/models.dart';
@@ -73,6 +74,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       ),
                     ),
                     onTap: () {
+                      print(Service.result);
                       answered = true;
                       _controllerQuestions.isCorrect(
                           widget.isAnswered,

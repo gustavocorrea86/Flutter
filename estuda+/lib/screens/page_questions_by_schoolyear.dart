@@ -1,4 +1,3 @@
-import 'package:estudamais/widgets/screen_questions2.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/models/models.dart';
@@ -9,7 +8,6 @@ import 'package:estudamais/widgets/box_alternativas.dart';
 import 'package:estudamais/widgets/box_questions.dart';
 
 import 'package:estudamais/widgets/screen_questions.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class PageQuestionsBySchoolYear extends StatefulWidget {
@@ -40,12 +38,11 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
         builder: (context, value, child) {
           return FutureBuilder(
             future: future,
-            
             builder: (context, snapshot) {
               List<ModelQuestions>? question = snapshot.data;
               print(
                   '${value.subject} ${value.titleSchoolYears} ${value.titleDisplice}');
-              // print('question: $question');
+
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loading();
               } else if (snapshot.hasData && question != null) {

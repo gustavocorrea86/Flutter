@@ -1,7 +1,4 @@
-
 import 'dart:typed_data';
-
-
 
 class ModelQuestions {
   String id;
@@ -32,9 +29,9 @@ class ModelQuestions {
     required this.alternativeD,
   });
 
-  ModelQuestions.toMap(Map<String, dynamic> ask,)
-  
-      : id = ask['id'].toString(),
+  ModelQuestions.toMap(
+    Map<String, dynamic> ask,
+  )   : id = ask['id'].toString(),
         elementarySchool = ask['elementarySchool'],
         schoolYear = ask['schoolYear'],
         displice = ask['displice'],

@@ -1,6 +1,9 @@
+import 'package:estudamais/widgets/box_button.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/service.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class Subjects extends StatefulWidget {
@@ -18,62 +21,79 @@ class _SubjectsState extends State<Subjects> {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('${value.titleDisplice} - ${value.titleSchoolYears}'),
+          title: Text(
+            '${value.titleDisplice} - ${value.titleSchoolYears}',
+            style: GoogleFonts.aboreto(),
+          ),
         ),
-        body: FutureBuilder(
-          future: service.findSubjectsBySchoolYear(
-              value.displiceURL, value.schoolYearURL),
-          builder: (context, snapshot) {
-            List<String>? listSubjects = snapshot.data;
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasData && listSubjects != null) {
-              if (listSubjects.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              mainAxisSpacing: 4.0,
-                              crossAxisSpacing: 4.0),
-                      itemCount: listSubjects.length,
-                      itemBuilder: (context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            print(listSubjects[index]);
-                            Navigator.pushNamed(
-                                context, 'pageQuestionsBySchoolYear');
-                            value.subjectSelect(listSubjects[index]);
-                          },
-                          child: Container(
-                            //padding: EdgeInsets.all(8.0),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(183, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(10),
-                              border:
-                                  Border.all(width: 4, color: Colors.indigo),
-                              boxShadow: const <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 2),
-                                  blurRadius: 4,
-                                )
-                              ],
-                            ),
+        body: Stack(
+          children: [
+            SizedBox.expand(
+              child: Lottie.asset('./assets/lotties/backgroud_blue.json',
+                  fit: BoxFit.cover),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: service.findSubjectsBySchoolYear(
+                    value.displiceURL, value.schoolYearURL),
+                builder: (context, snapshot) {
+                  List<String>? listSubjects = snapshot.data;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasData && listSubjects != null) {
+                    if (listSubjects.isNotEmpty) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    mainAxisSpacing: 4.0,
+                                    crossAxisSpacing: 4.0),
+                            itemCount: listSubjects.length,
+                            itemBuilder: (context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  print(listSubjects[index]);
+                                  Navigator.pushNamed(
+                                      context, 'pageQuestionsBySchoolYear');
+                                  value.subjectSelect(listSubjects[index]);
+                                },
+                                child: BoxButton(listSubjects[index], 'none')
+                                
+                                // Container(
+                                //   //padding: EdgeInsets.all(8.0),
+                                //   decoration: BoxDecoration(
+                                //     color: const Color.fromARGB(
+                                //         183, 255, 255, 255),
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     border: Border.all(
+                                //         width: 4, color: Colors.indigo),
+                                //     boxShadow: const <BoxShadow>[
+                                //       BoxShadow(
+                                //         color: Colors.black26,
+                                //         offset: Offset(0, 2),
+                                //         blurRadius: 4,
+                                //       )
+                                //     ],
+                                //   ),
 
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(listSubjects[index]),
-                            ),
-                          ),
-                        );
-                      }),
-                );
-              }
-            }
-            return const Center(child: Text("No subjects found."));
-          },
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.all(8.0),
+                                //     child: Text(listSubjects[index]),
+                                //   ),
+                                // ),
+                              );
+                            }),
+                      );
+                    }
+                  }
+                  return const Center(child: Text("No subjects found."));
+                },
+              ),
+            ),
+          ],
         ),
       );
     });

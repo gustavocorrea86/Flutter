@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_wrong.dart';
 import 'package:estudamais/models/model_questions.dart';
@@ -15,7 +17,7 @@ class SaveQuestionsRightAndErrors {
       displice: Service.result[indexQuestion]['displice'],
       subject: Service.result[indexQuestion]['subject'],
       question: Service.result[indexQuestion]['question'],
-      image: Service.result[indexQuestion]['image'],
+      image: Uint8List.fromList(Service.result[indexQuestion]['image']['data'].cast<int>()),
       answer: Service.result[indexQuestion]['answer'],
       alternativeA: Service.result[indexQuestion]['alternativeA'],
       alternativeB: Service.result[indexQuestion]['alternativeB'],
@@ -33,7 +35,7 @@ class SaveQuestionsRightAndErrors {
         displice: Service.result[indexQuestion]['displice'],
         subject: Service.result[indexQuestion]['subject'],
         question: Service.result[indexQuestion]['question'],
-        image: Service.result[indexQuestion]['image'],
+        image: Uint8List.fromList(Service.result[indexQuestion]['image']['data'].cast<int>()),
         answer: Service.result[indexQuestion]['answer'],
         alternativeA: Service.result[indexQuestion]['alternativeA'],
         alternativeB: Service.result[indexQuestion]['alternativeB'],

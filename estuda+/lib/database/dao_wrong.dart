@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/model_questions.dart';
 
@@ -11,6 +13,7 @@ class DaoWrong {
   static const String _displice = 'displice';
   static const String _subject = 'subject';
   static const String _question = 'question';
+  static const dynamic _image = 'image';
   static const String _response = 'response';
   static const String _alternativeA = 'alternativeA';
   static const String _alternativeB = 'alternativeB';
@@ -29,6 +32,7 @@ class DaoWrong {
       '$_displice TEXT,'
       '$_subject TEXT,'
       '$_question TEXT,'
+      '$_image BLOB,'
       '$_response TEXT,'
       '$_alternativeA TEXT,'
       '$_alternativeB TEXT,'
@@ -43,6 +47,7 @@ class DaoWrong {
       _displice: wrong.displice,
       _subject: wrong.subject,
       _question: wrong.question,
+      _image: wrong.image,
       _response: wrong.answer,
       _alternativeA: wrong.alternativeA,
       _alternativeB: wrong.alternativeB,

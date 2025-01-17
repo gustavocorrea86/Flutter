@@ -1,5 +1,9 @@
+import 'dart:typed_data';
+
+import 'package:estudamais/database/dao_ritgh.dart';
+import 'package:estudamais/database/dao_wrong.dart';
+import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
-import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -48,8 +52,11 @@ void main() async {
   //Service().getSeries();
   //Service().getRequest();
   //Service().getQuestions();
-  //Service().findQuestionsAllBySubjects('4º ano','Matemática', 'Divisão');
-  
+  //DaoWrong().findAllQuestionWrong();
+  DaoRight().findAllQuestionRight();
+
+  // DaoRight().insertQuestionRight(ModelQuestions(id: '12', elementarySchool: 'teste', schoolYear: 'teste', displice: 'teste', subject: 'teste', question: 'teste', image: Uint8List.fromList([115, 101, 109, 32, 105, 109, 97, 103, 101, 109]) , answer: 'teste', alternativeA: 'teste', alternativeB: 'teste', alternativeC: 'teste', alternativeD: 'teste'));
+
   // void teste() {
   //   Future.delayed(Duration(seconds: 3)).then((value) {
   //     Service().findQuestionsBySubjects('Divisão');
@@ -86,7 +93,7 @@ class MyApp extends StatelessWidget {
         'schoolYears': (context) => const SchoolYears(),
         'subjects': (context) => const Subjects(),
         'pageQuestionsBySchoolYear': (context) =>
-            PageQuestionsBySchoolYear()
+            const PageQuestionsBySchoolYear()
       },
     );
   }

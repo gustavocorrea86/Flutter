@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -11,6 +13,7 @@ class DaoRight {
   static const String _displice = 'displice';
   static const String _subject = 'subject';
   static const String _question = 'question';
+  static const dynamic _image = 'image';
   static const String _response = 'response';
   static const String _alternativeA = 'alternativeA';
   static const String _alternativeB = 'alternativeB';
@@ -26,13 +29,14 @@ class DaoRight {
   static List<Map<String, dynamic>> listQuestionsRight = [];
   //static List<Map<String, dynamic>> subjectForMatter = [];
 
-  static const String tableRight = 'CREATE TABLE $_right('
+  static String tableRight = 'CREATE TABLE $_right('
       '$_id TEXT,'
       '$_elementarySchool TEXT,'
       '$_series TEXT,'
       '$_displice TEXT,'
       '$_subject TEXT,'
       '$_question TEXT,'
+      '$_image BLOB,'
       '$_response TEXT,'
       '$_alternativeA TEXT,'
       '$_alternativeB TEXT,'
@@ -47,6 +51,7 @@ class DaoRight {
       _displice: right.displice,
       _subject: right.subject,
       _question: right.question,
+      _image: right.image,
       _response: right.answer,
       _alternativeA: right.alternativeA,
       _alternativeB: right.alternativeB,
@@ -57,6 +62,7 @@ class DaoRight {
 
   Future insertQuestionRight(ModelQuestions datas) async {
     final Database db = await getConnection();
+
     final Map<String, dynamic> question = toMap(datas);
     try {
       await db.insert(_right, question);
@@ -66,11 +72,14 @@ class DaoRight {
     }
   }
 
-  // Future findAllQuestionRight() async {
-  //   final Database db = await getConnection();
-  //   final List<Map<String, dynamic>> itsRight = await db.query(_right);
-  //   print(itsRight);
-  // }
+  Future findAllQuestionRight() async {
+    final Database db = await getConnection();
+    final List<Map<String, dynamic>> itsRight = await db.query(_right);
+    for (var el in itsRight) {
+      print(el);
+    }
+    //print(itsRight);
+  }
 
   Future deleteTableRight() async {
     final Database db = await getConnection();
