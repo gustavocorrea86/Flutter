@@ -1,8 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:estudamais/database/dao_ritgh.dart';
-import 'package:estudamais/database/dao_wrong.dart';
-import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -49,25 +44,6 @@ void main() async {
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
-  //Service().getSeries();
-  //Service().getRequest();
-  //Service().getQuestions();
-  //DaoWrong().findAllQuestionWrong();
-  DaoRight().findAllQuestionRight();
-
-  // DaoRight().insertQuestionRight(ModelQuestions(id: '12', elementarySchool: 'teste', schoolYear: 'teste', displice: 'teste', subject: 'teste', question: 'teste', image: Uint8List.fromList([115, 101, 109, 32, 105, 109, 97, 103, 101, 109]) , answer: 'teste', alternativeA: 'teste', alternativeB: 'teste', alternativeC: 'teste', alternativeD: 'teste'));
-
-  // void teste() {
-  //   Future.delayed(Duration(seconds: 3)).then((value) {
-  //     Service().findQuestionsBySubjects('Divisão');
-  //   });
-  // }
-
-  //DaoWrong().findAllQuestionWrong();
-  //DaoUserResum().findElementarySchoolAndGrade();
-  //DaoUserResum().findAll();
-  //DaoWrong().findMatterAsWrong();
-  //DaoRight().findAllQuestionRight();
 }
 
 class MyApp extends StatelessWidget {
@@ -86,7 +62,7 @@ class MyApp extends StatelessWidget {
         'login': (context) => const Login(),
         'loadingNextPage': (context) => const LoadingNextPage(),
         'userRegister': (context) => const UserRegister1(),
-        'home': (context) => const HomeScreen(),
+        'home': (context) => HomeScreen(),
         'accumulatedRight': (context) => const AccumulatedRight(),
         'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         'pages': (context) => const PagesQuestions(),

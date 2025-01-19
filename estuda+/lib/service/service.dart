@@ -11,16 +11,12 @@ import 'package:estudamais/models/model_questions.dart';
 final dio = Dio();
 
 class Service {
-  // static final String _apikey = dotenv.env['API_KEY']!;
-  // static final String _apiurl = dotenv.env['API_URL']!;
-  // static final String _localhost = dotenv.env['localhost']!;
-
-  // String apiUrl = 'https://$_apikey$_apiurl';
   final String _questoesAll = dotenv.env['questoes']!;
 
   static List<Map<String, dynamic>> result = [];
-  static List<String> listSubjectBySerie = [];
-  static List<String> listSeries = [];
+  static List<String> listSubjectBySchooYear = [];
+
+  static List<Map<String, dynamic>> schoolYearAndSubjects = [];
 
   Future<List<ModelQuestions>> getQuestions() async {
     List list = [];
@@ -100,6 +96,30 @@ class Service {
     }
     print(listSubjectBySchoolYear.toSet().toList());
     return listSubjectBySchoolYear.toSet().toList();
+  }
+
+  Future<List<Map<String, dynamic>>> findSubjectsBySchoolYears(
+      String years) async {
+    Map<String, dynamic> mapYearAndSubject = {};
+
+    try {
+      http.Response response =
+          await http.get(Uri.parse('http://$_questoesAll/questoes'));
+      if (response.statusCode == 200) {
+        var list = await json.decode(response.body);
+        for (var listMap in list) {
+          if (years == listMap['schoolYear']) {
+            mapYearAndSubject['year'] = listMap['schoolYear'];
+            mapYearAndSubject['subjects'] = listMap['subject'];
+          }
+        }
+        schoolYearAndSubjects.add(mapYearAndSubject);
+      }
+    } catch (err) {
+      print('Falha na busca dos dados: $err');
+    }
+    print('Resultado: ${schoolYearAndSubjects.toSet().toList()}');
+    return schoolYearAndSubjects.toSet().toList();
   }
 
   Future<List<ModelQuestions>> findQuestionsBySubjects(String subject) async {

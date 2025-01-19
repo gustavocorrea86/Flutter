@@ -1,5 +1,4 @@
 //  ESSA É A TELA INICIAL ONDE O USUARIO SE CADASTRA OU CHAMA A TELA PARA FAZER O LOGIN.
-import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_user_resum.dart';

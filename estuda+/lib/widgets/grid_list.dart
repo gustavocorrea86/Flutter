@@ -20,18 +20,18 @@ class _GridListState extends State<GridList> {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return GridView.count(
         crossAxisCount: 3,
-        mainAxisSpacing: 3,
-        crossAxisSpacing: 3,
-        children: const <Widget>[
-          BoxSchoolyear('Fundamental 1', '1º Ano', '1ano'),
-          BoxSchoolyear('Fundamental 1','2º Ano', '2ano'),
-          BoxSchoolyear('Fundamental 1','3º Ano', '3ano'),
-          BoxSchoolyear('Fundamental 1','4º Ano', '4ano'),
-          BoxSchoolyear('Fundamental 1','5º Ano', '5ano'),
-          BoxSchoolyear('Fundamental 2','6º Ano', '6ano'),
-          BoxSchoolyear('Fundamental 2','7º Ano', '7ano'),
-          BoxSchoolyear('Fundamental 2','8º Ano', '8ano'),
-          BoxSchoolyear('Fundamental 2','9º Ano', '9ano'),
+        mainAxisSpacing: 4.0,
+        crossAxisSpacing: 4.0,
+        children: <Widget>[
+          BoxSchoolyear('Fundamental 1', '1º Ano', '1ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 1', '2º Ano', '2ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 1', '3º Ano', '3ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 1', '4º Ano', '4ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 1', '5º Ano', '5ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 2', '6º Ano', '6ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 2', '7º Ano', '7ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 2', '8º Ano', '8ano', 10, Colors.black87),
+          BoxSchoolyear('Fundamental 2', '9º Ano', '9ano', 10, Colors.black87),
         ],
       );
     });

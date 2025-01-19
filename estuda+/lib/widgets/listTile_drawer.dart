@@ -1,3 +1,4 @@
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:estudamais/models/models.dart';
@@ -22,6 +23,7 @@ class ListTileDrawer extends StatelessWidget {
           value.displiceUrl(dipliceURL);
           print(value.displiceURL);
           value.titleDisp(displice);
+          Service.schoolYearAndSubjects.clear();
         },
       );
     });

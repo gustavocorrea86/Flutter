@@ -18,9 +18,9 @@ class Portuguese extends StatelessWidget {
             child: Lottie.asset('./assets/lotties/backgroud_blue.json',
                 fit: BoxFit.cover),
           ),
-          ListView(
-            children: [DropdownFilter('anos', Service.listSeries), DropdownFilter('assuntos', Service.listSubjectBySerie)],
-          )
+          // ListView(
+          //   children: [DropdownFilter('anos', Service.listSeries), DropdownFilter('assuntos', Service.listSubjectBySerie)],
+          //)
         ],
       ),
     );
