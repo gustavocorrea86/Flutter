@@ -1,19 +1,16 @@
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/box_button_animated.dart';
+import 'package:estudamais/widgets/animated_button_circle.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class BoxSchoolyear extends StatefulWidget {
   final String elementarySchool;
   final String schoolYear;
   final String schoolYearURL;
-  double shadowBox;
-  Color shadowColor;
 
-  BoxSchoolyear(this.elementarySchool, this.schoolYear, this.schoolYearURL,
-      this.shadowBox, this.shadowColor,
+  const BoxSchoolyear(
+      this.elementarySchool, this.schoolYear, this.schoolYearURL,
       {super.key});
 
   @override
@@ -22,46 +19,48 @@ class BoxSchoolyear extends StatefulWidget {
 
 class _BoxSchoolyearState extends State<BoxSchoolyear> {
   bool backButton = false;
+  Service service = Service();
+
+  @override
+  void initState() {
+    Provider.of<ModelPoints>(context, listen: false).actionBtnCircle = false;
+    Service.listSelectedSchoolYear.clear();
+    print(
+        'Service.listSelectedSchoolYear do ${Service.listSelectedSchoolYear}');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ModelPoints>(builder: (context, value, child) {
-      return GestureDetector(
-        onTap: () {
-          backButton = !backButton;
-          print(backButton);
-          if (backButton) {
-            setState(() {
-              widget.shadowBox = 3;
-              widget.shadowColor = Colors.white;
-              print('adicionou ${widget.schoolYear}');
+    return Consumer<ModelPoints>(
+      builder: (context, value, child) {
+        return
+            //BoxButton(textPrimary, widthButton, heightButton, fontSizePrimary, onTap)
+            AnimatedButtonCircle(
+          widget.schoolYear,
+          textSecondary: widget.elementarySchool,
+          100,
+          100,
+          20,
+          fontSizeSecondary: 8,
+          () {
+            if (value.actionBtnCircle) {
+              service.getSubjectsAndSchoolYearOfDiscipline(widget.schoolYear);
               Service().findSubjectsBySchoolYears(widget.schoolYear);
-            });
-          } else {
-            setState(() {
-              widget.shadowBox = 10;
-              widget.shadowColor = Colors.black87;
-              print('retirou ${widget.schoolYear}');
-              
-              Service.schoolYearAndSubjects.removeWhere((el)=> el['year'] == widget.schoolYear);
-              print(Service.schoolYearAndSubjects);
-            });
-          }
-        },
-        //   value.titleSchoolYear(widget.schoolYear);
-        //   value.schoolYearUrl(widget.schoolYearURL);
-        //   Future.delayed(const Duration(seconds: 1)).then((value) {
-        //     Navigator.pushNamed(context, 'subjects');
-        //   });
-        child: BoxButton(
-            widget.schoolYear,
-            textSecondary: widget.elementarySchool,
-            widget.shadowBox,
-            100,
-            100,
-            20,
-            widget.shadowColor),
-      );
-    });
+              for (var q in Service.questionsBySchoolYear) {
+                print(q);
+              }
+            } else {
+              Service.questionsBySchoolYear.removeWhere(
+                  (element) => element['schoolYear'] == widget.schoolYear);
+              print(Service.questionsBySchoolYear);
+
+              Service.schoolYearAndSubjects
+                  .removeWhere((el) => el['schoolYear'] == widget.schoolYear);
+            }
+          },
+        );
+      },
+    );
   }
 }

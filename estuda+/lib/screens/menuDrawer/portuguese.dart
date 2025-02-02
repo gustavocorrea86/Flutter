@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/dropdown_filter.dart';
 
 class Portuguese extends StatelessWidget {
   const Portuguese({super.key});

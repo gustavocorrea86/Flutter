@@ -11,36 +11,36 @@ class SaveQuestionsRightAndErrors {
 
   void saveQuestionRight(int indexQuestion) {
     databaseRight.insertQuestionRight(ModelQuestions(
-      id: Service.result[indexQuestion]['id'].toString(),
-      elementarySchool: Service.result[indexQuestion]['elementarySchool'],
-      schoolYear: Service.result[indexQuestion]['schoolYear'],
-      displice: Service.result[indexQuestion]['displice'],
-      subject: Service.result[indexQuestion]['subject'],
-      question: Service.result[indexQuestion]['question'],
-      image: Uint8List.fromList(Service.result[indexQuestion]['image']['data'].cast<int>()),
-      answer: Service.result[indexQuestion]['answer'],
-      alternativeA: Service.result[indexQuestion]['alternativeA'],
-      alternativeB: Service.result[indexQuestion]['alternativeB'],
-      alternativeC: Service.result[indexQuestion]['alternativeC'],
-      alternativeD: Service.result[indexQuestion]['alternativeD'],
+      id: Service.resultController[indexQuestion]['id'].toString(),
+      elementarySchool: Service.resultController[indexQuestion]['elementarySchool'],
+      schoolYear: Service.resultController[indexQuestion]['schoolYear'],
+      displice: Service.resultController[indexQuestion]['displice'],
+      subject: Service.resultController[indexQuestion]['subject'],
+      question: Service.resultController[indexQuestion]['question'],
+      image: Uint8List.fromList(Service.resultController[indexQuestion]['image'].cast<int>()),
+      answer: Service.resultController[indexQuestion]['answer'],
+      alternativeA: Service.resultController[indexQuestion]['alternativeA'],
+      alternativeB: Service.resultController[indexQuestion]['alternativeB'],
+      alternativeC: Service.resultController[indexQuestion]['alternativeC'],
+      alternativeD: Service.resultController[indexQuestion]['alternativeD'],
     ));
   }
 
   void saveQuestionWrong(int indexQuestion) {
     DaoWrong().insertQuestionWrong(
       ModelQuestions(
-        id: Service.result[indexQuestion]['id'].toString(),
-        elementarySchool: Service.result[indexQuestion]['elementarySchool'],
-        schoolYear: Service.result[indexQuestion]['schoolYear'],
-        displice: Service.result[indexQuestion]['displice'],
-        subject: Service.result[indexQuestion]['subject'],
-        question: Service.result[indexQuestion]['question'],
-        image: Uint8List.fromList(Service.result[indexQuestion]['image']['data'].cast<int>()),
-        answer: Service.result[indexQuestion]['answer'],
-        alternativeA: Service.result[indexQuestion]['alternativeA'],
-        alternativeB: Service.result[indexQuestion]['alternativeB'],
-        alternativeC: Service.result[indexQuestion]['alternativeC'],
-        alternativeD: Service.result[indexQuestion]['alternativeD'],
+        id: Service.resultController[indexQuestion]['id'].toString(),
+        elementarySchool: Service.resultController[indexQuestion]['elementarySchool'],
+        schoolYear: Service.resultController[indexQuestion]['schoolYear'],
+        displice: Service.resultController[indexQuestion]['displice'],
+        subject: Service.resultController[indexQuestion]['subject'],
+        question: Service.resultController[indexQuestion]['question'],
+        image: Uint8List.fromList(Service.resultController[indexQuestion]['image'].cast<int>()),
+        answer: Service.resultController[indexQuestion]['answer'],
+        alternativeA: Service.resultController[indexQuestion]['alternativeA'],
+        alternativeB: Service.resultController[indexQuestion]['alternativeB'],
+        alternativeC: Service.resultController[indexQuestion]['alternativeC'],
+        alternativeD: Service.resultController[indexQuestion]['alternativeD'],
       ),
     );
   }

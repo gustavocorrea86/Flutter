@@ -1,4 +1,3 @@
-
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -201,21 +200,9 @@ class DaoRight {
     //   materias.add(element[_materia]);
     // }
 
-    print(materia);
+    //print(materia);
     // print('materias = $materias');
 
     return materia;
   }
 }
-
-
-
-
-// class ModelSubject {
-//   String matter;
-//   List<Map<String, dynamic>> subjectt = {
-
-//   };
-  
-//   ModelSubject(this.matter,this.subjectt);
-// }

@@ -1,3 +1,4 @@
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/models.dart';
@@ -21,6 +22,7 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
     super.initState();
   }
 
+  Service service = Service();
   nextPage() {
     Future.delayed(const Duration(seconds: 2)).then((value) {
       Navigator.pushNamed(context, 'home');
@@ -31,10 +33,10 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
           .showErrors(DaoUserResum.totalErrors);
       Provider.of<ModelPoints>(context, listen: false)
           .counterOfAnswereds(DaoUserResum.answeredQuestions);
+      service.getQuestions();
+      //Service().getShoolYears();
     });
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

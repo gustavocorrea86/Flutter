@@ -1,3 +1,4 @@
+import 'package:estudamais/screens/discipline.dart';
 import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,7 +39,9 @@ void main() async {
             'SchoolYear?',
             'getDisplice',
             'getSchoolYear',
-            'erroSubjetc'),
+            'erroSubjetc',
+            false,
+            false),
       ),
       ChangeNotifierProvider(
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
@@ -48,7 +51,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -62,14 +64,15 @@ class MyApp extends StatelessWidget {
         'login': (context) => const Login(),
         'loadingNextPage': (context) => const LoadingNextPage(),
         'userRegister': (context) => const UserRegister1(),
-        'home': (context) => HomeScreen(),
+        'home': (context) => const HomeScreen(),
         'accumulatedRight': (context) => const AccumulatedRight(),
         'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         'pages': (context) => const PagesQuestions(),
-        'schoolYears': (context) => const SchoolYears(),
-        'subjects': (context) => const Subjects(),
+        'schoolYear': (context) => const SchoolYears(),
+        'subject': (context) => Subjects(),
         'pageQuestionsBySchoolYear': (context) =>
-            const PageQuestionsBySchoolYear()
+            const PageQuestionsBySchoolYear(),
+        'discipline': (context) => const Discipline()
       },
     );
   }

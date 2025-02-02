@@ -51,40 +51,37 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                     
-                      child: FutureBuilder(
-                        future: _future,
-                        builder: (context, snapshot) {
-                          List<Map<String, dynamic>>? displice = snapshot.data;
-                          print('displice = $displice');
-
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasData && displice != null) {
-                            if (displice.isNotEmpty) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: displice.length,
-                                itemBuilder: (context, int index) {
-                                  return ListMatterAndSubjects(
-                                      displice[index]['displice'],
-                                      DaoRight(),
-                                      DaoRight.subjects,
-                                      DaoRight.lengthSubject,
-                                      DaoRight.listOfRightSubject);
-                                },
-                              );
-                            }
-                          }
+                    child: FutureBuilder(
+                      future: _future,
+                      builder: (context, snapshot) {
+                        List<Map<String, dynamic>>? displice = snapshot.data;
+                        print('displice = $displice');
+                    
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Center(
-                            child: Text('Nenhuma questão respondida'),
+                            child: CircularProgressIndicator(),
                           );
-                        },
-                      ),
+                        } else if (snapshot.hasData && displice != null) {
+                          if (displice.isNotEmpty) {
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: displice.length,
+                              itemBuilder: (context, int index) {
+                                return ListMatterAndSubjects(
+                                    displice[index]['displice'],
+                                    DaoRight(),
+                                    DaoRight.subjects,
+                                    DaoRight.lengthSubject,
+                                    DaoRight.listOfRightSubject);
+                              },
+                            );
+                          }
+                        }
+                        return const Center(
+                          child: Text('Nenhuma questão respondida'),
+                        );
+                      },
                     ),
                   ),
                   const Padding(
@@ -93,6 +90,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                       color: Colors.black45,
                     ),
                   ),
+                 
                 ],
               ),
             ),

@@ -1,21 +1,42 @@
 import 'package:estudamais/service/service.dart';
+import 'package:estudamais/widgets/button_progress.dart';
+import 'package:estudamais/widgets/listSelected_scrollable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/widgets/grid_list.dart';
+import 'package:estudamais/widgets/gridList_schoolYear.dart';
 import 'package:provider/provider.dart';
+//import 'package:progress_button/progress_button.dart';
 
-class SchoolYears extends StatelessWidget {
+class SchoolYears extends StatefulWidget {
   const SchoolYears({super.key});
 
   @override
+  State<SchoolYears> createState() => _SchoolYearsState();
+}
+
+class _SchoolYearsState extends State<SchoolYears> {
+  Color? colorFindError;
+  String? textFindError;
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer<ModelPoints>(builder: (context, valueStorage, child) {
+    return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+              onPressed: () {
+                Navigator.popAndPushNamed(context, 'discipline');
+                Service.questionsByDiscipline.clear();
+                Service.questionsBySchoolYear.clear();
+                Service.listSelectedDisciplines.clear();
+                
+              },
+              icon: const Icon(Icons.arrow_back)),
           title: Text(
-            valueStorage.titleDisplice,
+            'Ano escolar',
             style: GoogleFonts.aboreto(color: Colors.black),
           ),
         ),
@@ -27,9 +48,35 @@ class SchoolYears extends StatelessWidget {
             ),
             ListView(
               children: [
+                ListSelectedDisciplines(
+                  list: Service.listSelectedDisciplines,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Divider(
+                    color: Colors.white,
+                  ),
+                ),
                 Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 450,
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width - 20,
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Selecione o Ano escolar:',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+                Container(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 20,
+                      maxHeight: MediaQuery.of(context).size.height / 2),
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                       color: const Color.fromARGB(129, 255, 255, 255),
@@ -41,20 +88,23 @@ class SchoolYears extends StatelessWidget {
                           spreadRadius: 1.0,
                         )
                       ]),
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: GridList(),
+                    child: GridListSchoolYear(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                      onPressed: () {
-                        print(Service.schoolYearAndSubjects);
-                        Navigator.pushNamed(context, 'subjects');
-                      },
-                      child: Text('Buscar')),
-                )
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'subject');
+                    },
+                    child: const Text('click')),
+                ButtonProgress(() {
+                  if (Service.listQuestionsByDipliceAndSchoolYear.isNotEmpty) {
+                    Navigator.pushNamed(context, 'subject');
+                  } else {
+                    value.progressError = true;
+                  }
+                }),
               ],
             ),
           ],

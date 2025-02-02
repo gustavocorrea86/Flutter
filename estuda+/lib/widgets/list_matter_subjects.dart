@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/model_right.dart';
-import 'package:estudamais/widgets/animated_box_subject.dart';
+import 'package:estudamais/widgets/animated_button_progress.dart';
 
 import 'package:provider/provider.dart';
 
@@ -103,7 +103,7 @@ class _ListMatterAndSubjectsState extends State<ListMatterAndSubjects> {
                     shrinkWrap: true,
                     itemCount: subjectsAndLength.length,
                     itemBuilder: (context, int index) {
-                      return AnimatedBoxSubject(
+                      return AnimatedButtonProgress(
                           enable,
                           subjectsAndLength[index]['assunto'],
                           subjectsAndLength[index]['tamanho'],

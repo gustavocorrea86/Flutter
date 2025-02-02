@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_ritgh.dart';
 
-class AnimatedBoxSubject extends StatefulWidget {
+class AnimatedButtonProgress extends StatefulWidget {
   bool enable = false;
   String textSubject;
   String textLengthSubject;
   dynamic daoDatabase;
-  AnimatedBoxSubject(
+  AnimatedButtonProgress(
       this.enable, this.textSubject, this.textLengthSubject, this.daoDatabase,
       {super.key});
 
   @override
-  State<AnimatedBoxSubject> createState() => _AnimatedBoxSubjectState();
+  State<AnimatedButtonProgress> createState() => _AnimatedButtonProgressState();
 }
 
-class _AnimatedBoxSubjectState extends State<AnimatedBoxSubject> {
+class _AnimatedButtonProgressState extends State<AnimatedButtonProgress> {
   double paddingLeft1 = 10.0;
   double paddingLeft2 = 20.0;
   double paddingRight1 = 10.0;
@@ -45,8 +45,7 @@ class _AnimatedBoxSubjectState extends State<AnimatedBoxSubject> {
             widget.enable = !widget.enable;
             if (widget.enable) {
               widget.daoDatabase.getQuestions(widget.textSubject);
-              //print('index = $index');
-              //test = index;
+              showMessage(context);
             } else {
               widget.daoDatabase.removeQuestionsDetails(widget.textSubject);
             }
@@ -64,4 +63,32 @@ class _AnimatedBoxSubjectState extends State<AnimatedBoxSubject> {
       ),
     );
   }
+}
+
+showMessage(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Questões'),
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Text('Deseja visualizar as questões?'),
+              Row(
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Não')),
+                  TextButton(onPressed: () {}, child: const Text('Sim'))
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

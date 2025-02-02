@@ -14,19 +14,25 @@ class ModelPoints extends ChangeNotifier {
   String displiceURL;
   String schoolYearURL;
   String subject;
+  bool actionBtnCircle = false;
+  bool actionBtnRetangulare = false;
+  bool progressError = false;
 
   ModelPoints(
-      this.hits,
-      this.error,
-      this.pointsDb,
-      this.errorsDb,
-      this.countAnswered,
-      this.index,
-      this.titleSchoolYears,
-      this.titleDisplice,
-      this.displiceURL,
-      this.schoolYearURL,
-      this.subject);
+    this.hits,
+    this.error,
+    this.pointsDb,
+    this.errorsDb,
+    this.countAnswered,
+    this.index,
+    this.titleSchoolYears,
+    this.titleDisplice,
+    this.displiceURL,
+    this.schoolYearURL,
+    this.subject,
+    this.actionBtnCircle,
+    this.actionBtnRetangulare,
+  );
 
   void pointsHits(String text) {
     hits = text;

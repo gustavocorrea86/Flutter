@@ -215,7 +215,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.pushNamed(context, 'home');
                                 },
                                 child: const Text(
                                   'Sair',

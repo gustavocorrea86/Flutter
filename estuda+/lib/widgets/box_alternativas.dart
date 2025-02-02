@@ -74,7 +74,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       ),
                     ),
                     onTap: () {
-                      print(Service.result);
+                      print(Service.resultController);
                       answered = true;
                       _controllerQuestions.isCorrect(
                           widget.isAnswered,
