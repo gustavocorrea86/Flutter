@@ -37,7 +37,7 @@ class BoxResum extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      '+200',// value
+                      value,
                       style: GoogleFonts.aboreto(
                         fontSize: 30,
                       ),
@@ -52,8 +52,13 @@ class BoxResum extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              textButton,
+              ),textButton
+            //  Padding(
+            //    padding: EdgeInsets.only(right: 5),
+            //    child: ElevatedButton(onPressed: (){}, child: Text('Resumo'), style: const ButtonStyle(
+            //     padding: WidgetStatePropertyAll<EdgeInsetsGeometry?>(EdgeInsets.all(1.0))
+            //    )),
+            //  )
             ],
           ),
         ));

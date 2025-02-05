@@ -1,6 +1,6 @@
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/button_progress.dart';
 import 'package:estudamais/widgets/listSelected_scrollable.dart';
+import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -32,7 +32,6 @@ class _SchoolYearsState extends State<SchoolYears> {
                 Service.questionsByDiscipline.clear();
                 Service.questionsBySchoolYear.clear();
                 Service.listSelectedDisciplines.clear();
-                
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -95,16 +94,24 @@ class _SchoolYearsState extends State<SchoolYears> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'subject');
+                      if (Service.questionsBySchoolYear.isEmpty) {
+                        showSnackBar(
+                          context,
+                          'Selecione o ano escolar para continuar.',
+                          Colors.red,
+                        );
+                      }else{
+                        Navigator.pushNamed(context, 'subject');
+                      }
                     },
-                    child: const Text('click')),
-                ButtonProgress(() {
-                  if (Service.listQuestionsByDipliceAndSchoolYear.isNotEmpty) {
-                    Navigator.pushNamed(context, 'subject');
-                  } else {
-                    value.progressError = true;
-                  }
-                }),
+                    child: const Text('Próximo')),
+                // ButtonProgress(actionButton:() {
+                //   if (Service.listQuestionsByDipliceAndSchoolYear.isNotEmpty) {
+                //     Navigator.pushNamed(context, 'subject');
+                //   } else {
+                //     value.progressError = true;
+                //   }
+                // }),
               ],
             ),
           ],

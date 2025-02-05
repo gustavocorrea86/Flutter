@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/models_user_resum.dart';
@@ -16,16 +18,20 @@ class _UserRegisterState extends State<UserRegister1> {
   DaoUserResum database = DaoUserResum();
   final TextEditingController _name = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
-
-  final TextEditingController _grade = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _birthYear = TextEditingController();
+  final TextEditingController _keyword = TextEditingController();
+
   final TextEditingController _step = TextEditingController();
-  List<String> schoolLevel = [
-    'Ensino Fundamental 1',
-    'Ensino Fundamental 2',
-    'Ensino Médio'
+  List<String> schoolYear = [
+    '1º Ano - Fundamental 1',
+    '2º Ano - Fundamental 1',
+    '3º Ano - Fundamental 1',
+    '4º Ano - Fundamental 1',
+    '5º Ano - Fundamental 1',
+    '6º Ano - Fundamental 2',
+    '7º Ano - Fundamental 2',
+    '8º Ano - Fundamental 2',
+    '9º Ano - Fundamental 2',
   ];
 
   @override
@@ -68,36 +74,37 @@ class _UserRegisterState extends State<UserRegister1> {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: TextFormField(
-                          onChanged: (String value) {
-                            int age = currentYears.year - int.parse(value);
-                            currentAge = '${age.toString()} anos';
-                          },
-                          decoration: const InputDecoration(
-                            label: Text('Ano de nascimento'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Idade: $currentAge',
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: 200,
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(15.0),
+                //         child: TextFormField(
+                //           controller: _birthYear,
+                //           onChanged: (String value) {
+                //             int age = currentYears.year - int.parse(value);
+                //             currentAge = '${age.toString()} anos';
+                //           },
+                //           decoration: const InputDecoration(
+                //             label: Text('Ano de nascimento'),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Text(
+                //       'Idade: $currentAge',
+                //       style: const TextStyle(fontSize: 20),
+                //     ),
+                //   ],
+                // ),
                 Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
                       child: DropdownButtonFormField(
                           decoration: const InputDecoration(
                               label: Text('Nível escolar')),
-                          items: schoolLevel.map<DropdownMenuItem<String>>(
+                          items: schoolYear.map<DropdownMenuItem<String>>(
                             (String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -111,12 +118,13 @@ class _UserRegisterState extends State<UserRegister1> {
                             });
                           }),
                     )),
+
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
-                    controller: _grade,
+                    controller: _keyword,
                     decoration: const InputDecoration(
-                      label: Text('Série'),
+                      label: Text('Palavra chave'),
                     ),
                   ),
                 ),
@@ -124,37 +132,32 @@ class _UserRegisterState extends State<UserRegister1> {
                   padding: const EdgeInsets.all(15.0),
                   child: TextFormField(
                     decoration: const InputDecoration(
-                      label: Text('Senha'),
+                      label: Text('Confirmar palavra chave'),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      label: Text('Confirme a senha'),
-                    ),
-                  ),
-                ),
+
                 ElevatedButton(
-                    onPressed: () {
-                      // DaoUserResum().insertPoints('0');
-                      Navigator.pushNamed(context, 'login');
-                      database.insertUser(
-                        ModelsUserResum(
-                            name: _name.text,
-                            lastName: _lastName.text,
-                            age: currentAge,
-                            elementarySchool: dropDownValue,
-                            grade: _grade.text,
-                            monthPoints: '0',
-                            totalPoints: '0',
-                            totalOfQuestions: '0',
-                            totalError: '0',
-                            monthErrors: '0'),
-                      );
-                    },
-                    child: const Text('Cadastrar'))
+                  onPressed: () {
+                    // DaoUserResum().insertPoints('0');
+                    Navigator.pushNamed(context, 'login');
+                    database.insertUser(
+                      ModelsUserResum(
+                        name: _name.text,
+                        lastName: _lastName.text,
+                        schoolYear: dropDownValue,
+                        totalPoints: '0',
+                        totalOfQuestions: '0',
+                        totalError: '0',
+                        idQuestions: '0',
+                        keyword: _keyword.text,
+                        idQuestionCorrect: '0',
+                        idQuestionIncorrect: '0',
+                      ),
+                    );
+                  },
+                  child: const Text('Cadastrar'),
+                )
               ],
             ),
           ),

@@ -1,13 +1,9 @@
 import 'dart:typed_data';
-
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/database/dao_wrong.dart';
-
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/box_type_question.dart';
-
 import 'package:estudamais/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
 
@@ -52,9 +48,10 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   Color corAlternativa = Colors.white;
   double heightAnswered = 0;
   DaoUserResum databeseUserResum = DaoUserResum();
-  DaoRight databaseRight = DaoRight();
-  DaoWrong databaseWrongs = DaoWrong();
+  // DaoRight databaseRight = DaoRight();
+  // DaoWrong databaseWrongs = DaoWrong();
   double heightImage = 0;
+  Service service = Service();
 
   @override
   Widget build(BuildContext context) {
@@ -169,13 +166,6 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  '* 1 ponto = R\$ 1,00',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Container(
@@ -215,7 +205,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, 'home');
+                                  Navigator.popAndPushNamed(context, 'home');
+                                  service.cleanLists();
                                 },
                                 child: const Text(
                                   'Sair',

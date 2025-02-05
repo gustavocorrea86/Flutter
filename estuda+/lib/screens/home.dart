@@ -1,13 +1,10 @@
-import 'package:estudamais/database/dao_wrong.dart';
+import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/animated_button_circle.dart';
+import 'package:estudamais/widgets/button_progress.dart';
 import 'package:estudamais/widgets/dashbord_displice.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:estudamais/controller/counter_errors.dart';
-import 'package:estudamais/controller/counter_points.dart';
-import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/box_resum.dart';
 import 'package:estudamais/widgets/listTile_drawer.dart';
@@ -23,23 +20,31 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   double shadowBox = 10;
   Service service = Service();
+  final Future _future = Service().getQuestions();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
-          leading: Builder(builder: (context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-                Service.questionsByDiscipline.clear();
-                Service.resultQuestionsBySubjectsAndSchoolYear.clear();
-                Service.schoolYearAndSubjects.clear();
-                //value.displiceURL = '';
-              },
-              icon: const Icon(Icons.menu),
-            );
-          }),
+          automaticallyImplyLeading: false,
+          // leading: Builder(builder: (context) {
+          //   return IconButton(
+          //     onPressed: () {
+          //       Scaffold.of(context).openDrawer();
+          //       Service.questionsByDiscipline.clear();
+          //       Service.resultQuestionsBySubjectsAndSchoolYear.clear();
+          //       Service.schoolYearAndSubjects.clear();
+          //       //value.displiceURL = '';
+          //     },
+          //     icon: const Icon(Icons.menu),
+          //   );
+          // }),
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -102,87 +107,123 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Lottie.asset('./assets/lotties/backgroud_blue.json',
                   fit: BoxFit.cover),
             ),
-            Container(
-              // margin: EdgeInsets.all(8),
-              // color: Colors.white24,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: [
-                    BoxResum(
-                      value.pointsDb,
-                      'Acertos Totais',
-                      Lottie.asset('./assets/lotties/Animation_correct.json'),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'accumulatedRight');
-                          DaoRight.listQuestionsRight.clear();
-                        },
-                        child: Text(
-                          'Detalhes',
-                          style: GoogleFonts.roboto(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    const Column(
-                      children: [
-                        DashbordDisplice(
-                            'Ciências da Natureza', Colors.green, 0.10, 10),
-                        DashbordDisplice('Matemática', Colors.green, 0.50, 233),
-                        DashbordDisplice(
-                            'Língua Portuguesa', Colors.green, 0.100, 44),
-                        DashbordDisplice('Geografia', Colors.green, 0.30, 5030),
-                        DashbordDisplice('História', Colors.green, 0.40, 90),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: BoxResum(
-                        value.errorsDb,
-                        'Erros Totais',
-                        Lottie.asset('./assets/lotties/alert.json'),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'accumulatedWrongs');
-                              DaoWrong.listQuestionsWrongs.clear();
-                            },
-                            child: Text(
-                              'Detalhes',
-                              style: GoogleFonts.roboto(color: Colors.yellow),
-                            )),
-                      ),
-                    ),
-                    const Column(
-                      children: [
-                        DashbordDisplice(
-                            'Ciências da Natureza', Colors.red, 0.005, 122),
-                        DashbordDisplice('Matemática', Colors.red, 0.010, 600),
-                        DashbordDisplice(
-                            'Língua Portuguesa', Colors.red, 0.20, 12),
-                        DashbordDisplice('Geografia', Colors.red, 0.300, 999),
-                        DashbordDisplice('História', Colors.red, 0.40, 2),
-                      ],
-                    ),
-                    AnimatedButtonCircle('Iniciar', 88, 80, 15, () {
-                      value.pointsHits('0');
-                      value.answered(false);
-                      value.actBoxAnswered(0);
-                      CounterPoints.points = 0;
-                      CounterErrors.errors = 0;
-                      Future.delayed(const Duration(seconds: 1)).then((value) {
-                        Navigator.pushNamed(context, 'pages');
-                      });
-                    }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView(
+                children: [
+                  BoxResum(
+                    value.pointsDb,
+                    'Acertos Totais',
+                    Lottie.asset('./assets/lotties/Animation_correct.json'),
                     TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'initial');
-                        },
-                        child: const Text(
-                          'Sair',
-                          style: TextStyle(color: Colors.white),
-                        ))
-                  ],
-                ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'accumulatedRight');
+                        //DaoRight.listQuestionsRight.clear();
+                      },
+                      child: Text(
+                        'Resumo',
+                        style: GoogleFonts.roboto(color: Colors.yellow),
+                      ),
+                    ),
+                  ),
+                  const Column(
+                    children: [
+                      DashbordDisplice(
+                          'Ciências da Natureza', Colors.green, 0.10, 10),
+                      DashbordDisplice('Matemática', Colors.green, 0.50, 233),
+                      DashbordDisplice(
+                          'Língua Portuguesa', Colors.green, 0.100, 44),
+                      DashbordDisplice('Geografia', Colors.green, 0.30, 5030),
+                      DashbordDisplice('História', Colors.green, 0.40, 90),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: BoxResum(
+                      value.errorsDb,
+                      'Erros Totais',
+                      Lottie.asset('./assets/lotties/alert.json'),
+                      TextButton(
+                          onPressed: () {
+                            //Navigator.pushNamed(context, 'accumulatedWrongs');
+                            //DaoWrong.listQuestionsWrongs.clear();
+                          },
+                          child: Text(
+                            'RESUMO',
+                            style: GoogleFonts.roboto(color: Colors.yellow),
+                          )),
+                    ),
+                  ),
+                  const Column(
+                    children: [
+                      DashbordDisplice(
+                          'Ciências da Natureza', Colors.red, 0.005, 122),
+                      DashbordDisplice('Matemática', Colors.red, 0.010, 600),
+                      DashbordDisplice(
+                          'Língua Portuguesa', Colors.red, 0.20, 12),
+                      DashbordDisplice('Geografia', Colors.red, 0.300, 999),
+                      DashbordDisplice('História', Colors.red, 0.40, 2),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: FutureBuilder(
+                        future: _future,
+                        builder: (context, snapshot) {
+                          List<ModelQuestions>? list = snapshot.data;
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Text('Estabelecendo conexão...');
+                            case ConnectionState.waiting:
+                              return const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.white,
+                                ),
+                              );
+                            case ConnectionState.done:
+                              if (snapshot.hasData && list != null) {
+                                service.getDisplice();
+                                if (list.isNotEmpty) {
+                                  return ButtonProgress(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, 'discipline');
+                                    },
+                                  );
+                                } else {
+                                  value.progressError = true;
+                                }
+                              }
+                            case ConnectionState.active:
+                              return const CircularProgressIndicator();
+                          }
+                          return const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Ops, algo deu errado.\nNão consegui buscar os dados.',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 17,
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'discipline');
+                      },
+                      child: const Text('discipline')),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, 'initial');
+                      },
+                      child: const Text(
+                        'Sair',
+                        style: TextStyle(color: Colors.white),
+                      ))
+                ],
               ),
             ),
           ],
@@ -230,3 +271,26 @@ class _HomeScreenState extends State<HomeScreen> {
                     //         style: GoogleFonts.roboto(color: Colors.yellow),
                     //       )),
                     // ),
+
+// ElevatedButton(
+                    //   onPressed: () {
+                    //     Navigator.pushNamed(context, 'discipline');
+                    //   },
+                    //   child: Text('Iniciar'),
+                    // ),
+
+                    // AnimatedButtonRectangular(title: 'Iniciar', onTap: (){
+                    //   Navigator.pushNamed(context, 'discipline');
+                    // }),
+
+                    // AnimatedButtonCircle('Iniciar', 88, 80, 15, () {
+                    //    Navigator.pushNamed(context, 'discipline');
+                    //   value.pointsHits('0');
+                    //   value.answered(false);
+                    //   value.actBoxAnswered(0);
+                    //   CounterPoints.points = 0;
+                    //   CounterErrors.errors = 0;
+                    //   Future.delayed(const Duration(seconds: 1)).then((value) {
+
+                    //   });
+                    // }),

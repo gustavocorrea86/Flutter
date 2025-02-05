@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:estudamais/controller/answereds_quetions.dart';
 import 'package:estudamais/controller/counter_errors.dart';
@@ -12,15 +14,47 @@ class ControllerQuestions {
   AnsweredsQuestions answeredsQuestions = AnsweredsQuestions();
   CounterPoints counterPoints = CounterPoints();
   CounterErrors counterErrors = CounterErrors();
-  SaveQuestionsRightAndErrors saveQuestions = SaveQuestionsRightAndErrors();
+
   Color corAlternativa = Colors.white;
   double heightBoxIsAnswered = 0;
-  //String hitOrErr = '';
+  static List<dynamic> idsAnswer = [];
+  static List<dynamic> idsAnswerCorrect = [];
+  static List<dynamic> idsAnswerIncorrect = [];
+
   double heightContainer = 0;
   double widthContainer = 0;
 
+  void updateIds(
+      String newId,
+      List<dynamic> idLast,
+      List<dynamic> currentId,
+      // ignore: use_function_type_syntax_for_parameters
+      Function updateId(idLast)) {
+    if (currentId.isEmpty) {
+      idsAnswer.add(newId);
+      database.updateIdQuestions(idLast);
+    } else {
+      idLast = currentId;
+      idLast.add(newId);
+      updateId(idLast);
+      ;
+    }
+    print('idsQuestions $idLast');
+  }
+
   void isCorrect(bool isAnswered, String response, String alternative,
-      int indexQuestion, BuildContext context) {
+      int indexQuestion, BuildContext context, String idQuestion) {
+    // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DE TODAS QUESTÕES 
+    if (DaoUserResum.listId.isEmpty) {
+      idsAnswer.add(idQuestion);
+      database.updateIdQuestions(idsAnswer);
+    } else {
+      idsAnswer = DaoUserResum.listId;
+      idsAnswer.add(idQuestion);
+      database.updateIdQuestions(idsAnswer);
+      ;
+    }
+    print('idsQuestions ${DaoUserResum.listId}');
     if (isAnswered) {
       heightBoxIsAnswered = 30;
     } else {
@@ -29,8 +63,19 @@ class ControllerQuestions {
         //hitOrErr = 'Acertou!';
         widthContainer = 70;
         heightContainer = 20;
-
-        saveQuestions.saveQuestionRight(indexQuestion);
+         // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES CORRETAS
+        if (DaoUserResum.listIdCorrects.isEmpty) {
+          idsAnswerCorrect.add(idQuestion);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
+        } else {
+          idsAnswerCorrect = DaoUserResum.listIdCorrects;
+          idsAnswerCorrect.add(idQuestion);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
+          ;
+        }
+        //print('idsQuestions ${DaoUserResum.listId}');
+        //idsAnswerCorrect = idQuestion;
+        //saveQuestions.saveQuestionRight(indexQuestion);
         counterPoints.countPoints();
         counterPoints.updatePoints();
         Provider.of<ModelPoints>(context, listen: false)
@@ -43,8 +88,17 @@ class ControllerQuestions {
         //hitOrErr = 'Errou';
         widthContainer = 70;
         heightContainer = 20;
-        
-        saveQuestions.saveQuestionWrong(indexQuestion);
+       // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES INCORRETAS
+        if (DaoUserResum.listIdIncorrect.isEmpty) {
+          idsAnswerIncorrect.add(idQuestion);
+          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
+        } else {
+          idsAnswerIncorrect = DaoUserResum.listIdIncorrect;
+          idsAnswerIncorrect.add(idQuestion);
+          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
+          ;
+        }
+        // print('idsQuestions ${DaoUserResum.listId}');
         counterErrors.updateErrors();
         Provider.of<ModelPoints>(context, listen: false)
             .showErrors(counterErrors.currentErrors);

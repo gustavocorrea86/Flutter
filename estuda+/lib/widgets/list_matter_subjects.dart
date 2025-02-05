@@ -1,3 +1,4 @@
+import 'package:estudamais/service/questions_corrects.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/model_right.dart';
 import 'package:estudamais/widgets/animated_button_progress.dart';
@@ -6,14 +7,13 @@ import 'package:provider/provider.dart';
 
 class ListMatterAndSubjects extends StatefulWidget {
   String matter;
-  dynamic daoDatabase;
   bool? checked;
   List subjects;
   List lengthSubjects;
   List listOfRightSubject;
 
-  ListMatterAndSubjects(this.matter, this.daoDatabase, this.subjects,
-      this.lengthSubjects, this.listOfRightSubject,
+  ListMatterAndSubjects(
+      this.matter, this.subjects, this.lengthSubjects, this.listOfRightSubject,
       {this.checked = false, super.key});
 
   @override
@@ -31,21 +31,22 @@ class _ListMatterAndSubjectsState extends State<ListMatterAndSubjects> {
   //DaoRight databaseRight = DaoRight();
   String noneSubject = '';
   double heightBoxNoneSubject = 0;
-  Future? _future;
 
+  //final Future? _future =
+      
   void showBoxSubjects() {
     select = !select;
     print(select);
   }
 
-  Future<List> showSubjectsAndLength(String matter) async {
-    _future = widget.daoDatabase.findForMatter_subjectAndLength(matter);
-    if (_future == null) {
-      heightBoxNoneSubject = 20;
-      noneSubject = 'Nenhum assunto encontrado';
-    }
-    return await _future;
-  }
+  // Future<List> showSubjectsAndLength(String matter) async {
+  //   _future = QuestionsCorrects().getSubjectsOfQuestionsCorrects(matter);
+  //   if (_future == null) {
+  //     heightBoxNoneSubject = 20;
+  //     noneSubject = 'Nenhum assunto encontrado';
+  //   }
+  //   return await _future;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +63,14 @@ class _ListMatterAndSubjectsState extends State<ListMatterAndSubjects> {
                       showBoxSubjects();
                       if (select) {
                         print(widget.matter);
-                        showSubjectsAndLength(widget.matter);
+                        //showSubjectsAndLength(widget.matter);
+                        QuestionsCorrects()
+                            .getSubjectsOfQuestionsCorrects(widget.matter);
                         //boxHeight = 120;
                       } else {
                         widget.subjects.clear();
                         widget.lengthSubjects.clear();
                         widget.listOfRightSubject.clear();
-
                         //boxHeight = 0;
                       }
                     },
@@ -90,9 +92,9 @@ class _ListMatterAndSubjectsState extends State<ListMatterAndSubjects> {
               ),
             ),
             FutureBuilder(
-              future: _future,
+              future: QuestionsCorrects().getSubjectsOfQuestionsCorrects(widget.matter),
               builder: (context, snapshot) {
-                List<Map<String, dynamic>>? subjectsAndLength = snapshot.data;
+                List<String>? subjectsAndLength = snapshot.data;
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   print(subjectsAndLength);
                   return const Center(
@@ -101,13 +103,14 @@ class _ListMatterAndSubjectsState extends State<ListMatterAndSubjects> {
                 } else if (snapshot.hasData && subjectsAndLength != null) {
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: subjectsAndLength.length,
+                    itemCount: QuestionsCorrects.listSubjectsCorrect.length,
                     itemBuilder: (context, int index) {
-                      return AnimatedButtonProgress(
+                      AnimatedButtonProgress(
                           enable,
-                          subjectsAndLength[index]['assunto'],
-                          subjectsAndLength[index]['tamanho'],
-                          widget.daoDatabase);
+                          QuestionsCorrects.listSubjectsCorrect[index],
+                          'subject'
+                          //widget.daoDatabase
+                          );
                     },
                   );
                 }

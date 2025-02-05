@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ButtonProgress extends StatefulWidget {
-  Function actionButton;
+  final Function onTap;
 
-  ButtonProgress(this.actionButton, {super.key});
+  const ButtonProgress({required this.onTap, super.key});
 
   @override
   State<ButtonProgress> createState() => _ButtonProgressState();
@@ -14,12 +14,12 @@ class ButtonProgress extends StatefulWidget {
 class _ButtonProgressState extends State<ButtonProgress>
     with TickerProviderStateMixin {
   late AnimationController controller;
-  String textLinearProgress = 'Buscar';
+  String textLinearProgress = 'Iniciar';
   double widht = 120;
   double height = 40;
-  Color colorBtn = Colors.black38;
+  Color colorBtn = Colors.white;
   Color colorLinearProgress = Colors.blue;
-  Color colorTextBtn = Colors.white;
+  Color colorTextBtn = Colors.indigo;
   bool selected = false;
 
   @override
@@ -30,7 +30,7 @@ class _ButtonProgressState extends State<ButtonProgress>
     )..addListener(() {
         setState(() {});
       });
-    controller.repeat(reverse: true);
+    //controller.repeat(reverse: true);
     controller.stop();
     super.initState();
   }
@@ -52,48 +52,50 @@ class _ButtonProgressState extends State<ButtonProgress>
     buttonProgress();
   }
 
-  Future<String?> withOutFind() {
-    return showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Nenhum campo foi selecionado.'),
-            content: const Text('Verifique e tente novamente.'),
-            actions: [
-              TextButton(
-                child: const Text('Fechar'),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        });
-  }
+  // Future<String?> withOutFind() {
+  //   return showDialog<String>(
+  //       context: context,
+  //       builder: (BuildContext context) {
+  //         return AlertDialog(
+  //           title: const Text('Nenhum campo foi selecionado.'),
+  //           content: const Text('Verifique e tente novamente.'),
+  //           actions: [
+  //             TextButton(
+  //               child: const Text('Fechar'),
+  //               onPressed: () {
+  //                 Navigator.pop(context);
+  //               },
+  //             ),
+  //           ],
+  //         );
+  //       });
+  // }
 
   void buttonProgress() {
     bool findError =
         (Provider.of<ModelPoints>(context, listen: false).progressError);
     Future.delayed(const Duration(milliseconds: 2300)).then((value) {
       if (widht == 250) {
-        textLinearProgress = 'Buscando...';
+        colorTextBtn = Colors.white;
+        textLinearProgress = 'Preparando...';
         setState(() {
           controller.forward(from: controller.value);
 
           Future.delayed(const Duration(milliseconds: 3500)).then((value) {
             if (controller.isCompleted) {
               setState(() {
-                colorTextBtn = Colors.black87;
+                colorTextBtn = Colors.white;
                 textLinearProgress = 'Pronto!';
+
                 Future.delayed(const Duration(milliseconds: 300)).then((value) {
                   if (findError) {
-                    print('findError $findError');
+                    //print('findError $findError');
                     setState(() {
                       colorLinearProgress = Colors.red;
                       textLinearProgress = 'Ops, algo de errado!';
                     });
                   } else {
-                    widget.actionButton();
+                    widget.onTap();
                   }
                 });
               });
@@ -108,14 +110,10 @@ class _ButtonProgressState extends State<ButtonProgress>
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(left: 40, right: 40),
         child: GestureDetector(
           onTap: () {
-            if (value.actionBtnCircle) {
-              startAnimation();
-            } else {
-              withOutFind();
-            }
+            startAnimation();
           },
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 2000),
@@ -124,13 +122,14 @@ class _ButtonProgressState extends State<ButtonProgress>
             height: selected ? height : height,
             decoration: BoxDecoration(
                 //color: Colors.indigo,
-                color: Colors.black38,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20)),
+
             child: Stack(
               alignment: Alignment.center,
               children: [
                 LinearProgressIndicator(
-                  backgroundColor: Colors.black38,
+                  backgroundColor: Colors.white,
                   color: colorLinearProgress,
                   value: controller.value,
                   minHeight: 40,

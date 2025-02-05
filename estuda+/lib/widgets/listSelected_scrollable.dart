@@ -1,4 +1,3 @@
-import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 
 class ListSelectedDisciplines extends StatelessWidget {
@@ -16,7 +15,7 @@ class ListSelectedDisciplines extends StatelessWidget {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: 40,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               //color: Colors.white12,
               ),
           child: ListView.builder(
@@ -26,7 +25,7 @@ class ListSelectedDisciplines extends StatelessWidget {
               itemBuilder: (context, int index) {
                 return Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.check_circle,
                       color: Colors.green, size: 15,
                     ),
@@ -34,7 +33,7 @@ class ListSelectedDisciplines extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 5),
                       child: Text(
                         ' ${list[index]}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             fontSize: 16),

@@ -1,8 +1,7 @@
 //  ESSA É A TELA INICIAL ONDE O USUARIO SE CADASTRA OU CHAMA A TELA PARA FAZER O LOGIN.
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_ritgh.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/database/dao_wrong.dart';
+
 
 class ScreenInitial extends StatefulWidget {
   const ScreenInitial({super.key});
@@ -88,8 +87,8 @@ class _ScreenInitialState extends State<ScreenInitial> {
           children: [
             TextButton(
               onPressed: () {
-                DaoWrong().deleteTableWrong();
-                DaoRight().deleteTableRight();
+                // DaoWrong().deleteTableWrong();
+                // DaoRight().deleteTableRight();
                 DaoUserResum().delete();
               },
               child: const Text('Reset Database (teste)'),

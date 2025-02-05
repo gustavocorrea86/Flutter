@@ -57,7 +57,8 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['answer'],
                     value.isAnswered,
-                    index),
+                    index, Service.resultQuestionsBySubjectsAndSchoolYear[index]['id']
+                    .toString(),),
                 BoxAlternatives(
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['alternativeB'],
@@ -65,7 +66,8 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['answer'],
                     value.isAnswered,
-                    index),
+                    index, Service.resultQuestionsBySubjectsAndSchoolYear[index]['id']
+                    .toString(),),
                 BoxAlternatives(
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['alternativeC'],
@@ -73,7 +75,8 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['answer'],
                     value.isAnswered,
-                    index),
+                    index, Service.resultQuestionsBySubjectsAndSchoolYear[index]['id']
+                    .toString(),),
                 BoxAlternatives(
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['alternativeD'],
@@ -81,7 +84,8 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['answer'],
                     value.isAnswered,
-                    index),
+                    index, Service.resultQuestionsBySubjectsAndSchoolYear[index]['id']
+                    .toString(),),
                 controller,
                 Service.resultQuestionsBySubjectsAndSchoolYear.length
                     .toString(),

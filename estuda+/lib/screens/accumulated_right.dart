@@ -1,5 +1,7 @@
+import 'package:estudamais/service/questions_corrects.dart';
+import 'package:estudamais/widgets/animated_button_progress.dart';
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_ritgh.dart';
+
 import 'package:estudamais/models/model_right.dart';
 import 'package:estudamais/widgets/list_matter_subjects.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
   //DaoRight databaseRight = DaoRight();
 
   //String msgNoneDisplice = '';
-  final Future _future = DaoRight().findMatterAsRight();
+  final Future _future = QuestionsCorrects().getDisciplineOfQuestionsCorrects();
   onChecked() {
     setState(() {
       checked = !checked;
@@ -54,9 +56,9 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                     child: FutureBuilder(
                       future: _future,
                       builder: (context, snapshot) {
-                        List<Map<String, dynamic>>? displice = snapshot.data;
+                        List<String>? displice = snapshot.data;
                         print('displice = $displice');
-                    
+
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
@@ -69,11 +71,11 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                               itemCount: displice.length,
                               itemBuilder: (context, int index) {
                                 return ListMatterAndSubjects(
-                                    displice[index]['displice'],
-                                    DaoRight(),
-                                    DaoRight.subjects,
-                                    DaoRight.lengthSubject,
-                                    DaoRight.listOfRightSubject);
+                                  displice[index],
+                                  QuestionsCorrects.listSubjectsCorrect,
+                                  [1, 2, 4],
+                                  QuestionsCorrects.listSubjectsCorrect,
+                                );
                               },
                             );
                           }
@@ -90,8 +92,9 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                       color: Colors.black45,
                     ),
                   ),
-                 
+                  AnimatedButtonProgress(false, 'textSubject', 'textLengthSubject')
                 ],
+                
               ),
             ),
           ),

@@ -26,7 +26,7 @@ class ListTileDrawer extends StatelessWidget {
           value.displiceUrl(disciplineURL);
 
           value.titleDisp(discipline);
-          Service.listQuestionsByDipliceAndSchoolYear.clear();
+          //Service.listQuestionsByDipliceAndSchoolYear.clear();
           Service.resultQuestionsBySubjectsAndSchoolYear.clear();
           Service.schoolYearAndSubjects.clear();
           value.actionBtnCircle = false;

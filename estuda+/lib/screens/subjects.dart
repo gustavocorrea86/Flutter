@@ -1,6 +1,6 @@
-import 'package:estudamais/widgets/animated_button_circle.dart';
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
 import 'package:estudamais/widgets/listSelected_scrollable.dart';
+import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/service.dart';
@@ -58,15 +58,15 @@ class _SubjectsState extends State<Subjects> {
                   ListSelectedDisciplines(
                     list: Service.listSelectedDisciplines,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
                     child: Divider(),
                   ),
                   ListSelectedDisciplines(
                     list: Service.listSelectedSchoolYear,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
                     child: Divider(),
                   ),
                   Padding(
@@ -85,30 +85,43 @@ class _SubjectsState extends State<Subjects> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Container(
-                     constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width,
-                      minHeight: 0,
-                      maxHeight: 400
-                     ),
+                      constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width,
+                          minHeight: 0,
+                          maxHeight: 400),
                       decoration: BoxDecoration(
                           color: Colors.white38,
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
-                        child: ListView.builder(
-                          shrinkWrap: true,
+                        padding: const EdgeInsets.only(
+                            top: 15, bottom: 15, right: 1),
+                        child: Scrollbar(
                           controller: scrollControllerSubjects,
-                          itemCount: Service.schoolYearAndSubjects.length,
-                          itemBuilder: (context, int index) {
-                            return AnimatedButtonRectangular(
-                              title: Service.schoolYearAndSubjects[index]
-                                  ['subjects'],
-                              onTap: () {},
-                              leading: Service.listDisciplines[index] ,
-                              tralling: Service.schoolYearAndSubjects[index]
-                                  ['schoolYear'],
-                            );
-                          },
+                          thumbVisibility: true,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            controller: scrollControllerSubjects,
+                            itemCount: Service.schoolYearAndSubjects.length,
+                            itemBuilder: (context, int index) {
+                              return AnimatedButtonRectangular(
+                                title: Service.schoolYearAndSubjects[index]
+                                    ['subjects'],
+                                onTap: () {
+                                  service.getQuestionsAllBySubjectsAndSchoolYea(
+                                      Service.schoolYearAndSubjects[index]
+                                          ['schoolYear'],
+                                      Service.schoolYearAndSubjects[index]
+                                          ['subjects'],
+                                      Service.schoolYearAndSubjects[index]
+                                          ['disciplines']);
+                                },
+                                leading: Service.schoolYearAndSubjects[index]
+                                    ['disciplines'],
+                                tralling: Service.schoolYearAndSubjects[index]
+                                    ['schoolYear'],
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -118,8 +131,19 @@ class _SubjectsState extends State<Subjects> {
                     //color: Colors.amber,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context, 'pageQuestionsBySchoolYear');
+                        if (Service
+                            .resultQuestionsBySubjectsAndSchoolYear.isEmpty) {
+                          showSnackBar(
+                            context,
+                            'Selecione o assunto para concluir.',
+                            Colors.red,
+                          );
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            'pageQuestionsBySchoolYear',
+                          );
+                        }
                       },
                       child: const Text(
                         'Buscar',

@@ -1,58 +1,60 @@
-import 'package:estudamais/database/dao_ritgh.dart';
-import 'package:estudamais/database/dao_wrong.dart';
+import 'dart:convert';
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DaoUserResum {
-  static const String _user = 'resumTable';
-  // static const int _id = 0;
+  static const String _user = 'tableUsers';
   static const String _name = 'name';
   static const String _lastName = 'lastName';
-  static const String _age = 'age';
-  static const String _elementarySchool = 'elementarySchool';
-  static const String _grade = 'grade';
-  static const String _password = 'password';
-  static const String _monthPoints = 'monthPoints';
+  static const String _schoolYear = 'grade';
   static const String _totalPoints = 'totalPoints';
   static const String _totalOfQuestions = 'totalOfQuestions';
   static const String _totalError = 'totalError';
-  static const String _monthError = 'monthError';
-
+  static const String _idQuestions = 'idQuestion';
+  static const String _keyword = 'keyword';
+  static const String _idQuestionCorrect = 'idQuestionCorrect';
+  static const String _idQuestionIncorrect = 'idQuestionIncorrect';
   static String totalPoints = '0';
   static String totalErrors = '0';
+  static String idQuest = '';
+  static String idQuestCorrect = '';
+  static String idQuestIncorrect = '';
+  static List<dynamic> listId = [];
+  static List<dynamic> listIdCorrects = [];
+  static List<dynamic> listIdIncorrect = [];
+  String idInitial = '';
+  String idInitialCorrects = '';
+  String idInitialIncorrects = '';
   static String userName = '';
   static String answeredQuestions = '0';
-  static List<Map<String, dynamic>> id = [];
   static List<Map<String, dynamic>> table = [];
-  DaoRight databaseRight = DaoRight();
-  DaoWrong databaseWrong = DaoWrong();
 
   static const String tableUser = 'CREATE TABLE $_user('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
       '$_name TEXT,'
       '$_lastName TEXT,'
-      '$_age TEXT,'
-      '$_elementarySchool TEXT,'
-      '$_grade TEXT,'
-      '$_monthPoints TEXT,'
+      '$_schoolYear TEXT,'
       '$_totalPoints TEXT,'
       '$_totalOfQuestions TEXT,'
       '$_totalError TEXT,'
-      '$_monthError TEXT)';
+      '$_idQuestions TEXT,'
+      '$_keyword TEXT,'
+      '$_idQuestionCorrect TEXT,'
+      '$_idQuestionIncorrect TEXT)';
 
   Map<String, dynamic> toMap(ModelsUserResum resumUser) {
     return {
       _name: resumUser.name,
       _lastName: resumUser.lastName,
-      _age: resumUser.age,
-      _elementarySchool: resumUser.elementarySchool,
-      _grade: resumUser.grade,
-      _monthPoints: resumUser.monthPoints,
+      _schoolYear: resumUser.schoolYear,
       _totalPoints: totalPoints,
       _totalOfQuestions: resumUser.totalOfQuestions,
       _totalError: resumUser.totalError,
-      _monthError: resumUser.monthErrors
+      _idQuestions: resumUser.idQuestions,
+      _keyword: resumUser.keyword,
+      _idQuestionCorrect: resumUser.idQuestionCorrect,
+      _idQuestionIncorrect: resumUser.idQuestionIncorrect,
     };
   }
 
@@ -70,19 +72,7 @@ class DaoUserResum {
   Future findAll() async {
     final db = await getConnection();
     table = await db.query(_user);
-
     print(table);
-  }
-
-  Future insertPoints(String value) async {
-    final db = await getConnection();
-    try {
-      await db.rawInsert('INSERT INTO $_user($_totalPoints) VALUES($value)');
-
-      print('Pontos inseridos com sucesso');
-    } catch (erro) {
-      print('Erro ao inserir pontos: $erro');
-    }
   }
 
   Future insertUser(ModelsUserResum userRegister) async {
@@ -96,14 +86,116 @@ class DaoUserResum {
     }
   }
 
-  Future insertPassword(String password) async {
-    final db = await getConnection();
+  Future updateIdQuestions(List<dynamic> id) async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user =
+        await db.query(_user); //FAZ DA LIST DOS IDS ATUAIS
+    idQuest = user[0]['idQuestion']; // ARMAZENA O RESULTADO
+    final listIdJson = jsonEncode(id); // CONVERTE PARA JSON O ID A SER INSERIDO
     try {
-      await db.rawInsert('INSERT INTO $_user($_password) VALUES("password")');
-      print('Senha inserida com sucesso');
+      await db.rawUpdate(
+        // ATUALIZA O ID INSERIDO
+        'UPDATE $_user SET $_idQuestions = ? WHERE $_idQuestions = ?',
+        [listIdJson, idQuest],
+      );
+      // FAZ A BUSCA NOVAMENT DE TODOS OS IDS ATUAIS
+      List<Map<String, dynamic>> feedback = await db.query(_user);
+      // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
+      var idList = jsonDecode(feedback[0]['idQuestion']);
+      listId = idList;
+      print('listId $listId');
     } catch (erro) {
-      print('Erro ao inserir senha: $erro');
+      print('Erro ao atualizar id das questões: $erro');
     }
+    findAll();
+  }
+
+  Future updateIdQuestionsCorrect(List<dynamic> id) async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user =
+        await db.query(_user); //FAZ DA LIST DOS IDS ATUAIS
+    idQuestCorrect = user[0]['idQuestionCorrect']; // ARMAZENA O RESULTADO
+    final listIdJson = jsonEncode(id); // CONVERTE PARA JSON O ID A SER INSERIDO
+    try {
+      await db.rawUpdate(
+        // ATUALIZA O ID INSERIDO
+        'UPDATE $_user SET $_idQuestionCorrect = ? WHERE $_idQuestionCorrect = ?',
+        [listIdJson, idQuestCorrect],
+      );
+      // FAZ A BUSCA NOVAMENT DE TODOS OS IDS ATUAIS
+      List<Map<String, dynamic>> feedback = await db.query(_user);
+      // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
+      var idList = jsonDecode(feedback[0]['idQuestionCorrect']);
+      listIdCorrects = idList;
+      print('listIdCorrect $listIdCorrects');
+    } catch (erro) {
+      print('Erro ao atualizar id das questões corretas: $erro');
+    }
+    findAll();
+  }
+
+  Future updateIdQuestionsIncorrect(List<dynamic> id) async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user =
+        await db.query(_user); //FAZ DA LIST DOS IDS ATUAIS
+    idQuestIncorrect = user[0]['idQuestionIncorrect']; // ARMAZENA O RESULTADO
+    final listIdJson = jsonEncode(id); // CONVERTE PARA JSON O ID A SER INSERIDO
+    try {
+      await db.rawUpdate(
+        // ATUALIZA O ID INSERIDO
+        'UPDATE $_user SET $_idQuestionIncorrect = ? WHERE $_idQuestionIncorrect = ?',
+        [listIdJson, idQuestIncorrect],
+      );
+      // FAZ A BUSCA NOVAMENT DE TODOS OS IDS ATUAIS
+      List<Map<String, dynamic>> feedback = await db.query(_user);
+      // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
+      var idList = jsonDecode(feedback[0]['idQuestionIncorrect']);
+      listIdIncorrect = idList;
+      print('listIdIncorrect $listIdIncorrect');
+    } catch (erro) {
+      print('Erro ao atualizar id das questões incorretas: $erro');
+    }
+    findAll();
+  }
+
+  //FAZ A BUSCA DOS IDS PARA ATUALIZAR
+  Future findIdQuestionsCorrect() async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user = await db.query(_user);
+    idInitialCorrects = user[0]['idQuestionCorrect'];
+    var idList = jsonDecode(user[0]['idQuestionCorrect']);
+    if (idList == 0) {
+      idList = '0';
+    } else {
+      listIdCorrects = idList;
+    }
+    print('listIdCorrects $listIdCorrects');
+  }
+
+  Future findIdQuestions() async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user = await db.query(_user);
+    idInitial = user[0]['idQuestion'];
+    var idList = jsonDecode(user[0]['idQuestion']);
+    if (idList == 0) {
+      idList = '0';
+    } else {
+      listId = idList;
+    }
+    print('listId $listId');
+  }
+
+  Future findIdQuestionsIncorrect() async {
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user = await db.query(_user);
+    idInitialIncorrects = user[0]['idQuestionIncorrect'];
+    var idList = jsonDecode(user[0]['idQuestionIncorrect']);
+    if (idList == 0) {
+      idList = '0';
+    } else {
+      listIdIncorrect = idList;
+    }
+    print('listIdIncorrect $listIdIncorrect');
   }
 
   Future findPoints() async {
@@ -145,14 +237,6 @@ class DaoUserResum {
     print(userName);
   }
 
-  Future findElementarySchoolAndSeries() async {
-    final Database db = await getConnection();
-    List<Map<String, dynamic>> user =
-        await db.query(_user, distinct: true, columns: [_elementarySchool]);
-    print(user);
-    //print('Escola primária: ${user[0]['elementarySchool']}, Grau: ${user[0]['grade']}' );
-  }
-
   Future findAnswered() async {
     final Database db = await getConnection();
     List<Map<String, dynamic>> answered = await db.query(_user);
@@ -161,15 +245,9 @@ class DaoUserResum {
       answeredQuestions = answered[0]['totalOfQuestions'];
       findPoints();
       findErrors();
-      databaseRight
-          .findMatterAsRight(); // faz busca das meterias das questoes respodidas certas
-      databaseWrong
-          .findDispliceAsWrongs(); // faz busca das meterias das questoes respodidas
-      // if (answered[0]['totalOfQuestions'] == null) {
-      //   answeredQuestions = '0';
-      // } else {
-
-      // }
+      findIdQuestions();
+      findIdQuestionsCorrect();
+      findIdQuestionsIncorrect();
     } catch (erro) {
       print('Erro ao pegar quantidade de perguntas respondidas: $erro');
     }
@@ -222,6 +300,20 @@ class DaoUserResum {
       print('Erro ao atualizar respostas feitas: $erro');
     }
   }
+
+  // Future updateIdQuestion(String lastValue, String currentValue) async {
+  //   final Database db = await getConnection();
+  //   try {
+  //     await db.rawUpdate(
+  //         'UPDATE $_user SET $_idQuestions = ? WHERE $_idQuestions = ?',
+  //         [lastValue, currentValue]);
+  //     List<Map<String, dynamic>> answered = await db.query(_user);
+  //     answeredQuestions = answered[0]['totalOfQuestions'];
+  //     print('Número de respostas feitas com sucesso');
+  //   } catch (erro) {
+  //     print('Erro ao atualizar respostas feitas: $erro');
+  //   }
+  // }
 
   Future close() async {
     final db = await getConnection();

@@ -46,7 +46,7 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
           () {
             if (value.actionBtnCircle) {
               service.getSubjectsAndSchoolYearOfDiscipline(widget.schoolYear);
-              Service().findSubjectsBySchoolYears(widget.schoolYear);
+              service.findSubjectsBySchoolYears(widget.schoolYear);
               for (var q in Service.questionsBySchoolYear) {
                 print(q);
               }
@@ -57,6 +57,9 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
 
               Service.schoolYearAndSubjects
                   .removeWhere((el) => el['schoolYear'] == widget.schoolYear);
+
+              Service.listSelectedSchoolYear
+                  .removeWhere((element) => element == widget.schoolYear);
             }
           },
         );

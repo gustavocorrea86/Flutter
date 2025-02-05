@@ -1,7 +1,6 @@
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/animated_button_progress.dart';
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
-import 'package:estudamais/widgets/button_progress.dart';
+import 'package:estudamais/widgets/show_snackBar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +24,7 @@ class _DisciplineState extends State<Discipline> {
   Service service = Service();
   double heightButtonNext = 0;
 
-  final Future _future = Service().getDisplice();
+  //final Future _future = Service().getDisplice();
 
   @override
   Widget build(BuildContext context) {
@@ -82,52 +81,35 @@ class _DisciplineState extends State<Discipline> {
                             color: Colors.black38,
                           )
                         ]),
-                    child: FutureBuilder(
-                      future: _future,
-                      builder: (context, snapshot) {
-                        List<String>? listDiscipline = snapshot.data;
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text(
-                            'Error: ${snapshot.error}',
-                            style: const TextStyle(color: Colors.red),
-                          );
-                        } else if (snapshot.hasData && listDiscipline != null) {
-                          if (listDiscipline.isNotEmpty) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: listDiscipline.length,
-                              itemBuilder: (context, int index) {
-                                return AnimatedButtonRectangular(
-                                  title: listDiscipline[index],
-                                  onTap: () {
-                                    if (value.actionBtnRetangulare) {
-                                      service.getQuestionsByDiscipline(
-                                          listDiscipline[index]);
-                                      heightButtonNext = 50;
-                                      for (var q
-                                          in Service.questionsByDiscipline) {
-                                        print(q);
-                                      }
-                                    } else {
-                                      Service.questionsByDiscipline.removeWhere(
-                                          (element) =>
-                                              element['displice'] ==
-                                              listDiscipline[index]);
-                                      heightButtonNext = 0;
-                                      print(Service.questionsByDiscipline);
-                                    }
-                                  },
-                                );
-                              },
-                            );
-                          }
-                        }
-                        return const Text('Sem dados');
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: Service.listDisciplines.length,
+                      itemBuilder: (context, int index) {
+                        return AnimatedButtonRectangular(
+                          title: Service.listDisciplines[index],
+                          fontSizeTitle: 22,
+                          textDirection: MainAxisAlignment.center,
+                          onTap: () {
+                            if (value.actionBtnRetangulare) {
+                              service.getQuestionsByDiscipline(
+                                  Service.listDisciplines[index]);
+                              heightButtonNext = 50;
+                              for (var q in Service.questionsByDiscipline) {
+                                print(q);
+                              }
+                            } else {
+                              Service.questionsByDiscipline.removeWhere(
+                                  (element) =>
+                                      element['displice'] ==
+                                      Service.listDisciplines[index]);
+                              heightButtonNext = 0;
+                              print(Service.questionsByDiscipline);
+                              Service.listSelectedDisciplines.removeWhere(
+                                  (el) => el == Service.listDisciplines[index]);
+                              print(Service.listDisciplines[index]);
+                            }
+                          },
+                        );
                       },
                     ),
                   ),
@@ -136,7 +118,12 @@ class _DisciplineState extends State<Discipline> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'schoolYear');
+                      if (Service.questionsByDiscipline.isEmpty) {
+                        showSnackBar(context,
+                            'Selecione uma disciplina para continuar.', Colors.red);
+                      }else{
+                        Navigator.pushNamed(context, 'schoolYear');
+                      }
                     },
                     child: const Text('Próximo'),
                   ),

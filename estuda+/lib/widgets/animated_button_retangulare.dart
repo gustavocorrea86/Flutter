@@ -1,5 +1,4 @@
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,12 +7,16 @@ class AnimatedButtonRectangular extends StatefulWidget {
   final Function onTap;
   final String? tralling;
   final String? leading;
+  final double? fontSizeTitle;
+  final MainAxisAlignment? textDirection;
   bool enable = false;
   AnimatedButtonRectangular(
       {required this.title,
       required this.onTap,
       this.tralling,
       this.leading,
+      this.fontSizeTitle = 18.0,
+      this.textDirection,
       super.key});
 
   @override
@@ -72,30 +75,64 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                     });
                   },
                   child: Container(
-                      alignment: Alignment.center,
-                      height: 50,
-                      width: MediaQuery.of(context).size.width - 65,
-                      decoration: BoxDecoration(
-                        color: Colors.indigo,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: ListTile(
-                        leading: Text(widget.leading ?? '', style: const TextStyle(
-                              fontSize: 13, color: Colors.white),),
-                        title: Padding(
-                          padding: const EdgeInsets.only(left: 20),
+                    alignment: Alignment.center,
+                    height: 50,
+                    width: MediaQuery.of(context).size.width - 65,
+                    decoration: BoxDecoration(
+                      color: Colors.indigo,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: widget.textDirection ??
+                          MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text(
                             widget.title,
-                            style: const TextStyle(
-                                fontSize: 22, color: Colors.amber),
+                            style: TextStyle(
+                                fontSize: widget.fontSizeTitle,
+                                color: Colors.white),
                           ),
                         ),
-                        trailing: Text(
-                          widget.tralling ?? '',
-                          style: const TextStyle(
-                              fontSize: 13, color: Colors.white),
-                        ),
-                      )),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, right: 15),
+                          child: Column(
+                            children: [
+                              Text(
+                                widget.leading ?? '',
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                              Text(
+                                widget.tralling ?? '',
+                                style: const TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+
+                    // ListTile(
+                    //   leading: Text(
+                    //     widget.leading ?? '',
+
+                    //   ),
+                    //   title: Text(
+                    //     widget.title,
+                    //     style: TextStyle(
+                    //         fontSize: widget.fontSizeTitle,
+                    //         color: Colors.amber),
+                    //   ),
+                    //   trailing: Text(
+                    //     widget.tralling ?? '',
+                    //     style:
+                    //         const TextStyle(fontSize: 10, color: Colors.white),
+                    //   ),
+                    // ),
+                  ),
                 ),
               ),
             ],

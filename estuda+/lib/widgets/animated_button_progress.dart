@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_ritgh.dart';
 
 class AnimatedButtonProgress extends StatefulWidget {
   bool enable = false;
   String textSubject;
   String textLengthSubject;
-  dynamic daoDatabase;
-  AnimatedButtonProgress(
-      this.enable, this.textSubject, this.textLengthSubject, this.daoDatabase,
+
+  AnimatedButtonProgress(this.enable, this.textSubject, this.textLengthSubject,
       {super.key});
 
   @override
@@ -19,7 +17,7 @@ class _AnimatedButtonProgressState extends State<AnimatedButtonProgress> {
   double paddingLeft2 = 20.0;
   double paddingRight1 = 10.0;
   double paddingRight2 = 20.0;
-  DaoRight databaseRight = DaoRight();
+  //DaoRight databaseRight = DaoRight();
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -44,10 +42,10 @@ class _AnimatedButtonProgressState extends State<AnimatedButtonProgress> {
           setState(() {
             widget.enable = !widget.enable;
             if (widget.enable) {
-              widget.daoDatabase.getQuestions(widget.textSubject);
-              showMessage(context);
+              // widget.daoDatabase.getQuestions(widget.textSubject);
+              //showMessage(context);
             } else {
-              widget.daoDatabase.removeQuestionsDetails(widget.textSubject);
+              //widget.daoDatabase.removeQuestionsDetails(widget.textSubject);
             }
           });
         },
@@ -65,30 +63,30 @@ class _AnimatedButtonProgressState extends State<AnimatedButtonProgress> {
   }
 }
 
-showMessage(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Questões'),
-        content: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Text('Deseja visualizar as questões?'),
-              Row(
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Não')),
-                  TextButton(onPressed: () {}, child: const Text('Sim'))
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
+// showMessage(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: const Text('Questões'),
+//         content: SingleChildScrollView(
+//           child: Column(
+//             children: [
+//               const Text('Deseja visualizar as questões?'),
+//               Row(
+//                 children: [
+//                   TextButton(
+//                       onPressed: () {
+//                         Navigator.pop(context);
+//                       },
+//                       child: const Text('Não')),
+//                   TextButton(onPressed: () {}, child: const Text('Sim'))
+//                 ],
+//               )
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
