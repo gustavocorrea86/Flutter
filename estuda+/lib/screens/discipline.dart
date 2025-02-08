@@ -34,11 +34,11 @@ class _DisciplineState extends State<Discipline> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, 'home');
+                Navigator.popAndPushNamed(context, 'home');
                 Service.questionsByDiscipline.clear();
                 Service.questionsBySchoolYear.clear();
-                print(
-                    'Service.questionsByDiscipline ${Service.questionsByDiscipline}');
+                // print(
+                //     'Service.questionsByDiscipline ${Service.questionsByDiscipline}');
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -94,19 +94,19 @@ class _DisciplineState extends State<Discipline> {
                               service.getQuestionsByDiscipline(
                                   Service.listDisciplines[index]);
                               heightButtonNext = 50;
-                              for (var q in Service.questionsByDiscipline) {
-                                print(q);
-                              }
+                              // for (var q in Service.questionsByDiscipline) {
+                              //   print(q);
+                              // }
                             } else {
                               Service.questionsByDiscipline.removeWhere(
                                   (element) =>
                                       element['displice'] ==
                                       Service.listDisciplines[index]);
                               heightButtonNext = 0;
-                              print(Service.questionsByDiscipline);
+                              //print(Service.questionsByDiscipline);
                               Service.listSelectedDisciplines.removeWhere(
                                   (el) => el == Service.listDisciplines[index]);
-                              print(Service.listDisciplines[index]);
+                              //print(Service.listDisciplines[index]);
                             }
                           },
                         );

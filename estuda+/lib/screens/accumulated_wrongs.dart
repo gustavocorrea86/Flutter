@@ -1,88 +1,80 @@
-// import 'package:flutter/material.dart';
-// import 'package:estudamais/database/dao_wrong.dart';
-// import 'package:estudamais/widgets/list_matter_subjects.dart';
+import 'package:estudamais/service/questions_incorrets.dart';
+import 'package:estudamais/widgets/animated_button_progress.dart';
+import 'package:flutter/material.dart';
 
-// class AccumulatedWrongs extends StatefulWidget {
-//   const AccumulatedWrongs({super.key});
+import 'package:estudamais/models/model_right.dart';
+import 'package:provider/provider.dart';
 
-//   @override
-//   State<AccumulatedWrongs> createState() => _AccumulatedWrongsState();
-// }
+class AccumulatedWrongs extends StatefulWidget {
+  const AccumulatedWrongs({super.key});
 
-// class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
-//   final Future _future = DaoWrong().findMatterAsWrong();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Erros acumulados'),
-//       ),
-//       body: Container(
-//         decoration: const BoxDecoration(
-//           image: DecorationImage(
-//               image: AssetImage('./assets/images/ball-7280265_640.jpg'),
-//               fit: BoxFit.cover),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: Container(
-//             width: MediaQuery.of(context).size.width,
-//             height: MediaQuery.of(context).size.height,
-//             decoration: BoxDecoration(
-//               color: const Color.fromARGB(188, 255, 255, 255),
-//               borderRadius: BorderRadius.circular(10),
-//             ),
-//             child: ListView(
-//               shrinkWrap: true,
-//               children: [
-//                 Padding(
-//                     padding: const EdgeInsets.all(8.0),
-//                     child: Container(
-//                       child: FutureBuilder(
-//                           future: _future,
-//                           builder: (context, snapshot) {
-//                             List<Map<String, dynamic>>? displice =
-//                                 snapshot.data;
-//                             print('displice = $displice');
+  @override
+  State<AccumulatedWrongs> createState() => _AccumulatedWrongsState();
+}
 
-//                             if (snapshot.connectionState ==
-//                                 ConnectionState.waiting) {
-//                               return const Center(
-//                                 child: CircularProgressIndicator(),
-//                               );
-//                             } else if (snapshot.hasData && displice != null) {
-//                               if (displice.isNotEmpty) {
-//                                 return ListView.builder(
-//                                   shrinkWrap: true,
-//                                   itemCount: displice.length,
-//                                   itemBuilder: (context, int index) {
-//                                     return ListMatterAndSubjects(
-//                                       displice[index]['displice'],
-//                                       DaoWrong(),
-//                                       DaoWrong.subjects,
-//                                       DaoWrong.lengthSubject,
-//                                       DaoWrong.listOfWrongSubjects,
-//                                     );
-//                                   },
-//                                 );
-//                               }
-//                             }
-//                             return const Center(
-//                               child: Text('Nenhuma questão respondida '),
-//                             );
-//                           }),
-//                     )),
-//                 const Padding(
-//                   padding: EdgeInsets.all(8.0),
-//                   child: Divider(
-//                     color: Colors.black45,
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
+  bool checked = false;
+  QuestionsIncorrects questionsIncorrectsDb = QuestionsIncorrects();
+
+  onChecked() {
+    setState(() {
+      checked = !checked;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ModelNumberOfSubject>(builder: (context, value, child) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Acertos acumulados'),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('./assets/images/ball-7280265_640.jpg'),
+                fit: BoxFit.cover),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              //alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(188, 255, 255, 255),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          QuestionsIncorrects.listDisciplinesIncorrect.length,
+                      itemBuilder: (context, int index) {
+                        return AnimatedButtonProgress(
+                          discipline: QuestionsIncorrects
+                              .listDisciplinesIncorrect[index],
+                         listMap: QuestionsIncorrects.resultQuestionsIncorrect,
+                        );
+                      },
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(
+                      color: Colors.black45,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    });
+  }
+}

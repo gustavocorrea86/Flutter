@@ -6,6 +6,7 @@ import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/box_type_question.dart';
 import 'package:estudamais/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
+import 'package:logger/logger.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
@@ -52,6 +53,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   // DaoWrong databaseWrongs = DaoWrong();
   double heightImage = 0;
   Service service = Service();
+  var logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           child: Image.memory(widget.image,
                               width: MediaQuery.of(context).size.width,
                               errorBuilder: (context, error, stackTrace) {
-                            print('Without image or image is with error');
+                            //print('Without image or image is with error');
                             return Container();
                           }),
                         ),
@@ -168,58 +170,56 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          //print('teste');
-                          widget.controller.nextPage(
-                              duration: const Duration(microseconds: 500),
-                              curve: Curves.ease);
-                          value.answered(false);
-                          value.actBoxAnswered(0);
-                        },
-                        child: const Text('Próximo'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  widget.controller.animateToPage(
-                                      widget.question - 1,
-                                      duration:
-                                          const Duration(microseconds: 500),
-                                      curve: Curves.ease);
-                                },
-                                child: const Text(
-                                  'Voltar',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        //print('teste');
+                        widget.controller.nextPage(
+                            duration: const Duration(microseconds: 500),
+                            curve: Curves.ease);
+                        value.answered(false);
+                        value.actBoxAnswered(0);
+                        print('value.answered ${value.answered}');
+                      },
+                      child: const Text('Próximo'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                widget.controller.animateToPage(
+                                    widget.question - 1,
+                                    duration: const Duration(microseconds: 500),
+                                    curve: Curves.ease);
+                              },
+                              child: const Text(
+                                'Voltar',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.popAndPushNamed(context, 'home');
-                                  service.cleanLists();
-                                },
-                                child: const Text(
-                                  'Sair',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.popAndPushNamed(context, 'home');
+                                service.cleanLists();
+                              },
+                              child: const Text(
+                                'Sair',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               )
             ],

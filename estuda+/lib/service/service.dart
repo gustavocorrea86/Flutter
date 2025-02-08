@@ -13,6 +13,7 @@ import 'dart:typed_data';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 
 class Service {
   final String _questoesAll = dotenv.env['questoes']!;
@@ -22,11 +23,12 @@ class Service {
   static List<String> listSelectedDisciplines = [];
   static List<String> listSelectedSchoolYear = [];
   static List<Map<String, dynamic>> resultController = [];
-  ///static List<String> resultQuestionsAll = [];
-  //static List<Map<String, dynamic>> listQuestionsByDipliceAndSchoolYear = [];
-  //static List<String> schoolYears = [];
+  static List<String> resultQuestionsAll = [];
+  static List<Map<String, dynamic>> listQuestionsByDipliceAndSchoolYear = [];
+  static List<String> schoolYears = [];
   static List<Map<String, dynamic>> schoolYearAndSubjects = [];
   static List<Map<String, dynamic>> resultQuestionsBySubjectsAndSchoolYear = [];
+  var logger = Logger();
 
   // busca todas as questões
   Future<List<ModelQuestions>> getQuestions() async {
@@ -37,27 +39,28 @@ class Service {
     try {
       if (response.statusCode == 200) {
         list = await json.decode(response.body);
-        print('Questões recebidas com sucesso');
-        print(DaoUserResum.listId);
-        List testIdCom = [];
+        logger.i('Todas as questões recebidas com sucesso');
+        //print(DaoUserResum.listId);
 
-        for (var element in list) {
-          testIdCom.add(element['id']);
-        }
-        print('List com os ids $testIdCom');
+        // List testIdCom = [];
+
+        // for (var element in list) {
+        //   testIdCom.add(element['id']);
+        // }
+        // print('List com os ids $testIdCom');
 
         for (var id in DaoUserResum.listId) {
           list.removeWhere((el) => el['id'] == int.parse(id));
         }
 
-        List testIdSem = [];
-        for (var el in list) {
-          testIdSem.add(el['id']);
-        }
-        print('List sem os ids $testIdSem');
+        // List testIdSem = [];
+        // for (var el in list) {
+        //   testIdSem.add(el['id']);
+        // }
+        // print('List sem os ids $testIdSem');
       }
     } catch (err) {
-      print('Erro ao buscar questões: $err');
+      logger.e('Erro ao buscar questões: $err');
     }
 
     return List<ModelQuestions>.from(
@@ -83,16 +86,16 @@ class Service {
       listDisciplines = listAux.toSet().toList();
       listDisciplines.sort();
       if (listDisciplines.isNotEmpty) {
-        print('Disciplinas ok!: $listDisciplines');
+        logger.d('Disciplinas ok!: $listDisciplines');
       } else {
-        print('Nenhuma disciplina encontrada!');
+        logger.w('Nenhuma disciplina encontrada!');
       }
     } on Exception catch (e) {
-      print('Erro ao buscar disciplinas: $e');
+      logger.e('Erro ao buscar disciplinas: $e');
     }
   }
 
-  // BUSCA TODAS AS QUESTÕES DA DISCIPLINA SELECIONADA
+  // BUSCA TODAS AS QUESTÕES DA DISCIPLINA SELECIONADA na screen disciplines.dart
   getQuestionsByDiscipline(String discipline) async {
     listSelectedDisciplines.add(discipline);
     listSelectedDisciplines.sort();
@@ -102,10 +105,10 @@ class Service {
         if (questions['displice'] == discipline) {
           questionsByDiscipline.add(questions);
         }
-        //print(listSelectedDisciplines);
       }
+      //print('questionsByDiscipline $questionsByDiscipline');
     } on Exception catch (e) {
-      print('Erro ao buscar questões por disciplina: $e');
+      logger.e('Erro ao buscar questões por disciplina: $e');
     }
   }
 
@@ -124,7 +127,7 @@ class Service {
           return 'Nenhuma questão encontrada!';
         }
       }
-      print('questionsBySchoolYear $questionsBySchoolYear');
+      //print('questionsBySchoolYear $questionsBySchoolYear');
     } catch (error) {
       print('Erro ao buscar questões por ano: $error');
       return 'Erro ao buscar questões por ano';
@@ -146,7 +149,7 @@ class Service {
           result.add(mapYearAndSubject);
         }
       }
-      print('map $result');
+      logger.i('map $result');
 
       final jsonList = result.map((el) => jsonEncode(el)).toList();
       final uniqueList = jsonList.toSet().toList();
@@ -162,16 +165,16 @@ class Service {
       //   }
       // });
     } catch (err) {
-      print('Falha na busca dos dados: $err');
+      logger.e('Falha na busca dos dados: $err');
     }
-    print('Resultado: $schoolYearAndSubjects');
+    // print('Resultado: $schoolYearAndSubjects');
   }
 
   // BUSCA AS QUESTÕES POR ANO E ASSUNTO QUE FORAM SELECIONADAS
   // NAS TELAS ANTERIORES
-  getQuestionsAllBySubjectsAndSchoolYea(
+  getQuestionsAllBySubjectsAndSchoolYear(
       String schoolYear, String subject, String discipline) async {
-    print('schoolYear $schoolYear, subject $subject');
+    //print('schoolYear $schoolYear, subject $subject');
 
     try {
       if (questionsByDiscipline.isNotEmpty) {
@@ -187,7 +190,7 @@ class Service {
         }
 
         //print('result $result');
-        print('resultQuestion $resultQuestionsBySubjectsAndSchoolYear');
+        //print('resultQuestion $resultQuestionsBySubjectsAndSchoolYear');
       }
     } catch (err) {
       print('Erro ao buscar questões: $err');
@@ -200,9 +203,9 @@ class Service {
     listSelectedDisciplines.clear();
     listSelectedSchoolYear.clear();
     resultController.clear();
-    //resultQuestionsAll.clear();
-    //listQuestionsByDipliceAndSchoolYear.clear();
-    //schoolYears.clear();
+    resultQuestionsAll.clear();
+    listQuestionsByDipliceAndSchoolYear.clear();
+    schoolYears.clear();
     schoolYearAndSubjects.clear();
     resultQuestionsBySubjectsAndSchoolYear.clear();
   }

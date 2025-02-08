@@ -75,15 +75,16 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       ),
                     ),
                     onTap: () {
-                      print(Service.resultController);
+                      print('???? ${Service.resultController}');
                       answered = true;
                       _controllerQuestions.isCorrect(
-                          widget.isAnswered,
-                          widget.response,
-                          widget.alternative,
-                          widget.indexQuestion,
-                          context,
-                          widget.idQuestion,);
+                        widget.isAnswered,
+                        widget.response,
+                        widget.alternative,
+                        widget.indexQuestion,
+                        context,
+                        widget.idQuestion,
+                      );
                       value.actBoxAnswered(
                           _controllerQuestions.heightBoxIsAnswered);
                       value.answered(answered);
@@ -91,25 +92,6 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                   ),
                 ),
               ),
-              // Row(
-              //   children: [
-              //     Padding(
-              //         padding: const EdgeInsets.only(left: 8),
-              //         child: Container(
-              //           alignment: Alignment.center,
-              //           width: _controllerQuestions.widthContainer,
-              //           height: _controllerQuestions.heightContainer,
-              //           decoration: BoxDecoration(
-              //               color: _controllerQuestions.corAlternativa,
-              //               borderRadius: BorderRadius.circular(50)),
-              //           child: Text(
-              //             _controllerQuestions.hitOrErr,
-              //             style: const TextStyle(
-              //                 color: Colors.white, fontWeight: FontWeight.bold),
-              //           ),
-              //         )),
-              //   ],
-              // )
             ],
           );
         },

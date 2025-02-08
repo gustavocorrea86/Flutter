@@ -7,7 +7,7 @@ showSnackBar(BuildContext context, String error, Color colorMsg) {
       duration: const Duration(seconds: 3),
       backgroundColor: colorMsg,
       elevation: 10.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
     ),
   );
 }

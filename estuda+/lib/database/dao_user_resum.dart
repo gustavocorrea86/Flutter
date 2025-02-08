@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:logger/logger.dart';
 
 class DaoUserResum {
   static const String _user = 'tableUsers';
@@ -22,13 +23,14 @@ class DaoUserResum {
   static String idQuestIncorrect = '';
   static List<dynamic> listId = [];
   static List<dynamic> listIdCorrects = [];
-  static List<dynamic> listIdIncorrect = [];
+  static List<dynamic> listIdIncorrects = [];
   String idInitial = '';
   String idInitialCorrects = '';
   String idInitialIncorrects = '';
   static String userName = '';
   static String answeredQuestions = '0';
   static List<Map<String, dynamic>> table = [];
+  var logger = Logger();
 
   static const String tableUser = 'CREATE TABLE $_user('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
@@ -72,7 +74,7 @@ class DaoUserResum {
   Future findAll() async {
     final db = await getConnection();
     table = await db.query(_user);
-    print(table);
+    //print(table);
   }
 
   Future insertUser(ModelsUserResum userRegister) async {
@@ -103,7 +105,7 @@ class DaoUserResum {
       // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
       var idList = jsonDecode(feedback[0]['idQuestion']);
       listId = idList;
-      print('listId $listId');
+      //print('listId $listId');
     } catch (erro) {
       print('Erro ao atualizar id das questões: $erro');
     }
@@ -127,7 +129,7 @@ class DaoUserResum {
       // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
       var idList = jsonDecode(feedback[0]['idQuestionCorrect']);
       listIdCorrects = idList;
-      print('listIdCorrect $listIdCorrects');
+      //print('listIdCorrect $listIdCorrects');
     } catch (erro) {
       print('Erro ao atualizar id das questões corretas: $erro');
     }
@@ -150,8 +152,8 @@ class DaoUserResum {
       List<Map<String, dynamic>> feedback = await db.query(_user);
       // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
       var idList = jsonDecode(feedback[0]['idQuestionIncorrect']);
-      listIdIncorrect = idList;
-      print('listIdIncorrect $listIdIncorrect');
+      listIdIncorrects = idList;
+      logger.i('listIdIncorrect $listIdIncorrects');
     } catch (erro) {
       print('Erro ao atualizar id das questões incorretas: $erro');
     }
@@ -169,7 +171,7 @@ class DaoUserResum {
     } else {
       listIdCorrects = idList;
     }
-    print('listIdCorrects $listIdCorrects');
+    logger.i('listIdCorrects $listIdCorrects');
   }
 
   Future findIdQuestions() async {
@@ -182,7 +184,7 @@ class DaoUserResum {
     } else {
       listId = idList;
     }
-    print('listId $listId');
+    logger.i('listId $listId');
   }
 
   Future findIdQuestionsIncorrect() async {
@@ -193,9 +195,9 @@ class DaoUserResum {
     if (idList == 0) {
       idList = '0';
     } else {
-      listIdIncorrect = idList;
+      listIdIncorrects = idList;
     }
-    print('listIdIncorrect $listIdIncorrect');
+    logger.i('listIdIncorrect $listIdIncorrects');
   }
 
   Future findPoints() async {
@@ -211,7 +213,7 @@ class DaoUserResum {
       print('Erro ao encontrar pontos: $erro');
     }
 
-    print('totalPoints= $totalPoints');
+    logger.i('totalPoints= $totalPoints');
   }
 
   Future findErrors() async {
@@ -234,7 +236,7 @@ class DaoUserResum {
     final Database db = await getConnection();
     List<Map<String, dynamic>> user = await db.query(_user);
     userName = user[0]['name'];
-    print(userName);
+    logger.i(userName);
   }
 
   Future findAnswered() async {
@@ -249,7 +251,7 @@ class DaoUserResum {
       findIdQuestionsCorrect();
       findIdQuestionsIncorrect();
     } catch (erro) {
-      print('Erro ao pegar quantidade de perguntas respondidas: $erro');
+      logger.e('Erro ao pegar quantidade de perguntas respondidas: $erro');
     }
 
     print('Total de respondidas = $answeredQuestions');

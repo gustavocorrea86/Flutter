@@ -1,4 +1,5 @@
 import 'package:estudamais/service/questions_corrects.dart';
+import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
@@ -35,6 +36,7 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
       Provider.of<ModelPoints>(context, listen: false)
           .counterOfAnswereds(DaoUserResum.answeredQuestions);
       QuestionsCorrects().getQuestionsCorrects();
+      QuestionsIncorrects().getQuestionsIncorrects();
       //Service().getShoolYears();
     });
   }

@@ -107,7 +107,7 @@ class _SubjectsState extends State<Subjects> {
                                 title: Service.schoolYearAndSubjects[index]
                                     ['subjects'],
                                 onTap: () {
-                                  service.getQuestionsAllBySubjectsAndSchoolYea(
+                                  service.getQuestionsAllBySubjectsAndSchoolYear(
                                       Service.schoolYearAndSubjects[index]
                                           ['schoolYear'],
                                       Service.schoolYearAndSubjects[index]

@@ -3,7 +3,6 @@ import 'package:estudamais/widgets/animated_button_progress.dart';
 import 'package:flutter/material.dart';
 
 import 'package:estudamais/models/model_right.dart';
-import 'package:estudamais/widgets/list_matter_subjects.dart';
 import 'package:provider/provider.dart';
 
 class AccumulatedRight extends StatefulWidget {
@@ -15,13 +14,11 @@ class AccumulatedRight extends StatefulWidget {
 
 class _AccumulatedRightState extends State<AccumulatedRight> {
   bool checked = false;
-  //DaoRight databaseRight = DaoRight();
+  QuestionsCorrects questionsCorrectsDb = QuestionsCorrects();
 
-  //String msgNoneDisplice = '';
-  final Future _future = QuestionsCorrects().getDisciplineOfQuestionsCorrects();
   onChecked() {
     setState(() {
-      checked = !checked;
+      //checked = !checked;
     });
   }
 
@@ -53,35 +50,18 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: FutureBuilder(
-                      future: _future,
-                      builder: (context, snapshot) {
-                        List<String>? displice = snapshot.data;
-                        print('displice = $displice');
-
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (snapshot.hasData && displice != null) {
-                          if (displice.isNotEmpty) {
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: displice.length,
-                              itemBuilder: (context, int index) {
-                                return ListMatterAndSubjects(
-                                  displice[index],
-                                  QuestionsCorrects.listSubjectsCorrect,
-                                  [1, 2, 4],
-                                  QuestionsCorrects.listSubjectsCorrect,
-                                );
-                              },
-                            );
-                          }
-                        }
-                        return const Center(
-                          child: Text('Nenhuma questão respondida'),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          QuestionsCorrects.listDisciplinesCorrect.length,
+                      itemBuilder: (context, int index) {
+                        return AnimatedButtonProgress(
+                          discipline:
+                              QuestionsCorrects.listDisciplinesCorrect[index],
+                              listMap: QuestionsCorrects.resultQuestionsCorrect,
+                          
+                          
+                      
                         );
                       },
                     ),
@@ -92,9 +72,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                       color: Colors.black45,
                     ),
                   ),
-                  AnimatedButtonProgress(false, 'textSubject', 'textLengthSubject')
                 ],
-                
               ),
             ),
           ),
@@ -103,3 +81,10 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
     });
   }
 }
+
+// QuestionsCorrects.listDisciplinesCorrect[index],
+//                             () {
+//                           questionsCorrectsDb
+//                               .showSubjectsAndSchoolyeaCorrects(QuestionsCorrects.listDisciplinesCorrect[index]);
+//                         }, QuestionsCorrects.mapListSubAndYearCorrects.length,  QuestionsCorrects.mapListSubAndYearCorrects[index]['subjects'], QuestionsCorrects.mapListSubAndYearCorrects[index]
+//                     ['schoolYear']

@@ -7,7 +7,12 @@ import 'package:provider/provider.dart';
 class ListTileDrawer extends StatelessWidget {
   final String discipline;
   final String disciplineURL;
-  ListTileDrawer(this.discipline, this.disciplineURL, {super.key});
+  final String namePage;
+  ListTileDrawer(
+      {required this.discipline,
+      required this.disciplineURL,
+      required this.namePage,
+      super.key});
   Service service = Service();
 
   @override
@@ -20,18 +25,18 @@ class ListTileDrawer extends StatelessWidget {
         ),
         trailing: const Icon(Icons.arrow_forward),
         onTap: () {
-          print(disciplineURL);
-          service.getQuestionsByDiscipline(disciplineURL);
-          Navigator.pushNamed(context, 'schoolYears');
-          value.displiceUrl(disciplineURL);
+          // print(disciplineURL);
+          // service.getQuestionsByDiscipline(disciplineURL);
+          // Navigator.pushNamed(context, 'schoolYears');
+          // value.displiceUrl(disciplineURL);
 
-          value.titleDisp(discipline);
-          //Service.listQuestionsByDipliceAndSchoolYear.clear();
-          Service.resultQuestionsBySubjectsAndSchoolYear.clear();
-          Service.schoolYearAndSubjects.clear();
-          value.actionBtnCircle = false;
-          value.progressError = false;
-          value.displiceURL = '';
+          // value.titleDisp(discipline);
+          // //Service.listQuestionsByDipliceAndSchoolYear.clear();
+          // Service.resultQuestionsBySubjectsAndSchoolYear.clear();
+          // Service.schoolYearAndSubjects.clear();
+          // value.actionBtnCircle = false;
+          // value.progressError = false;
+          // value.displiceURL = '';
         },
       );
     });

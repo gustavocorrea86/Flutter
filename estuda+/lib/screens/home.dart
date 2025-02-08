@@ -1,13 +1,15 @@
 import 'package:estudamais/models/model_questions.dart';
+import 'package:estudamais/service/questions_corrects.dart';
+import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:estudamais/widgets/button_progress.dart';
 import 'package:estudamais/widgets/dashbord_displice.dart';
+import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/box_resum.dart';
-import 'package:estudamais/widgets/listTile_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   double shadowBox = 10;
   Service service = Service();
   final Future _future = Service().getQuestions();
+  QuestionsCorrects questionsCorrects = QuestionsCorrects();
+  QuestionsIncorrects questionsIncorrects = QuestionsIncorrects();
+  bool? enable;
 
   @override
   void initState() {
@@ -33,18 +38,18 @@ class _HomeScreenState extends State<HomeScreen> {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          // leading: Builder(builder: (context) {
-          //   return IconButton(
-          //     onPressed: () {
-          //       Scaffold.of(context).openDrawer();
-          //       Service.questionsByDiscipline.clear();
-          //       Service.resultQuestionsBySubjectsAndSchoolYear.clear();
-          //       Service.schoolYearAndSubjects.clear();
-          //       //value.displiceURL = '';
-          //     },
-          //     icon: const Icon(Icons.menu),
-          //   );
-          // }),
+          leading: Builder(builder: (context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+                Service.questionsByDiscipline.clear();
+                Service.resultQuestionsBySubjectsAndSchoolYear.clear();
+                Service.schoolYearAndSubjects.clear();
+                //value.displiceURL = '';
+              },
+              icon: const Icon(Icons.menu),
+            );
+          }),
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -88,16 +93,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     service.getDisplice();
                   }),
-              ListTileDrawer('Ciências da Natureza', 'ciencias'),
-              const Divider(),
-              ListTileDrawer('Matemática', 'matematica'),
-              const Divider(),
-              ListTileDrawer('Língua Portuguesa', 'portugues'),
-              const Divider(),
-              ListTileDrawer('Geografia', 'geografia'),
-              const Divider(),
-              ListTileDrawer('História', 'historia'),
-              const Divider(),
+
+              //ListTileDrawer('Ciências da Natureza', 'ciencias'),
+              // const Divider(),
+              // ListTileDrawer('Matemática', 'matematica'),
+              // const Divider(),
+              // ListTileDrawer('Língua Portuguesa', 'portugues'),
+              // const Divider(),
+              // ListTileDrawer('Geografia', 'geografia'),
+              // const Divider(),
+              // ListTileDrawer('História', 'historia'),
+              // const Divider(),
             ],
           ),
         ),
@@ -106,6 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox.expand(
               child: Lottie.asset('./assets/lotties/backgroud_blue.json',
                   fit: BoxFit.cover),
+            ),
+            Visibility(
+              visible: enable ?? false,
+              child: const LinearProgressIndicator(),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -117,8 +127,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     Lottie.asset('./assets/lotties/Animation_correct.json'),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'accumulatedRight');
-                        //DaoRight.listQuestionsRight.clear();
+                        if (QuestionsCorrects
+                            .resultQuestionsCorrect.isNotEmpty) {
+                          // CHAMA A CONSULTA PARA OBTER AS DISCIPLINAS RESPONDIDAS CORRETAMENTE
+                          questionsCorrects.getDisciplineOfQuestionsCorrects();
+                          //questionsCorrects.getQuestionsCorrects();
+                          Navigator.pushNamed(context, 'accumulatedRight');
+                        } else {
+                          showSnackBar(context,
+                              'Aguarde o carregamento inicial.', Colors.red);
+                        }
                       },
                       child: Text(
                         'Resumo',
@@ -145,8 +163,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       Lottie.asset('./assets/lotties/alert.json'),
                       TextButton(
                           onPressed: () {
-                            //Navigator.pushNamed(context, 'accumulatedWrongs');
-                            //DaoWrong.listQuestionsWrongs.clear();
+                            Navigator.pushNamed(context, 'accumulatedWrongs');
+                            // questionsIncorrects
+                            //     .getDisciplineOfQuestionsIncorrects();
+                                // questionsIncorrects.getQuestionsIncorrects();
                           },
                           child: Text(
                             'RESUMO',
@@ -170,21 +190,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FutureBuilder(
                         future: _future,
                         builder: (context, snapshot) {
-                          List<ModelQuestions>? list = snapshot.data;
+                          List<ModelQuestions>? listQuestions = snapshot.data;
                           switch (snapshot.connectionState) {
                             case ConnectionState.none:
                               return const Text('Estabelecendo conexão...');
                             case ConnectionState.waiting:
                               return const Padding(
                                 padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(
+                                child: LinearProgressIndicator(
                                   backgroundColor: Colors.white,
                                 ),
                               );
                             case ConnectionState.done:
-                              if (snapshot.hasData && list != null) {
+                              if (snapshot.hasData && listQuestions != null) {
                                 service.getDisplice();
-                                if (list.isNotEmpty) {
+                                questionsCorrects.getQuestionsCorrects();
+                                questionsIncorrects.getQuestionsIncorrects();
+                                print(' enable = false;');
+                                if (listQuestions.isNotEmpty) {
                                   return ButtonProgress(
                                     onTap: () {
                                       Navigator.pushNamed(
@@ -192,11 +215,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     },
                                   );
                                 } else {
-                                  value.progressError = true;
+                                  value.progressError = false;
                                 }
                               }
                             case ConnectionState.active:
-                              return const CircularProgressIndicator();
+                              return const SizedBox();
                           }
                           return const Padding(
                             padding: EdgeInsets.all(8.0),

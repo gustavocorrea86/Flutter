@@ -1,9 +1,6 @@
-import 'dart:typed_data';
-
-import 'package:estudamais/models/models_user_resum.dart';
+import 'package:estudamais/screens/accumulated_wrongs.dart';
 import 'package:estudamais/screens/discipline.dart';
 import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
-import 'package:estudamais/service/questions_corrects.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -13,14 +10,12 @@ import 'package:estudamais/models/model_right.dart';
 
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/accumulated_right.dart';
-import 'package:estudamais/screens/accumulated_wrongs.dart';
 
 import 'package:estudamais/screens/home.dart';
 import 'package:estudamais/screens/initial_screen.dart';
 import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:estudamais/screens/login.dart';
 
-import 'package:estudamais/screens/pages.dart';
 import 'package:estudamais/screens/school_years.dart';
 import 'package:estudamais/screens/subjects.dart';
 
@@ -51,17 +46,6 @@ void main() async {
           create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
-  DaoUserResum().findIdQuestionsCorrect();
-
-  Future.delayed(Duration(seconds: 2)).then((value) {
-    QuestionsCorrects().getQuestionsCorrects();
-  });
-
-  // Future.delayed(Duration(seconds: 4)).then((value) {
-  //    QuestionsCorrects().getDisciplineOfQuestionsCorrects();
-  // });
-
-  //QuestionsCorrects().getDisciplineOfQuestionsCorrects();
 }
 
 class MyApp extends StatelessWidget {
@@ -81,7 +65,7 @@ class MyApp extends StatelessWidget {
         'userRegister': (context) => const UserRegister1(),
         'home': (context) => const HomeScreen(),
         'accumulatedRight': (context) => const AccumulatedRight(),
-        // 'accumulatedWrongs': (context) => const AccumulatedWrongs(),
+        'accumulatedWrongs': (context) => const AccumulatedWrongs(),
         //'pages': (context) => const PagesQuestions(),
         'schoolYear': (context) => const SchoolYears(),
         'subject': (context) => Subjects(),

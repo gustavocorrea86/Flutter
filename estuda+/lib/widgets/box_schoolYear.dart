@@ -25,8 +25,8 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
   void initState() {
     Provider.of<ModelPoints>(context, listen: false).actionBtnCircle = false;
     Service.listSelectedSchoolYear.clear();
-    print(
-        'Service.listSelectedSchoolYear do ${Service.listSelectedSchoolYear}');
+    // print(
+    //     'Service.listSelectedSchoolYear do ${Service.listSelectedSchoolYear}');
     super.initState();
   }
 
@@ -48,12 +48,12 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
               service.getSubjectsAndSchoolYearOfDiscipline(widget.schoolYear);
               service.findSubjectsBySchoolYears(widget.schoolYear);
               for (var q in Service.questionsBySchoolYear) {
-                print(q);
+                print('questão: $q');
               }
             } else {
               Service.questionsBySchoolYear.removeWhere(
                   (element) => element['schoolYear'] == widget.schoolYear);
-              print(Service.questionsBySchoolYear);
+              //print(Service.questionsBySchoolYear);
 
               Service.schoolYearAndSubjects
                   .removeWhere((el) => el['schoolYear'] == widget.schoolYear);
