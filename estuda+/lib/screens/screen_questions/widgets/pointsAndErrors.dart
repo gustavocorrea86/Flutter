@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:estudamais/controller/counter_errors.dart';
-import 'package:estudamais/controller/counter_points.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
@@ -11,15 +10,13 @@ class PointsAndErrors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(
-      builder: (context, storedValue, child) {
+      builder: (context, value, child) {
         return Row(
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Container(
                   alignment: Alignment.center,
-                  width: 50,
-                  height: 30,
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(20),
@@ -31,17 +28,18 @@ class PointsAndErrors extends StatelessWidget {
                           spreadRadius: 1)
                     ],
                   ),
-                  child: Text(
-                    CounterPoints.points.toString(),
-                    style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    child: Text(
+                      value.pointsDb,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
+                    ),
                   )),
             ),
             Container(
-              width: 50,
-              height: 30,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.red[300],
@@ -54,12 +52,16 @@ class PointsAndErrors extends StatelessWidget {
                       spreadRadius: 1)
                 ],
               ),
-              child: Text(
-                CounterErrors.errors.toString(),
-                style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Text(
+                  value.errorsDb,
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
               ),
             ),
           ],

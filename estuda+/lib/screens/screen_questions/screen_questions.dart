@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/box_alternativas.dart';
-import 'package:estudamais/widgets/box_questions.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_alternativas.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_questions.dart';
 
-import 'package:estudamais/widgets/screen_questions.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_screen_questions.dart';
 import 'package:provider/provider.dart';
 
 class PageQuestionsBySchoolYear extends StatefulWidget {

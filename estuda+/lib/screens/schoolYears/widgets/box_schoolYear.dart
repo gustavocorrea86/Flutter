@@ -1,6 +1,6 @@
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/animated_button_circle.dart';
+import 'package:estudamais/screens/schoolYears/widgets/animated_button_circle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,14 +46,12 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
           () {
             if (value.actionBtnCircle) {
               service.getSubjectsAndSchoolYearOfDiscipline(widget.schoolYear);
-              service.findSubjectsBySchoolYears(widget.schoolYear);
-              for (var q in Service.questionsBySchoolYear) {
-                print('questão: $q');
-              }
+              service.getSubjectsBySchoolYears(widget.schoolYear);
+              
             } else {
               Service.questionsBySchoolYear.removeWhere(
                   (element) => element['schoolYear'] == widget.schoolYear);
-              //print(Service.questionsBySchoolYear);
+              print('Service.questionsBySchoolYear ${Service.questionsBySchoolYear}');
 
               Service.schoolYearAndSubjects
                   .removeWhere((el) => el['schoolYear'] == widget.schoolYear);

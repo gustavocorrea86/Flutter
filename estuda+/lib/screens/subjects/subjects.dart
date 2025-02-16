@@ -1,5 +1,5 @@
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
-import 'package:estudamais/widgets/listSelected_scrollable.dart';
+import 'package:estudamais/widgets/list_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
@@ -35,7 +35,7 @@ class _SubjectsState extends State<Subjects> {
                 Service.questionsBySchoolYear.clear();
                 Service.schoolYearAndSubjects.clear();
                 Service.listSelectedSchoolYear.clear();
-                //Navigator.pushNamed(context, 'home');
+                Service.resultQuestionsBySubjectsAndSchoolYear.clear();
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -55,15 +55,25 @@ class _SubjectsState extends State<Subjects> {
               ),
               ListView(
                 children: [
-                  ListSelectedDisciplines(
-                    list: Service.listSelectedDisciplines,
+                 
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ListSelectedDisciplines(
+                      list: Service.listSelectedDisciplines,
+                      direction: Axis.horizontal,
+                    ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0, right: 8.0),
                     child: Divider(),
                   ),
-                  ListSelectedDisciplines(
-                    list: Service.listSelectedSchoolYear,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ListSelectedDisciplines(
+                        list: Service.listSelectedSchoolYear,
+                        direction: Axis.horizontal),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -107,13 +117,14 @@ class _SubjectsState extends State<Subjects> {
                                 title: Service.schoolYearAndSubjects[index]
                                     ['subjects'],
                                 onTap: () {
-                                  service.getQuestionsAllBySubjectsAndSchoolYear(
-                                      Service.schoolYearAndSubjects[index]
-                                          ['schoolYear'],
-                                      Service.schoolYearAndSubjects[index]
-                                          ['subjects'],
-                                      Service.schoolYearAndSubjects[index]
-                                          ['disciplines']);
+                                  service
+                                      .getQuestionsAllBySubjectsAndSchoolYear(
+                                          Service.schoolYearAndSubjects[index]
+                                              ['schoolYear'],
+                                          Service.schoolYearAndSubjects[index]
+                                              ['subjects'],
+                                          Service.schoolYearAndSubjects[index]
+                                              ['disciplines']);
                                 },
                                 leading: Service.schoolYearAndSubjects[index]
                                     ['disciplines'],
@@ -139,6 +150,7 @@ class _SubjectsState extends State<Subjects> {
                             Colors.red,
                           );
                         } else {
+                          value.answered(false);
                           Navigator.pushNamed(
                             context,
                             'pageQuestionsBySchoolYear',

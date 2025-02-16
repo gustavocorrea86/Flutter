@@ -4,7 +4,7 @@ class DashbordDisplice extends StatefulWidget {
   final String displice;
   final Color progressColors;
   final double valueProgress;
-  final int countAnswer;
+  final String countAnswer;
   const DashbordDisplice(
       this.displice, this.progressColors, this.valueProgress, this.countAnswer,
       {super.key});
@@ -44,13 +44,14 @@ class _DashbordDispliceState extends State<DashbordDisplice> {
                   child: LinearProgressIndicator(
                     color: widget.progressColors,
                     value: widget.valueProgress,
+                    minHeight: 12,
                   ),
                 ),
                 Container(
                   alignment: Alignment.center,
                   width: 60,
                   child: Text(
-                    widget.countAnswer.toString(),
+                    widget.countAnswer,
                     style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 )

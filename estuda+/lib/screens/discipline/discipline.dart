@@ -24,7 +24,11 @@ class _DisciplineState extends State<Discipline> {
   Service service = Service();
   double heightButtonNext = 0;
 
-  //final Future _future = Service().getDisplice();
+  // @override
+  // void initState() {
+  //   print('Service.resultController ${Service.resultController}');
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +38,9 @@ class _DisciplineState extends State<Discipline> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'home');
+                //Navigator.popAndPushNamed(context, 'loadingNextPage');
                 Service.questionsByDiscipline.clear();
-                Service.questionsBySchoolYear.clear();
-                // print(
-                //     'Service.questionsByDiscipline ${Service.questionsByDiscipline}');
+                Navigator.popAndPushNamed(context, 'home');
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -94,9 +96,6 @@ class _DisciplineState extends State<Discipline> {
                               service.getQuestionsByDiscipline(
                                   Service.listDisciplines[index]);
                               heightButtonNext = 50;
-                              // for (var q in Service.questionsByDiscipline) {
-                              //   print(q);
-                              // }
                             } else {
                               Service.questionsByDiscipline.removeWhere(
                                   (element) =>
@@ -119,9 +118,11 @@ class _DisciplineState extends State<Discipline> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (Service.questionsByDiscipline.isEmpty) {
-                        showSnackBar(context,
-                            'Selecione uma disciplina para continuar.', Colors.red);
-                      }else{
+                        showSnackBar(
+                            context,
+                            'Selecione uma disciplina para continuar.',
+                            Colors.red);
+                      } else {
                         Navigator.pushNamed(context, 'schoolYear');
                       }
                     },

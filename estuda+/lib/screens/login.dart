@@ -1,3 +1,4 @@
+import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
@@ -43,52 +44,54 @@ class _LoginState extends State<Login> {
                       height: 300,
                       child: Lottie.asset(
                           './assets/lotties/animation_login.json')),
-                  Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                                label: Text(
-                              'Email',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
                               label: Text(
-                                'Senha',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
+                            'Email',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            label: Text(
+                              'Senha',
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-                        ElevatedButton(
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          //Navigator.pushNamed(context, 'loadingNextPage');
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context){
+                                return const LoadingNextPage(msgPrimary: 'Aguardando informações', msgSecundary: 'Carregando questões',);
+                              }));
+                          if (DaoUserResum.table == []) {
+                            print('Nenhum registro encontrado');
+                          } else {
+                            print('registro encontrado');
+                          }
+                        },
+                        child: const Text('Entrar'),
+                      ),
+                      SizedBox(
+                        height: noRegister,
+                        child: const Text('Nenhum cadastro encontrado!'),
+                      ),
+                      TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'loadingNextPage');
-                            if (DaoUserResum.table == []) {
-                              print('Nenhum registro encontrado');
-                            } else {
-                              print('registro encontrado');
-                            }
+                            Navigator.pushNamed(context, 'userRegister');
                           },
-                          child: const Text('Entrar'),
-                        ),
-                        SizedBox(
-                          height: noRegister,
-                          child: const Text('Nenhum cadastro encontrado!'),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.pushNamed(context, 'userRegister');
-                            },
-                            child: const Text('Cadastre-se'))
-                      ],
-                    ),
+                          child: const Text('Cadastre-se'))
+                    ],
                   )
                 ],
               ),

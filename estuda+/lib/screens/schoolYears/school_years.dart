@@ -1,11 +1,11 @@
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/widgets/listSelected_scrollable.dart';
+import 'package:estudamais/widgets/list_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/widgets/gridList_schoolYear.dart';
+import 'package:estudamais/screens/schoolYears/widgets/gridList_schoolYear.dart';
 import 'package:provider/provider.dart';
 //import 'package:progress_button/progress_button.dart';
 
@@ -32,6 +32,7 @@ class _SchoolYearsState extends State<SchoolYears> {
                 Service.questionsByDiscipline.clear();
                 Service.questionsBySchoolYear.clear();
                 Service.listSelectedDisciplines.clear();
+                Service.listSelectedSchoolYear.clear();
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -47,8 +48,13 @@ class _SchoolYearsState extends State<SchoolYears> {
             ),
             ListView(
               children: [
-                ListSelectedDisciplines(
-                  list: Service.listSelectedDisciplines,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: ListSelectedDisciplines(
+                    list: Service.listSelectedDisciplines,
+                    direction: Axis.horizontal,
+                  ),
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -100,7 +106,7 @@ class _SchoolYearsState extends State<SchoolYears> {
                           'Selecione o ano escolar para continuar.',
                           Colors.red,
                         );
-                      }else{
+                      } else {
                         Navigator.pushNamed(context, 'subject');
                       }
                     },

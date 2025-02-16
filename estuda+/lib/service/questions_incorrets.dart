@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 class QuestionsIncorrects {
   final String _questoesAll = dotenv.env['questoes']!;
@@ -14,11 +13,17 @@ class QuestionsIncorrects {
   static List<Map<String, dynamic>> mapListSubAndYearIncorrects = [];
   static List<String> listSchoolYearsIncorrects = [];
   static int subjectLength = 0;
-  var logger = Logger();
+  static Set<String> subjectsOfQuestionsIncorrects = {};
+  static int amountPortuguesIncorrects = 0;
+  static int amountMatematicaIncorrects = 0;
+  static int amountGeografiaIncorrects = 0;
+  static int amountHistoriaIncorrects = 0;
+  static int amountCienciasIncorrects = 0;
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
   Future<List<ModelQuestions>> getQuestionsIncorrects() async {
     List listIncorrects = [];
+    resultQuestionsIncorrect.clear();
     http.Response response = await http.get(
       Uri.parse('http://$_questoesAll/questoes'),
     );
@@ -33,10 +38,10 @@ class QuestionsIncorrects {
             }
           }
         }
-        logger.i('Questões incorretas recebidas com sucesso');
+        print('Questões incorretas recebidas com sucesso');
       }
     } catch (err) {
-      logger.e('Erro ao buscar questões incorretas: $err');
+      print('Erro ao buscar questões incorretas: $err');
     }
 
     return List<ModelQuestions>.from(
@@ -52,8 +57,13 @@ class QuestionsIncorrects {
     );
   }
 
+  showSubjectsOfQuestionsIncorrects(String subject) {
+    subjectsOfQuestionsIncorrects.add(subject);
+    print('subjectsOfQuestionsIncorrects $subjectsOfQuestionsIncorrects');
+  }
+
 // PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE,PARA PODER RENDERIZAR NA accumulated_right
-  getDisciplineOfQuestionsIncorrecs() {
+  getDisciplineOfQuestionsIncorrects() {
     List<String> list = [];
     try {
       if (resultQuestionsIncorrect.isNotEmpty) {
@@ -64,7 +74,7 @@ class QuestionsIncorrects {
       }
       //print('listDisciplinesIncorrect $listDisciplinesIncorrect');
     } on Exception catch (e) {
-      logger.e('Erro ao buscar disciplinas: $e');
+      print('Erro ao buscar disciplinas: $e');
     }
   }
 
@@ -93,5 +103,44 @@ class QuestionsIncorrects {
       }
       //print('mapListSubAndYear $mapListSubAndYearIncorrects');
     }
+  }
+
+  counterDisciplineIncorrects() {
+    List<String> portugues = [];
+    List<String> matematica = [];
+    List<String> geografia = [];
+    List<String> historia = [];
+    List<String> ciencias = [];
+    print('matematica1 $matematica');
+
+    for (var dis in resultQuestionsIncorrect) {
+      switch (dis['displice']) {
+        case 'Português':
+          portugues.add(dis['displice']);
+          amountPortuguesIncorrects = portugues.length;
+          break;
+        case 'Matemática':
+          matematica.add(dis['displice']);
+          amountMatematicaIncorrects = matematica.length;
+          break;
+        case 'Geografia':
+          geografia.add(dis['displice']);
+          amountGeografiaIncorrects = geografia.length;
+          break;
+        case 'História':
+          historia.add(dis['displice']);
+          amountHistoriaIncorrects = historia.length;
+          break;
+        case 'Ciências da Natureza':
+          ciencias.add(dis['displice']);
+          amountCienciasIncorrects = ciencias.length;
+      }
+    }
+    print('matematica2 $matematica');
+    print('portugues $amountPortuguesIncorrects');
+    print('matematica $amountMatematicaIncorrects');
+    print('geografia $amountGeografiaIncorrects');
+    print('historia $amountHistoriaIncorrects');
+    print('ciencias $amountCienciasIncorrects');
   }
 }

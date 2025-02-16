@@ -13,7 +13,6 @@ import 'dart:typed_data';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 
 class Service {
   final String _questoesAll = dotenv.env['questoes']!;
@@ -28,39 +27,30 @@ class Service {
   static List<String> schoolYears = [];
   static List<Map<String, dynamic>> schoolYearAndSubjects = [];
   static List<Map<String, dynamic>> resultQuestionsBySubjectsAndSchoolYear = [];
-  var logger = Logger();
+  
 
   // busca todas as questões
   Future<List<ModelQuestions>> getQuestions() async {
     List list = [];
+    resultController.clear();
     http.Response response = await http.get(
       Uri.parse('http://$_questoesAll/questoes'),
     );
     try {
       if (response.statusCode == 200) {
         list = await json.decode(response.body);
-        logger.i('Todas as questões recebidas com sucesso');
-        //print(DaoUserResum.listId);
+        print('Todas as questões recebidas com sucesso');
 
-        // List testIdCom = [];
-
-        // for (var element in list) {
-        //   testIdCom.add(element['id']);
-        // }
-        // print('List com os ids $testIdCom');
-
+        //retira as questões com os ids já respondidos
         for (var id in DaoUserResum.listId) {
           list.removeWhere((el) => el['id'] == int.parse(id));
         }
-
-        // List testIdSem = [];
-        // for (var el in list) {
-        //   testIdSem.add(el['id']);
-        // }
-        // print('List sem os ids $testIdSem');
+        for (var q in list) {
+          print('Ids recebidos: ${q['id']}');
+        }
       }
     } catch (err) {
-      logger.e('Erro ao buscar questões: $err');
+      print('Erro ao buscar questões: $err');
     }
 
     return List<ModelQuestions>.from(
@@ -86,12 +76,12 @@ class Service {
       listDisciplines = listAux.toSet().toList();
       listDisciplines.sort();
       if (listDisciplines.isNotEmpty) {
-        logger.d('Disciplinas ok!: $listDisciplines');
+        print('Disciplinas ok!: $listDisciplines');
       } else {
-        logger.w('Nenhuma disciplina encontrada!');
+        print('Nenhuma disciplina encontrada!');
       }
     } on Exception catch (e) {
-      logger.e('Erro ao buscar disciplinas: $e');
+      print('Erro ao buscar disciplinas: $e');
     }
   }
 
@@ -106,14 +96,16 @@ class Service {
           questionsByDiscipline.add(questions);
         }
       }
-      //print('questionsByDiscipline $questionsByDiscipline');
+      for (var c in questionsByDiscipline) {
+        print('questões: ${c['id']}, ${c['displice']}');
+      }
     } on Exception catch (e) {
-      logger.e('Erro ao buscar questões por disciplina: $e');
+      print('Erro ao buscar questões por disciplina: $e');
     }
   }
 
-  // BUSCA APENAS OS ANOS SELECIONADOS DAS DISCIPLINAS ESCOLHIDAS
-  String? getSubjectsAndSchoolYearOfDiscipline(String schoolYear) {
+  // BUSCA AS QUESTÕES POR ANO DAS QUESTÕES SELECIONADAS POR DISCIPLINA
+  getSubjectsAndSchoolYearOfDiscipline(String schoolYear) {
     listSelectedSchoolYear.add(schoolYear);
     listSelectedSchoolYear.sort();
     try {
@@ -127,17 +119,21 @@ class Service {
           return 'Nenhuma questão encontrada!';
         }
       }
-      //print('questionsBySchoolYear $questionsBySchoolYear');
+
+      for (var q in questionsBySchoolYear) {
+        print('questões: ${q['id']} ${q['displice']}, ${q['subject']}');
+      }
     } catch (error) {
       print('Erro ao buscar questões por ano: $error');
       return 'Erro ao buscar questões por ano';
     }
-    return null;
   }
 
-  findSubjectsBySchoolYears(String years) {
+// BUSCA A DISCIPLINA, O ANO E O ASSUNTO DAS QUESTÕES OBTIDAS POR ANO SELECIONADO
+  getSubjectsBySchoolYears(String years) {
     Map<String, dynamic> mapYearAndSubject = {};
     List<Map<String, dynamic>> result = [];
+
     try {
       for (var map in questionsBySchoolYear) {
         if (years == map['schoolYear']) {
@@ -149,8 +145,8 @@ class Service {
           result.add(mapYearAndSubject);
         }
       }
-      logger.i('map $result');
 
+      //print('result $result');
       final jsonList = result.map((el) => jsonEncode(el)).toList();
       final uniqueList = jsonList.toSet().toList();
       var newMap = uniqueList.map((item) => jsonDecode(item)).toList();
@@ -158,19 +154,13 @@ class Service {
       for (var listMap in newMap) {
         schoolYearAndSubjects.add(listMap);
       }
-      // schoolYearAndSubjects.sort((a, b) {
-      //   int compare = a['disciplines'].compereTo(a['disciplines']);
-      //   if (compare != 0) {
-      //     return compare;
-      //   }
-      // });
+      print('schoolYearAndSubjects $schoolYearAndSubjects');
     } catch (err) {
-      logger.e('Falha na busca dos dados: $err');
+      print('Falha na busca dos dados: $err');
     }
-    // print('Resultado: $schoolYearAndSubjects');
   }
 
-  // BUSCA AS QUESTÕES POR ANO E ASSUNTO QUE FORAM SELECIONADAS
+  // BUSCA AS QUESTÕES POR DISCIPLINA, ANO E ASSUNTO QUE FORAM SELECIONADAS
   // NAS TELAS ANTERIORES
   getQuestionsAllBySubjectsAndSchoolYear(
       String schoolYear, String subject, String discipline) async {
@@ -178,7 +168,7 @@ class Service {
 
     try {
       if (questionsByDiscipline.isNotEmpty) {
-        // BUSCA AS QUESTÕES DA DISCIPLINA SELECIONANA NO DRAWER
+        // BUSCA AS QUESTÕES DA DISCIPLINA SELECIONANA
         var result = questionsByDiscipline
             .where((element) =>
                 element['schoolYear'] == schoolYear &&
@@ -189,7 +179,7 @@ class Service {
           resultQuestionsBySubjectsAndSchoolYear.add(questions);
         }
 
-        //print('result $result');
+        print('result $result');
         //print('resultQuestion $resultQuestionsBySubjectsAndSchoolYear');
       }
     } catch (err) {
@@ -197,16 +187,5 @@ class Service {
     }
   }
 
-  cleanLists() {
-    questionsByDiscipline.clear();
-    questionsBySchoolYear.clear();
-    listSelectedDisciplines.clear();
-    listSelectedSchoolYear.clear();
-    resultController.clear();
-    resultQuestionsAll.clear();
-    listQuestionsByDipliceAndSchoolYear.clear();
-    schoolYears.clear();
-    schoolYearAndSubjects.clear();
-    resultQuestionsBySubjectsAndSchoolYear.clear();
-  }
+  
 }

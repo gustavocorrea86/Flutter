@@ -1,23 +1,21 @@
 import 'package:estudamais/screens/accumulated_wrongs.dart';
-import 'package:estudamais/screens/discipline.dart';
-import 'package:estudamais/screens/page_questions_by_schoolyear.dart';
+import 'package:estudamais/screens/discipline/discipline.dart';
+import 'package:estudamais/screens/screen_questions/screen_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:estudamais/database/dao_user_resum.dart';
 
-import 'package:estudamais/models/model_right.dart';
-
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/accumulated_right.dart';
 
-import 'package:estudamais/screens/home.dart';
+import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/screens/initial_screen.dart';
 import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:estudamais/screens/login.dart';
 
-import 'package:estudamais/screens/school_years.dart';
-import 'package:estudamais/screens/subjects.dart';
+import 'package:estudamais/screens/schoolYears/school_years.dart';
+import 'package:estudamais/screens/subjects/subjects.dart';
 
 import 'package:estudamais/screens/user_register1.dart';
 import 'package:provider/provider.dart';
@@ -28,24 +26,13 @@ void main() async {
     MultiProvider(providers: [
       ChangeNotifierProvider(
         create: (context) => ModelPoints(
-            '0',
-            '0',
-            DaoUserResum.totalPoints,
-            DaoUserResum.totalErrors,
-            DaoUserResum.answeredQuestions,
-            0,
-            'Displice?',
-            'SchoolYear?',
-            'getDisplice',
-            'getSchoolYear',
-            'erroSubjetc',
-            false,
-            false),
+            '0', '0', DaoUserResum.totalPoints, false, false, false),
       ),
-      ChangeNotifierProvider(
-          create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
+      // ChangeNotifierProvider(
+      //     create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
+  DaoUserResum().findAll();
 }
 
 class MyApp extends StatelessWidget {
@@ -53,10 +40,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Study and Cash',
+      title: 'Estuda +',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300])),
+          appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300],),),
       initialRoute: 'initial',
       routes: {
         'initial': (context) => const ScreenInitial(),

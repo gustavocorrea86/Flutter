@@ -3,10 +3,9 @@ import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/widgets/box_type_question.dart';
-import 'package:estudamais/widgets/pointsAndErrors.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_type_question.dart';
+import 'package:estudamais/screens/screen_questions/widgets/pointsAndErrors.dart';
 import 'package:provider/provider.dart';
-import 'package:logger/logger.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
@@ -53,7 +52,6 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
   // DaoWrong databaseWrongs = DaoWrong();
   double heightImage = 0;
   Service service = Service();
-  var logger = Logger();
 
   @override
   Widget build(BuildContext context) {
@@ -195,19 +193,36 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                               onPressed: () {
                                 widget.controller.animateToPage(
                                     widget.question - 1,
-                                    duration: const Duration(microseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     curve: Curves.ease);
                               },
                               child: const Text(
                                 'Voltar',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.popAndPushNamed(context, 'home');
-                                service.cleanLists();
+                                //limpa as questões obtidas por disciplina
+                                Service.questionsByDiscipline.clear();
+                                // limpa a list onde mostra as disciplinas selecionadas
+                                Service.listSelectedDisciplines.clear();
+                                // limpa as questões obtidas da busca por ano escolar
+                                Service.questionsBySchoolYear.clear();
+                                // limpa a list de disciplina, ano e assunto que foram obtidas da busca por ano selecionado
+                                Service.schoolYearAndSubjects.clear();
+                                // limpa list que onde mostra os anos selecionados
+                                Service.listSelectedSchoolYear.clear();
+                                // limpa a list da busca geral
+                                Service.resultQuestionsBySubjectsAndSchoolYear
+                                    .clear();
+                                Navigator.popAndPushNamed(
+                                    context, 'loadingNextPage');
+                                // QuestionsCorrects().getQuestionsCorrects();
+                                // QuestionsIncorrects().getQuestionsIncorrects();
                               },
                               child: const Text(
                                 'Sair',

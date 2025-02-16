@@ -2,18 +2,15 @@ import 'dart:convert';
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:logger/logger.dart';
 
 class DaoUserResum {
   static const String _user = 'tableUsers';
-  static const String _name = 'name';
-  static const String _lastName = 'lastName';
-  static const String _schoolYear = 'grade';
+
   static const String _totalPoints = 'totalPoints';
   static const String _totalOfQuestions = 'totalOfQuestions';
   static const String _totalError = 'totalError';
   static const String _idQuestions = 'idQuestion';
-  static const String _keyword = 'keyword';
+
   static const String _idQuestionCorrect = 'idQuestionCorrect';
   static const String _idQuestionIncorrect = 'idQuestionIncorrect';
   static String totalPoints = '0';
@@ -30,31 +27,22 @@ class DaoUserResum {
   static String userName = '';
   static String answeredQuestions = '0';
   static List<Map<String, dynamic>> table = [];
-  var logger = Logger();
 
   static const String tableUser = 'CREATE TABLE $_user('
       'id INTEGER PRIMARY KEY AUTOINCREMENT,'
-      '$_name TEXT,'
-      '$_lastName TEXT,'
-      '$_schoolYear TEXT,'
       '$_totalPoints TEXT,'
       '$_totalOfQuestions TEXT,'
       '$_totalError TEXT,'
       '$_idQuestions TEXT,'
-      '$_keyword TEXT,'
       '$_idQuestionCorrect TEXT,'
       '$_idQuestionIncorrect TEXT)';
 
   Map<String, dynamic> toMap(ModelsUserResum resumUser) {
     return {
-      _name: resumUser.name,
-      _lastName: resumUser.lastName,
-      _schoolYear: resumUser.schoolYear,
       _totalPoints: totalPoints,
       _totalOfQuestions: resumUser.totalOfQuestions,
       _totalError: resumUser.totalError,
       _idQuestions: resumUser.idQuestions,
-      _keyword: resumUser.keyword,
       _idQuestionCorrect: resumUser.idQuestionCorrect,
       _idQuestionIncorrect: resumUser.idQuestionIncorrect,
     };
@@ -74,7 +62,7 @@ class DaoUserResum {
   Future findAll() async {
     final db = await getConnection();
     table = await db.query(_user);
-    //print(table);
+    print(table);
   }
 
   Future insertUser(ModelsUserResum userRegister) async {
@@ -153,7 +141,7 @@ class DaoUserResum {
       // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
       var idList = jsonDecode(feedback[0]['idQuestionIncorrect']);
       listIdIncorrects = idList;
-      logger.i('listIdIncorrect $listIdIncorrects');
+      print('listIdIncorrect $listIdIncorrects');
     } catch (erro) {
       print('Erro ao atualizar id das questões incorretas: $erro');
     }
@@ -171,7 +159,7 @@ class DaoUserResum {
     } else {
       listIdCorrects = idList;
     }
-    logger.i('listIdCorrects $listIdCorrects');
+    print('listIdCorrects $listIdCorrects');
   }
 
   Future findIdQuestions() async {
@@ -184,7 +172,7 @@ class DaoUserResum {
     } else {
       listId = idList;
     }
-    logger.i('listId $listId');
+    print('listId $listId');
   }
 
   Future findIdQuestionsIncorrect() async {
@@ -197,7 +185,7 @@ class DaoUserResum {
     } else {
       listIdIncorrects = idList;
     }
-    logger.i('listIdIncorrect $listIdIncorrects');
+    print('listIdIncorrect $listIdIncorrects');
   }
 
   Future findPoints() async {
@@ -213,7 +201,7 @@ class DaoUserResum {
       print('Erro ao encontrar pontos: $erro');
     }
 
-    logger.i('totalPoints= $totalPoints');
+    print('totalPoints= $totalPoints');
   }
 
   Future findErrors() async {
@@ -236,7 +224,7 @@ class DaoUserResum {
     final Database db = await getConnection();
     List<Map<String, dynamic>> user = await db.query(_user);
     userName = user[0]['name'];
-    logger.i(userName);
+    print(userName);
   }
 
   Future findAnswered() async {
@@ -251,7 +239,7 @@ class DaoUserResum {
       findIdQuestionsCorrect();
       findIdQuestionsIncorrect();
     } catch (erro) {
-      logger.e('Erro ao pegar quantidade de perguntas respondidas: $erro');
+      print('Erro ao pegar quantidade de perguntas respondidas: $erro');
     }
 
     print('Total de respondidas = $answeredQuestions');

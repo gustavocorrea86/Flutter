@@ -11,11 +11,17 @@ class QuestionsCorrects {
   static List<Map<String, dynamic>> mapListSubAndYearCorrects = [];
   static List<String> listSchoolYearsCorrects = [];
   static int subjectLength = 0;
+  static Set<String> subjectsOfQuestionsCorrects = {};
+  static int amountPortuguesCorrects = 0;
+  static int amountMatematicaCorrects = 0;
+  static int amountGeografiaCorrects = 0;
+  static int amountHistoriaCorrects = 0;
+  static int amountCienciasCorrects = 0;
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
   Future getQuestionsCorrects() async {
-    //<List<ModelQuestions>>
     List listCorrects = [];
+    resultQuestionsCorrect.clear();
     http.Response response = await http.get(
       Uri.parse('http://$_questoesAll/questoes'),
     );
@@ -36,6 +42,7 @@ class QuestionsCorrects {
           //print('tamanho da list ${listCorrects.length}');
           resultQuestionsCorrect.add(q);
         }
+        print('Questões corretas recebidas com sucesso');
       }
     } catch (err) {
       //print('Erro ao buscar questões: $err');
@@ -69,58 +76,67 @@ class QuestionsCorrects {
     }
   }
 
-  // getSubjectsOfQuestionsCorrects(String discipline) {
-  //   List<String> list = [];
-  //   try {
-  //     if (resultQuestionsCorrect.isNotEmpty) {
-  //       for (var subjects in resultQuestionsCorrect) {
-  //         if (subjects['displice'] == discipline) {
-  //           list.add(subjects['subject']);
-  //         }
-  //       }
+  //MÉTODO QUE SERVE COMO BASE DE CONSULTA DE QUESTÕES POR ASSUNTO, ATRAVÉS DA LIST subjectsOfQuestionsCorrects
+  showSubjectsOfQuestionsCorrects(String subject) {
+    subjectsOfQuestionsCorrects.add(subject);
+    print('subjectsOfQuestionsCorrects $subjectsOfQuestionsCorrects');
+  }
 
-  //       listSubjectsCorrect = list.toSet().toList();
-  //       subjectLength = listSubjectsCorrect.length;
-  //       print('subjects $listSubjectsCorrect');
-  //     } else {}
-  //   } on Exception catch (e) {
-  //     print('Erro ao buscar assuntos: $e');
-  //   }
-  // }
+  counterDisciplineCorrects() {
+    List<String> portugues = [];
+    List<String> matematica = [];
+    List<String> geografia = [];
+    List<String> historia = [];
+    List<String> ciencias = [];
+    print('matematica1 $matematica');
 
-  // getListSchoolYearCorrects(String subjects) {
-  //   List<String> list = [];
-  //   try {
-  //     if (resultQuestionsCorrect.isNotEmpty) {
-  //       for (var sub in resultQuestionsCorrect) {
-  //         if (sub['subject'] == subjects) {
-  //           list.add(sub['schoolYear']);
-  //         }
-  //       }
-  //       listSchoolYearsCorrects = list.toSet().toList();
-  //       print('listSchoolYearsCorrects $listSchoolYearsCorrects');
-  //     }
-  //   } on Exception catch (e) {
-  //     print('Erro ao buscar ano: $e');
-  //   }
-  // }
+    for (var dis in resultQuestionsCorrect) {
+      switch (dis['displice']) {
+        case 'Português':
+          portugues.add(dis['displice']);
+          amountPortuguesCorrects = portugues.length;
+          break;
+        case 'Matemática':
+          matematica.add(dis['displice']);
+          amountMatematicaCorrects = matematica.length;
+          break;
+        case 'Geografia':
+          geografia.add(dis['displice']);
+          amountGeografiaCorrects = geografia.length;
+          break;
+        case 'História':
+          historia.add(dis['displice']);
+          amountHistoriaCorrects = historia.length;
+          break;
+        case 'Ciências da Natureza':
+          ciencias.add(dis['displice']);
+          amountCienciasCorrects = ciencias.length;
+      }
+    }
+    print('matematica2 $matematica');
+    print('portugues $amountPortuguesCorrects');
+    print('matematica $amountMatematicaCorrects');
+    print('geografia $amountGeografiaCorrects');
+    print('historia $amountHistoriaCorrects');
+    print('ciencias $amountCienciasCorrects');
+  }
 
-  // PEGA OS ASSUNTOS E ANOS DAS QUESTÕES CORRETAS E COLOCA EM UM MAP,PARA PODER RENDERIZAR NA accumulated_right
-  // showSubjectsAndSchoolyeaCorrects(String discipline) {
+  // showSubjectsCorrects(String discipline) async {
   //   Map<String, dynamic> mapYearAndSubject = {};
   //   List<Map<String, dynamic>> result = [];
-
   //   mapListSubAndYearCorrects.clear();
   //   if (resultQuestionsCorrect.isNotEmpty) {
   //     for (var map in resultQuestionsCorrect) {
   //       if (map['displice'] == discipline) {
   //         mapYearAndSubject = {
   //           'schoolYear': map['schoolYear'],
-  //           'subjects': map['subject']
+  //           'subjects': map['subject'],
+  //           // 'lenght':
   //         };
   //         result.add(mapYearAndSubject);
   //       }
   //     }
+  //     //print('result ${result}');
   //     // remove duplicates from the list and convert it to a Set to avoid duplicates.
   //     final jsonList = result.map((el) => jsonEncode(el)).toList();
   //     final setList = jsonList.toSet().toList();
@@ -129,7 +145,9 @@ class QuestionsCorrects {
   //     for (var listMap in decodeList) {
   //       mapListSubAndYearCorrects.add(listMap);
   //     }
-  //     print('mapListSubAndYear $mapListSubAndYearCorrects');
+
+  //     print('mapListSubAndYearCorrects $mapListSubAndYearCorrects');
   //   }
+  //   return mapListSubAndYearCorrects;
   // }
 }
