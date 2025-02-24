@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/models/models_user_resum.dart';
 
 class UserRegister1 extends StatefulWidget {
   const UserRegister1({super.key});
@@ -42,12 +41,6 @@ class _UserRegisterState extends State<UserRegister1> {
           children: [
             //DragTarget(builder: ),
             Draggable(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.amber,
-                //child: Container(width: 300, height: 400, color: Colors.green,),
-              ),
               feedback: Container(
                 width: 200,
                 height: 200,
@@ -57,6 +50,12 @@ class _UserRegisterState extends State<UserRegister1> {
                 width: 300,
                 height: 400,
                 color: Colors.blueGrey,
+              ),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.amber,
+                //child: Container(width: 300, height: 400, color: Colors.green,),
               ),
             ),
           ],

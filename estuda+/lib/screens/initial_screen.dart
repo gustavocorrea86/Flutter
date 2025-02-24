@@ -27,12 +27,12 @@ class _ScreenInitialState extends State<ScreenInitial> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(12.0),
               child: GestureDetector(
                 onTap: () {
                   if (DaoUserResum.table.isEmpty) {
                     DaoUserResum().insertUser(
-                      ModelsUserResum(
+                      const ModelsUserResum(
                         totalPoints: '0',
                         totalOfQuestions: '0',
                         totalError: '0',
