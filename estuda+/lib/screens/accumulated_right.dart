@@ -1,4 +1,7 @@
+import 'package:estudamais/controller/routes.dart';
 import 'package:estudamais/models/models.dart';
+import 'package:estudamais/screens/home/home.dart';
+import 'package:estudamais/screens/screen_questions/questions_corrects.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/widgets/expanded_subjects.dart';
@@ -33,7 +36,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
               onPressed: () {
                 QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
                 QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
-                Navigator.popAndPushNamed(context, 'home');
+                Routes().popRoutes(context, const HomeScreen());
               },
               icon: const Icon(Icons.arrow_back),
             ),
@@ -97,7 +100,11 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            //QuestionsCorrects().resultQuestionsCorrects();
+                            Routes().pushRoute(
+                                context, const PageQuestionsCorrects());
+                          },
                           child: const Text('Mostrar questões')),
                     )
                   ],

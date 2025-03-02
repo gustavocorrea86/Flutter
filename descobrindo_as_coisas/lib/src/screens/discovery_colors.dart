@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:descobrindo_as_coisas/src/components/backgroud.dart';
 import 'package:descobrindo_as_coisas/src/components/draggables.dart';
 import 'package:descobrindo_as_coisas/src/components/dragtarget.dart';
 import 'package:flutter/material.dart';
@@ -29,24 +30,24 @@ class _DiscoveryColorsState extends State<DiscoveryColors> {
     await flutterTts.speak(text);
   }
 
-  generatorDoublesY({required double start, required double end}) {
-    double valueYPosition = 0;
-    valueYPosition = Random().nextDouble() * (end - start) + start;
-    String stringGenerator = valueYPosition.toStringAsFixed(1);
-    valueYPosition = double.parse(stringGenerator);
-    //print('y1 $valueYPosition');
-    return valueYPosition;
-  }
+//   generatorDoublesY({required double start, required double end}) {
+//     double valueYPosition = 0;
+//     valueYPosition = Random().nextDouble() * (end - start) + start;
+//     String stringGenerator = valueYPosition.toStringAsFixed(1);
+//     valueYPosition = double.parse(stringGenerator);
+//     //print('y1 $valueYPosition');
+//     return valueYPosition;
+//   }
 
-// eixo x start 3 end 230
-  generatorDoublesX({required double start, required double end}) {
-    double valueXPosition = 0;
-    valueXPosition = Random().nextDouble() * (end - start) + start;
-    String stringGenerator = valueXPosition.toStringAsFixed(1);
-    valueXPosition = double.parse(stringGenerator);
-    //print('x1 $valueXPosition');
-    return valueXPosition;
-  }
+// // eixo x start 3 end 230
+//   generatorDoublesX({required double start, required double end}) {
+//     double valueXPosition = 0;
+//     valueXPosition = Random().nextDouble() * (end - start) + start;
+//     String stringGenerator = valueXPosition.toStringAsFixed(1);
+//     valueXPosition = double.parse(stringGenerator);
+//     //print('x1 $valueXPosition');
+//     return valueXPosition;
+//   }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +155,7 @@ class _DiscoveryColorsState extends State<DiscoveryColors> {
       positionXyR9C3
     ];
 
-    Widget embaralhar() {
+    Widget shuffle() {
       positions.shuffle();
       return Stack(
         children: [
@@ -315,70 +316,54 @@ class _DiscoveryColorsState extends State<DiscoveryColors> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Palavras e Cores'),
-        backgroundColor: Colors.indigoAccent,
-        actions: [
-          IconButton(
-              onPressed: () {
-                //Navigator.popAndPushNamed(context, 'colorAndWord');
-                setState(() {
-                  
-                });
-              },
-              icon: Icon(Icons.refresh))
-        ],
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color.fromARGB(255, 64, 7, 90),
-              const Color.fromARGB(255, 48, 75, 228),
-              const Color.fromARGB(255, 64, 7, 90),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Palavras e Cores'),
+          backgroundColor: Colors.indigoAccent,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  //Navigator.popAndPushNamed(context, 'colorAndWord');
+                  setState(() {});
+                },
+                icon: Icon(Icons.refresh))
+          ],
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: ListView(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white60,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  //crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Text(
-                        'Junte a cor com a palavra correspondente;',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+        body: Backgroud(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ListView(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white60,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    //crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          'Junte a cor com a palavra correspondente;',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          height: 600,
-                          decoration: BoxDecoration(border: Border.all()),
-                          child: embaralhar()),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                            height: 600,
+                            decoration: BoxDecoration(border: Border.all()),
+                            child: shuffle()),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

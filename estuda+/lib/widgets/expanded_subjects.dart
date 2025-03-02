@@ -42,7 +42,7 @@ class _ExpandedSubjectsState extends State<ExpandedSubjects> {
               dividerColor: Colors.indigo,
               //expandedHeaderPadding: const EdgeInsets.all(1),
               expansionCallback: (int index, bool enable) {
-                print('enable $enable e index $index');
+                //print('enable $enable e index $index');
                 if (enable) {
                   setState(
                     () {

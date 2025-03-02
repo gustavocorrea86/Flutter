@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:math';
-import 'package:descobrindo_as_coisas/src/model/controller_accept.dart';
-import 'package:descobrindo_as_coisas/src/model/counter.dart';
-import 'package:descobrindo_as_coisas/src/model/states.dart';
+import 'package:descobrindo_as_coisas/src/components/dialog.dart';
+import 'package:descobrindo_as_coisas/src/controller/controller.dart';
+import 'package:descobrindo_as_coisas/src/controller/counter.dart';
+import 'package:descobrindo_as_coisas/src/controller/states.dart';
+import 'package:descobrindo_as_coisas/src/screens/memory_play/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,11 +33,13 @@ class _FlipCardState extends State<FlipCard>
   late Animation<double> _animation;
 
   bool isFlipped = true;
-  static List<String> comparison = [];
-  static List<String> identifyLetter = [];
+  //static List<String> comparison = [];
+  //static List<String> identifyLetter = [];
 
   Counter counter = Counter();
   States states = States();
+  Controller controller = Controller();
+  Timer? _timer;
 
   @override
   void initState() {
@@ -59,10 +64,10 @@ class _FlipCardState extends State<FlipCard>
         });
       }
     });
-    // _controller.forward();
-    // Future.delayed(Duration(seconds: 5)).then((t) {
-    //   _controller.reverse();
-    // });
+    _controller.forward();
+    Future.delayed(Duration(seconds: 10)).then((t) {
+      _controller.reverse();
+    });
     super.initState();
   }
 
@@ -73,36 +78,45 @@ class _FlipCardState extends State<FlipCard>
   }
 
   controllerCard() {
+    
     // so abre 2  cartas por vez
     if (states.isFlipped && Counter.count < 2) {
       // animação para abrir
       _controller.forward();
       // adicionaa primeira letra da primeira sequencia na lista para comparar
-      comparison.add(widget.contentCard);
+      Controller.compare.add(widget.contentCard);
       //contador de comparação
       counter.increment();
       // compara a partir da segunda carta
       if (Counter.count > 1) {
         // se forem iguais:
-        if (comparison[0] == comparison[1]) {
+        if (Controller.compare[0] == Controller.compare[1]) {
           // limpa o contador
           Counter.count = 0;
+          // contador de combinações
+          counter.counterMatch();
 
-          Future.delayed(Duration(seconds: 1)).then((v) {
-            // ignore: use_build_context_synchronously
-            Provider.of<ControllerAccept>(listen: false, context)
+          //delay de 1 segundo para mudar a borda
+          _timer = Timer(Duration(seconds: 1), () {
+            Provider.of<Controller>(listen: false, context)
                 .changeBorderCards(3);
-            // ignore: use_build_context_synchronously
-            Provider.of<ControllerAccept>(listen: false, context)
-                .changeBorder(true);
+            Provider.of<Controller>(listen: false, context).changeBorder(true);
           });
+
           //atribui à segunda carta aberta como true para imobiliza-la
 
           states.isMatch = true;
           // remove da lista as letras comparadas
-          comparison.removeWhere((el) => el == widget.contentCard);
+          Controller.compare.removeWhere((el) => el == widget.contentCard);
           // adiciona a segunda letra para na lista para poder imobiliza-la a primeira letra escolhida.
-          identifyLetter.add(widget.contentCard);
+          Controller.identifyLetter.add(widget.contentCard);
+          // verifica se o jogador encontrou todas as combinações
+          if (Counter.matchs == Helpers.letter.length / 2) {
+            _timer = Timer(Duration(seconds: 2), () {
+              showDialogFeedBack(context);
+            });
+            Provider.of<Controller>(listen: false, context).timerActivity(true);
+          }
         } else {
           // se nao for igual, não imobiliza
           states.isMatch = false;
@@ -114,14 +128,14 @@ class _FlipCardState extends State<FlipCard>
       // se tiver menos de 2 no contador ou seja, 2 cartas abertas, permite que desvire se:
     } else if (Counter.count <= 2 && !states.isFlipped) {
       // se tiver a letra na identifyList
-      if (identifyLetter.contains(widget.contentCard)) {
+      if (Controller.identifyLetter.contains(widget.contentCard)) {
         // imobiliza a segunda carta aberta
         _controller.stop();
       } else {
         // se não, permite que desvire
         _controller.reverse();
         // tira a letra desvirada da lista
-        comparison.removeWhere((el) => el == widget.contentCard);
+        Controller.compare.removeWhere((el) => el == widget.contentCard);
         // conta -1 no contador
         counter.decrement();
       }
@@ -130,7 +144,7 @@ class _FlipCardState extends State<FlipCard>
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ControllerAccept>(
+    return Consumer<Controller>(
       builder: (context, value, child) {
         return GestureDetector(
           onTap: () {

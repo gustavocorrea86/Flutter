@@ -55,9 +55,9 @@ class _BoxSubjectsAndSchoolYearState extends State<BoxSubjectsAndSchoolYear> {
                       widthBorder = 3;
                       colorBorder = Colors.green;
                       QuestionsCorrects()
-                          .showSubjectsOfQuestionsCorrects(widget.subject);
+                          .getQuestionsCorrectsForSubjects(widget.subject);
                       QuestionsIncorrects()
-                          .showSubjectsOfQuestionsIncorrects(widget.subject);
+                          .getQuestionsIncorrectsForSubjects(widget.subject);
 
                       value.showSubjects(true);
                       //print('assunto ${widget.subject}');
@@ -70,11 +70,12 @@ class _BoxSubjectsAndSchoolYearState extends State<BoxSubjectsAndSchoolYear> {
                       colorBorder = Colors.white;
                       QuestionsCorrects.subjectsOfQuestionsCorrects
                           .remove(widget.subject);
+                      QuestionsCorrects.resultQuestions
+                          .removeWhere((el) => el.subject == widget.subject);
                       QuestionsIncorrects.subjectsOfQuestionsIncorrects
                           .remove(widget.subject);
-
-                      print(
-                          ' QuestionsCorrects.showQuestionsSubject ${QuestionsCorrects.subjectsOfQuestionsCorrects}');
+                      QuestionsIncorrects.resultQuestions
+                          .removeWhere((el) => el.subject == widget.subject);
                     }
                   },
                 );

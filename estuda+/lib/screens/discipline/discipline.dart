@@ -1,10 +1,13 @@
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/home/home.dart';
+import 'package:estudamais/screens/schoolYears/school_years.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
+import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
 
 import 'package:provider/provider.dart';
@@ -38,9 +41,9 @@ class _DisciplineState extends State<Discipline> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                //Navigator.popAndPushNamed(context, 'loadingNextPage');
+                Routes().popRoutes(context, const HomeScreen());
+                //Navigator.pushNamedAndRe
                 Service.questionsByDiscipline.clear();
-                Navigator.popAndPushNamed(context, 'home');
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(
@@ -50,10 +53,7 @@ class _DisciplineState extends State<Discipline> {
         ),
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: Lottie.asset('./assets/lotties/backgroud_blue.json',
-                  fit: BoxFit.cover),
-            ),
+           const Background(),
             ListView(
               children: [
                 Padding(
@@ -105,7 +105,6 @@ class _DisciplineState extends State<Discipline> {
                               //print(Service.questionsByDiscipline);
                               Service.listSelectedDisciplines.removeWhere(
                                   (el) => el == Service.listDisciplines[index]);
-                              //print(Service.listDisciplines[index]);
                             }
                           },
                         );
@@ -123,15 +122,12 @@ class _DisciplineState extends State<Discipline> {
                             'Selecione uma disciplina para continuar.',
                             Colors.red);
                       } else {
-                        Navigator.pushNamed(context, 'schoolYear');
+                        Routes().pushRoute(context, const SchoolYears());
                       }
                     },
                     child: const Text('Próximo'),
                   ),
                 ),
-                //  ButtonProgress((){
-                //   Navigator.pushNamed(context, 'schoolYears');
-                //  })
               ],
             ),
           ],

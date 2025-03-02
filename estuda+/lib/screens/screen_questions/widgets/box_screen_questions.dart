@@ -1,44 +1,52 @@
 import 'dart:typed_data';
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/home/home.dart';
+import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/screen_questions/widgets/box_type_question.dart';
-import 'package:estudamais/screens/screen_questions/widgets/pointsAndErrors.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:provider/provider.dart';
 
 class ScreenQuestions extends StatefulWidget {
   final Widget boxQuestions;
   final Uint8List image;
-  final Widget boxAlternativesA;
-  final Widget boxAlternativesB;
-  final Widget boxAlternativesC;
-  final Widget boxAlternativesD;
+  final Widget? boxAlternativesA;
+  final Widget? boxAlternativesB;
+  final Widget? boxAlternativesC;
+  final Widget? boxAlternativesD;
   final PageController controller;
-  final String qdtQuestoes;
-  final int question;
-  final String matter;
+  final int indexQuestion;
+  final String discipline;
   final String subject;
   final String id;
   final String elementarySchool;
-  final String series;
+  final String schoolYear;
+  final Widget? correctsAndIncorrects;
+  final String? title;
+  final TextButton? textButton;
 
   const ScreenQuestions(
-      this.boxQuestions,
-      this.image,
+      {required this.boxQuestions,
+      required this.image,
       this.boxAlternativesA,
       this.boxAlternativesB,
       this.boxAlternativesC,
       this.boxAlternativesD,
-      this.controller,
-      this.qdtQuestoes,
-      this.question,
-      this.matter,
-      this.subject,
-      this.id,
-      this.elementarySchool,
-      this.series,
-      {super.key});
+      required this.controller,
+      required this.indexQuestion,
+      required this.discipline,
+      required this.subject,
+      required this.id,
+      required this.elementarySchool,
+      required this.schoolYear,
+      this.correctsAndIncorrects,
+      this.title,
+      this.textButton,
+      super.key});
 
   @override
   State<ScreenQuestions> createState() => _ScreenQuestionsState();
@@ -66,9 +74,19 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
           ),
           child: ListView(
             children: [
+              Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  alignment: Alignment.center,
+                  child: Text(
+                    widget.title ?? '',
+                    style: GoogleFonts.aboreto(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 8.0, top: 60.0, right: 8.0, bottom: 8.0),
+                    left: 8.0, top: 8.0, right: 8.0, bottom: 8.0),
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
@@ -83,7 +101,6 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                         ]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      //mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
@@ -98,7 +115,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                     color: Colors.indigo,
                                     fontWeight: FontWeight.bold),
                               ),
-                              PointsAndErrors()
+                              widget.correctsAndIncorrects ??
+                                  const SizedBox.shrink(),
                             ],
                           ),
                         ),
@@ -112,8 +130,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           child: BoxTypeQuestion(
                             widget.elementarySchool,
-                            widget.matter,
-                            widget.series,
+                            widget.discipline,
+                            widget.schoolYear,
                             widget.subject,
                           ),
                         ),
@@ -133,10 +151,10 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             return Container();
                           }),
                         ),
-                        widget.boxAlternativesA,
-                        widget.boxAlternativesB,
-                        widget.boxAlternativesC,
-                        widget.boxAlternativesD,
+                        widget.boxAlternativesA ?? const SizedBox.shrink(),
+                        widget.boxAlternativesB ?? const SizedBox.shrink(),
+                        widget.boxAlternativesC ?? const SizedBox.shrink(),
+                        widget.boxAlternativesD ?? const SizedBox.shrink(),
                         const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Divider(
@@ -192,7 +210,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             TextButton(
                               onPressed: () {
                                 widget.controller.animateToPage(
-                                    widget.question - 1,
+                                    widget.indexQuestion - 1,
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.ease);
                               },
@@ -204,32 +222,16 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                 ),
                               ),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                //limpa as questões obtidas por disciplina
-                                Service.questionsByDiscipline.clear();
-                                // limpa a list onde mostra as disciplinas selecionadas
-                                Service.listSelectedDisciplines.clear();
-                                // limpa as questões obtidas da busca por ano escolar
-                                Service.questionsBySchoolYear.clear();
-                                // limpa a list de disciplina, ano e assunto que foram obtidas da busca por ano selecionado
-                                Service.schoolYearAndSubjects.clear();
-                                // limpa list que onde mostra os anos selecionados
-                                Service.listSelectedSchoolYear.clear();
-                                // limpa a list da busca geral
-                                Service.resultQuestionsBySubjectsAndSchoolYear
-                                    .clear();
-                                Navigator.popAndPushNamed(
-                                    context, 'loadingNextPage');
-                                // QuestionsCorrects().getQuestionsCorrects();
-                                // QuestionsIncorrects().getQuestionsIncorrects();
-                              },
-                              child: const Text(
-                                'Sair',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                            ),
+                            widget.textButton ??
+                                TextButton(
+                                    onPressed: () {
+                                      Routes().popRoutes(
+                                          context, const HomeScreen());
+                                    },
+                                    child: const Text('Sair', style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),),)
                           ],
                         ),
                       ),

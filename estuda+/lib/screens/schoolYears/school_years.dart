@@ -1,9 +1,12 @@
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/discipline/discipline.dart';
+import 'package:estudamais/screens/subjects/subjects.dart';
 import 'package:estudamais/service/service.dart';
+import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/list_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/schoolYears/widgets/gridList_schoolYear.dart';
 import 'package:provider/provider.dart';
@@ -27,14 +30,24 @@ class _SchoolYearsState extends State<SchoolYears> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: IconButton(
-              onPressed: () {
-                Navigator.popAndPushNamed(context, 'discipline');
-                Service.questionsByDiscipline.clear();
-                Service.questionsBySchoolYear.clear();
-                Service.listSelectedDisciplines.clear();
-                Service.listSelectedSchoolYear.clear();
-              },
-              icon: const Icon(Icons.arrow_back)),
+            onPressed: () {
+              setState(
+                () {
+                  // remove todas as rotas da pilha e vai para disciplines
+                  Routes().popRoutes(context, const Discipline());
+                  // limpa consultas por disciplina
+                  Service.questionsByDiscipline.clear();
+                  // limpa consultas por ano
+                  Service.questionsBySchoolYear.clear();
+                  // limpa List disciplinas selecionadas
+                  Service.listSelectedDisciplines.clear();
+                  // limpa List anos selecionados
+                  Service.listSelectedSchoolYear.clear();
+                },
+              );
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
           title: Text(
             'Ano escolar',
             style: GoogleFonts.aboreto(color: Colors.black),
@@ -42,10 +55,13 @@ class _SchoolYearsState extends State<SchoolYears> {
         ),
         body: Stack(
           children: [
-            SizedBox.expand(
-              child: Lottie.asset('./assets/lotties/backgroud_blue.json',
-                  fit: BoxFit.cover),
-            ),
+            const Background(),
+            // SizedBox(
+            //   width: MediaQuery.of(context).size.width,
+            //   height: MediaQuery.of(context).size.height,
+            //   child: Lottie.asset('./assets/lotties/backgroud_blue.json',
+            //       fit: BoxFit.cover),
+            // ),
             ListView(
               children: [
                 SizedBox(
@@ -107,17 +123,10 @@ class _SchoolYearsState extends State<SchoolYears> {
                           Colors.red,
                         );
                       } else {
-                        Navigator.pushNamed(context, 'subject');
+                        Routes().pushRoute(context, const Subjects());
                       }
                     },
                     child: const Text('Próximo')),
-                // ButtonProgress(actionButton:() {
-                //   if (Service.listQuestionsByDipliceAndSchoolYear.isNotEmpty) {
-                //     Navigator.pushNamed(context, 'subject');
-                //   } else {
-                //     value.progressError = true;
-                //   }
-                // }),
               ],
             ),
           ],

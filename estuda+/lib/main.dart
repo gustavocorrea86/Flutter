@@ -1,23 +1,12 @@
-import 'package:estudamais/screens/accumulated_wrongs.dart';
-import 'package:estudamais/screens/discipline/discipline.dart';
-import 'package:estudamais/screens/screen_questions/screen_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:estudamais/database/dao_user_resum.dart';
 
 import 'package:estudamais/models/models.dart';
-import 'package:estudamais/screens/accumulated_right.dart';
 
-import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/screens/initial_screen.dart';
-import 'package:estudamais/screens/loading_next_page.dart';
-import 'package:estudamais/screens/login.dart';
 
-import 'package:estudamais/screens/schoolYears/school_years.dart';
-import 'package:estudamais/screens/subjects/subjects.dart';
-
-import 'package:estudamais/screens/user_register1.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -28,11 +17,10 @@ void main() async {
         create: (context) => ModelPoints(
             '0', '0', DaoUserResum.totalPoints, false, false, false),
       ),
-      // ChangeNotifierProvider(
-      //     create: (context) => ModelNumberOfSubject(0, ['sem assunto'], ['0']))
     ], child: const MyApp()),
   );
-  DaoUserResum().findAll();
+  //DaoUserResum().removeId('127');
+  //DaoUserResum().findIdQuestionsIncorrect();
 }
 
 class MyApp extends StatelessWidget {
@@ -43,23 +31,66 @@ class MyApp extends StatelessWidget {
       title: 'Estuda +',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          appBarTheme: AppBarTheme(backgroundColor: Colors.indigo[300],),),
-      initialRoute: 'initial',
-      routes: {
-        'initial': (context) => const ScreenInitial(),
-        'login': (context) => const Login(),
-        'loadingNextPage': (context) => const LoadingNextPage(),
-        'userRegister': (context) => const UserRegister1(),
-        'home': (context) => const HomeScreen(),
-        'accumulatedRight': (context) => const AccumulatedRight(),
-        'accumulatedWrongs': (context) => const AccumulatedWrongs(),
-        //'pages': (context) => const PagesQuestions(),
-        'schoolYear': (context) => const SchoolYears(),
-        'subject': (context) => Subjects(),
-        'pageQuestionsBySchoolYear': (context) =>
-            const PageQuestionsBySchoolYear(),
-        'discipline': (context) => const Discipline()
-      },
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.indigo[300],
+        ),
+      ),
+      home: const ScreenInitial(),
+      // onGenerateRoute: (settings) {
+      //   switch (settings.name) {
+      //     // rota para pagina de entrar
+      //     case '/initial':
+      //       return PageTransition(
+      //         type: PageTransitionType.sharedAxisHorizontal,
+      //         duration: const Duration(seconds: 1),
+      //         settings: settings,
+      //         child: const ScreenInitial(),
+      //       );
+      //     // rota para pagina de carregamento das informações
+      //     case '/loadingDatas':
+      //       return PageTransition(
+      //         type: PageTransitionType.sharedAxisHorizontal,
+      //         duration: const Duration(seconds: 1),
+      //         settings: settings,
+      //         child: const LoadingNextPage(),
+      //       );
+      //     // rota para home
+      //     case '/home':
+      //       return PageTransition(
+      //         type: PageTransitionType.sharedAxisHorizontal,
+      //         duration: const Duration(seconds: 1),
+      //         settings: settings,
+      //         child: const HomeScreen(),
+      //       );
+      //       case '/discipline':
+      //       return PageTransition(
+      //         type: PageTransitionType.sharedAxisHorizontal,
+      //         duration: const Duration(seconds: 1),
+      //         settings: settings,
+      //         child: const Discipline(),
+      //       );
+      //       case '/schoolYear':
+      //       return PageTransition(
+      //         type: PageTransitionType.sharedAxisHorizontal,
+      //         duration: const Duration(seconds: 1),
+      //         settings: settings,
+      //         child: const SchoolYears(),
+      //       );
+      //   }
+      // },
+      // initialRoute: 'initial',
+      // routes: {
+      //   'initial': (context) => const ScreenInitial(),
+      //   'loadingNextPage': (context) => const LoadingNextPage(),
+      //   'home': (context) => const HomeScreen(),
+      //   'accumulatedRight': (context) => const AccumulatedRight(),
+      //   'accumulatedWrongs': (context) => const AccumulatedWrongs(),
+      //   'schoolYear': (context) => const SchoolYears(),
+      //   'subject': (context) => Subjects(),
+      //   'pageQuestionsBySchoolYear': (context) =>
+      //       const PageQuestionsBySchoolYear(),
+      //   'discipline': (context) => const Discipline()
+      // },
     );
   }
 }

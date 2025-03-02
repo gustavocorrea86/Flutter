@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:estudamais/controller/counter_errors.dart';
 import 'package:estudamais/database/database.dart';
 import 'package:estudamais/models/models_user_resum.dart';
 import 'package:sqflite/sqflite.dart';
@@ -220,12 +221,12 @@ class DaoUserResum {
     print('totalErrors = $totalErrors');
   }
 
-  Future findUserName() async {
-    final Database db = await getConnection();
-    List<Map<String, dynamic>> user = await db.query(_user);
-    userName = user[0]['name'];
-    print(userName);
-  }
+  // Future findUserName() async {
+  //   final Database db = await getConnection();
+  //   List<Map<String, dynamic>> user = await db.query(_user);
+  //   userName = user[0]['name'];
+  //   print(userName);
+  // }
 
   Future findAnswered() async {
     final Database db = await getConnection();
@@ -304,6 +305,28 @@ class DaoUserResum {
   //     print('Erro ao atualizar respostas feitas: $erro');
   //   }
   // }
+
+  Future removeIdQuestionsIncorrects(String id) async {
+    findIdQuestionsIncorrect();
+    List<dynamic> idsCurrent = [];
+    final Database db = await getConnection();
+    List<Map<String, dynamic>> user = await db.query(_user);
+    if (listIdIncorrects.contains(id)) {
+      var idList = jsonDecode(user[0]['idQuestionIncorrect']);
+      idsCurrent = idList;
+      idsCurrent.remove(id);
+      updateIdQuestionsIncorrect(idsCurrent);
+      print(idsCurrent);
+      CounterErrors().decrementErrors();
+    }
+
+    // try {
+    //   await db.rawDelete('DELETE FROM $_user WHERE id = $id');
+    //   print('Id removido com sucesso');
+    // } catch (e) {
+    //   print('Erro ao remover id: $e');
+    // }
+  }
 
   Future close() async {
     final db = await getConnection();

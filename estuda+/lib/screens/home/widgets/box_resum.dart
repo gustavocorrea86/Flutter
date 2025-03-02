@@ -16,15 +16,16 @@ class BoxResum extends StatelessWidget {
         padding: const EdgeInsets.only(left: 8.0, top: 4, bottom: 4, right: 8),
         child: Container(
           decoration: BoxDecoration(
-              color: const Color.fromARGB(190, 197, 202, 233),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: const <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black26,
-                  spreadRadius: 3.0,
-                  blurRadius: 2.0,
-                ),
-              ]),
+            color: const Color.fromARGB(190, 197, 202, 233),
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const <BoxShadow>[
+              BoxShadow(
+                color: Colors.black26,
+                spreadRadius: 3.0,
+                blurRadius: 2.0,
+              ),
+            ],
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -52,13 +53,14 @@ class BoxResum extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),textButton
-            //  Padding(
-            //    padding: EdgeInsets.only(right: 5),
-            //    child: ElevatedButton(onPressed: (){}, child: Text('Resumo'), style: const ButtonStyle(
-            //     padding: WidgetStatePropertyAll<EdgeInsetsGeometry?>(EdgeInsets.all(1.0))
-            //    )),
-            //  )
+              ),
+              textButton
+              //  Padding(
+              //    padding: EdgeInsets.only(right: 5),
+              //    child: ElevatedButton(onPressed: (){}, child: Text('Resumo'), style: const ButtonStyle(
+              //     padding: WidgetStatePropertyAll<EdgeInsetsGeometry?>(EdgeInsets.all(1.0))
+              //    )),
+              //  )
             ],
           ),
         ));

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
@@ -35,25 +37,31 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
   }
 
   nextPage() {
+    // atualiza a quantidade de acertos
     Provider.of<ModelPoints>(context, listen: false)
         .showPoints(DaoUserResum.totalPoints);
+    // atualiza a quantidade de erradas
     Provider.of<ModelPoints>(context, listen: false)
         .showErrors(DaoUserResum.totalErrors);
+    //atualiza a quantifade de respondidas
     Provider.of<ModelPoints>(context, listen: false)
         .counterOfAnswereds(DaoUserResum.answeredQuestions);
+    //busca as disciplinas respondidas corretamente
     QuestionsCorrects().counterDisciplineCorrects();
+    // busca as disciplinas respondidas incorretamente
     QuestionsIncorrects().counterDisciplineIncorrects();
-    Navigator.pushNamed(context, 'home');
+    // chama a homeScreen
+    Routes().pushRoute(context, const HomeScreen());
   }
 
   Stream getDatas() async* {
-    //await Future.delayed(Duration(seconds: 5));
-    yield await service.getQuestions(); // busca todas as questões
-    //await Future.delayed(Duration(seconds: 1));
-    yield await questionsCorrects.getQuestionsCorrects(); // busca
-    //await Future.delayed(Duration(seconds: 1));
+    // busca todas as questões
+    yield await service.getQuestions();
+    // busca os ids das questões respondidad corretamente
+    yield await questionsCorrects.getQuestionsCorrects();
+    // busca os ids das questões respondidas incorretamente
     yield await questionsIncorrects.getQuestionsIncorrects();
-    // await Future.delayed(Duration(seconds: 1));
+    // atualiza o progresso do aluno
     yield await nextPage();
   }
 

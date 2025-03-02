@@ -1,9 +1,8 @@
 import 'package:descobrindo_as_coisas/src/components/back_card.dart';
 import 'package:descobrindo_as_coisas/src/components/flip_card.dart';
 import 'package:descobrindo_as_coisas/src/components/front_card.dart';
-import 'package:descobrindo_as_coisas/src/model/controller_accept.dart';
-import 'package:descobrindo_as_coisas/src/model/counter.dart';
-import 'package:descobrindo_as_coisas/src/model/states.dart';
+import 'package:descobrindo_as_coisas/src/controller/controller.dart';
+import 'package:descobrindo_as_coisas/src/controller/states.dart';
 import 'package:descobrindo_as_coisas/src/screens/memory_play/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +18,7 @@ class _CardLettersState extends State<CardLetters> {
   States states = States();
   Widget cards() {
     Helpers.letter.shuffle();
-    return Consumer<ControllerAccept>(builder: (context, value, child) {
+    return Consumer<Controller>(builder: (context, value, child) {
       return Column(
         children: [
           GridView.count(
@@ -43,14 +42,14 @@ class _CardLettersState extends State<CardLetters> {
               );
             }),
           ),
-          ElevatedButton(
-              onPressed: () {
-                Counter.count = 0;
-                states.isMatch = false;
-                states.isFlipped = true;
-                Navigator.pop(context);
-              },
-              child: Text('Sair'))
+          // ElevatedButton(
+          //     onPressed: () {
+          //       Counter.count = 0;
+          //       states.isMatch = false;
+          //       states.isFlipped = true;
+          //       Navigator.pop(context);
+          //     },
+          //     child: Text('Sair'))
         ],
       );
     });

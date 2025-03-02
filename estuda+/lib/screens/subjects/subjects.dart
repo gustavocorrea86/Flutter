@@ -1,18 +1,21 @@
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/schoolYears/school_years.dart';
+import 'package:estudamais/screens/screen_questions/screen_questions.dart';
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
+import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/list_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class Subjects extends StatefulWidget {
-  Subjects({super.key});
-  bool backButton = false;
-  double shadowBox = 10;
-  Color colorShadow = Colors.black87;
+  const Subjects({super.key});
+  final bool backButton = false;
+  final double shadowBox = 10;
+  final Color colorShadow = Colors.black87;
 
   @override
   State<Subjects> createState() => _SubjectsState();
@@ -31,10 +34,19 @@ class _SubjectsState extends State<Subjects> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.popAndPushNamed(context, 'schoolYear');
+                // remove todas as rotas da pilha e vai para a page schoolYear
+                Routes().popRoutes(context, const SchoolYears());
+                // limpa a List das questões por disciplinas
+                Service.questionsByDiscipline.clear();
+                // limpa a List das questões por ano
                 Service.questionsBySchoolYear.clear();
+                // limpa a List das questões por assunto
                 Service.schoolYearAndSubjects.clear();
+                // limpa a List dos anos selecionados
                 Service.listSelectedSchoolYear.clear();
+                // limpa a List das disciplinas selecionadas
+                Service.listSelectedDisciplines.clear();
+                // limpa a List das questões
                 Service.resultQuestionsBySubjectsAndSchoolYear.clear();
               },
               icon: const Icon(Icons.arrow_back)),
@@ -49,13 +61,9 @@ class _SubjectsState extends State<Subjects> {
         ) {
           return Stack(
             children: [
-              SizedBox.expand(
-                child: Lottie.asset('./assets/lotties/backgroud_blue.json',
-                    fit: BoxFit.cover),
-              ),
+              const Background(),
               ListView(
                 children: [
-                 
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 50,
@@ -151,10 +159,8 @@ class _SubjectsState extends State<Subjects> {
                           );
                         } else {
                           value.answered(false);
-                          Navigator.pushNamed(
-                            context,
-                            'pageQuestionsBySchoolYear',
-                          );
+                          Routes().pushRoute(
+                              context, const PageQuestionsBySchoolYear());
                         }
                       },
                       child: const Text(

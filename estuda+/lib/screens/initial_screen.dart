@@ -1,4 +1,5 @@
 //  ESSA É A TELA INICIAL ONDE O USUARIO SE CADASTRA OU CHAMA A TELA PARA FAZER O LOGIN.
+import 'package:estudamais/controller/routes.dart';
 import 'package:estudamais/models/models_user_resum.dart';
 import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class ScreenInitial extends StatefulWidget {
 }
 
 class _ScreenInitialState extends State<ScreenInitial> {
+  Routes routes = Routes();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,17 +55,18 @@ class _ScreenInitialState extends State<ScreenInitial> {
                       ),
                     );
                   } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const LoadingNextPage(
-                            msgPrimary: 'Aguardando informações',
-                            msgSecundary: 'Carregando questões',
-                          );
-                        },
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return const LoadingNextPage(
+                    //         msgPrimary: 'Verificando conexão',
+                    //         msgSecundary: 'Carregando questões',
+                    //       );
+                    //     },
+                    //   ),
+                    // );
+                    Routes().pushRoute(context, const LoadingNextPage());
                   }
                 },
                 child: Container(

@@ -1,65 +1,65 @@
-import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_user_resum.dart';
+// import 'package:flutter/material.dart';
+// import 'package:estudamais/database/dao_user_resum.dart';
 
-class UserRegister1 extends StatefulWidget {
-  const UserRegister1({super.key});
+// class UserRegister1 extends StatefulWidget {
+//   const UserRegister1({super.key});
 
-  @override
-  State<UserRegister1> createState() => _UserRegisterState();
-}
+//   @override
+//   State<UserRegister1> createState() => _UserRegisterState();
+// }
 
-class _UserRegisterState extends State<UserRegister1> {
-  String dropDownValue = '';
-  DateTime currentYears = DateTime.now();
-  String currentAge = '';
-  DaoUserResum database = DaoUserResum();
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _lastName = TextEditingController();
+// class _UserRegisterState extends State<UserRegister1> {
+//   String dropDownValue = '';
+//   DateTime currentYears = DateTime.now();
+//   String currentAge = '';
+//   DaoUserResum database = DaoUserResum();
+//   final TextEditingController _name = TextEditingController();
+//   final TextEditingController _lastName = TextEditingController();
 
-  final TextEditingController _keyword = TextEditingController();
+//   final TextEditingController _keyword = TextEditingController();
 
-  final TextEditingController _step = TextEditingController();
-  List<String> schoolYear = [
-    '1º Ano - Fundamental 1',
-    '2º Ano - Fundamental 1',
-    '3º Ano - Fundamental 1',
-    '4º Ano - Fundamental 1',
-    '5º Ano - Fundamental 1',
-    '6º Ano - Fundamental 2',
-    '7º Ano - Fundamental 2',
-    '8º Ano - Fundamental 2',
-    '9º Ano - Fundamental 2',
-  ];
+//   final TextEditingController _step = TextEditingController();
+//   List<String> schoolYear = [
+//     '1º Ano - Fundamental 1',
+//     '2º Ano - Fundamental 1',
+//     '3º Ano - Fundamental 1',
+//     '4º Ano - Fundamental 1',
+//     '5º Ano - Fundamental 1',
+//     '6º Ano - Fundamental 2',
+//     '7º Ano - Fundamental 2',
+//     '8º Ano - Fundamental 2',
+//     '9º Ano - Fundamental 2',
+//   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Cadastro'),
-        ),
-        body: Column(
-          children: [
-            //DragTarget(builder: ),
-            Draggable(
-              feedback: Container(
-                width: 200,
-                height: 200,
-                color: Colors.blue,
-              ),
-              childWhenDragging: Container(
-                width: 300,
-                height: 400,
-                color: Colors.blueGrey,
-              ),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: Colors.amber,
-                //child: Container(width: 300, height: 400, color: Colors.green,),
-              ),
-            ),
-          ],
-        )
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Cadastro'),
+//         ),
+//         body: Column(
+//           children: [
+//             //DragTarget(builder: ),
+//             Draggable(
+//               feedback: Container(
+//                 width: 200,
+//                 height: 200,
+//                 color: Colors.blue,
+//               ),
+//               childWhenDragging: Container(
+//                 width: 300,
+//                 height: 400,
+//                 color: Colors.blueGrey,
+//               ),
+//               child: Container(
+//                 width: MediaQuery.of(context).size.width,
+//                 height: MediaQuery.of(context).size.height,
+//                 color: Colors.amber,
+//                 //child: Container(width: 300, height: 400, color: Colors.green,),
+//               ),
+//             ),
+//           ],
+//         )
 
         // ListView(
         //   children: [
@@ -158,6 +158,6 @@ class _UserRegisterState extends State<UserRegister1> {
         //     ),
         //   ],
         // ),
-        );
-  }
-}
+//         );
+//   }
+// }

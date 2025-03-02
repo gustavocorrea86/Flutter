@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:estudamais/models/model_questions.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:http/http.dart' as http;
@@ -12,13 +14,15 @@ class QuestionsCorrects {
   static List<String> listSchoolYearsCorrects = [];
   static int subjectLength = 0;
   static Set<String> subjectsOfQuestionsCorrects = {};
+  //static List<Map<String, dynamic>> questionsCorrects = [];
+  static List<ModelQuestions> resultQuestions = [];
   static int amountPortuguesCorrects = 0;
   static int amountMatematicaCorrects = 0;
   static int amountGeografiaCorrects = 0;
   static int amountHistoriaCorrects = 0;
   static int amountCienciasCorrects = 0;
 
-// PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
+// PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE pelo id da questão, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
   Future getQuestionsCorrects() async {
     List listCorrects = [];
     resultQuestionsCorrect.clear();
@@ -36,32 +40,23 @@ class QuestionsCorrects {
             }
           }
         }
-        //print('Questões corretas recebidas com sucesso');
-        for (var q in listCorrects) {
-          //print('Questões corretas => $q');
-          //print('tamanho da list ${listCorrects.length}');
-          resultQuestionsCorrect.add(q);
+        for (var element in listCorrects) {
+          Uint8List bytesImage =
+              Uint8List.fromList(element['image']['data'].cast<int>());
+          element['image'] = bytesImage;
+          print(element);
+          resultQuestionsCorrect.add(element);
         }
+
         print('Questões corretas recebidas com sucesso');
+        //print('resultQuestionsCorrect $resultQuestionsCorrect');
       }
     } catch (err) {
-      //print('Erro ao buscar questões: $err');
+      print('Erro ao buscar questões: $err');
     }
-
-    // return List<ModelQuestions>.from(
-    //   listCorrects.map(
-    //     (element) {
-    //       Uint8List bytesImage =
-    //           Uint8List.fromList(element['image']['data'].cast<int>());
-    //       element['image'] = bytesImage;
-    //       resultQuestionsCorrect.add(element);
-    //       return ModelQuestions.toMap(element);
-    //     },
-    //   ),
-    // );
   }
 
-// PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS ao clicar em resumo CORRETAMENTE,PARA PODER RENDERIZAR NA accumulated_right no Widget animated_button_progress.dart
+// PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE ao clicar em resumo ,PARA PODER RENDERIZAR NA accumulated_right no Widget animated_button_progress.dart
   getDisciplineOfQuestionsCorrects() {
     List<String> list = [];
     try {
@@ -77,9 +72,19 @@ class QuestionsCorrects {
   }
 
   //MÉTODO QUE SERVE COMO BASE DE CONSULTA DE QUESTÕES POR ASSUNTO, ATRAVÉS DA LIST subjectsOfQuestionsCorrects
-  showSubjectsOfQuestionsCorrects(String subject) {
+  void getQuestionsCorrectsForSubjects(String subject) {
     subjectsOfQuestionsCorrects.add(subject);
-    print('subjectsOfQuestionsCorrects $subjectsOfQuestionsCorrects');
+    try {
+      for (var questions in resultQuestionsCorrect) {
+        for (var sub in subjectsOfQuestionsCorrects) {
+          if (questions['subject'] == sub) {
+            resultQuestions.add(ModelQuestions.toMap(questions));
+          }
+        }
+      }
+    } on Exception catch (e) {
+      print('Erro ao buscar questões por assunto: $e');
+    }
   }
 
   counterDisciplineCorrects() {
@@ -120,34 +125,4 @@ class QuestionsCorrects {
     print('historia $amountHistoriaCorrects');
     print('ciencias $amountCienciasCorrects');
   }
-
-  // showSubjectsCorrects(String discipline) async {
-  //   Map<String, dynamic> mapYearAndSubject = {};
-  //   List<Map<String, dynamic>> result = [];
-  //   mapListSubAndYearCorrects.clear();
-  //   if (resultQuestionsCorrect.isNotEmpty) {
-  //     for (var map in resultQuestionsCorrect) {
-  //       if (map['displice'] == discipline) {
-  //         mapYearAndSubject = {
-  //           'schoolYear': map['schoolYear'],
-  //           'subjects': map['subject'],
-  //           // 'lenght':
-  //         };
-  //         result.add(mapYearAndSubject);
-  //       }
-  //     }
-  //     //print('result ${result}');
-  //     // remove duplicates from the list and convert it to a Set to avoid duplicates.
-  //     final jsonList = result.map((el) => jsonEncode(el)).toList();
-  //     final setList = jsonList.toSet().toList();
-  //     final decodeList = setList.map((el) => jsonDecode(el)).toList();
-
-  //     for (var listMap in decodeList) {
-  //       mapListSubAndYearCorrects.add(listMap);
-  //     }
-
-  //     print('mapListSubAndYearCorrects $mapListSubAndYearCorrects');
-  //   }
-  //   return mapListSubAndYearCorrects;
-  // }
 }

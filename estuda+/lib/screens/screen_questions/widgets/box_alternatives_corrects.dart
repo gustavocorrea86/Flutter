@@ -3,24 +3,28 @@ import 'package:estudamais/controller/controller_questions.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
-class BoxAlternatives extends StatefulWidget {
+class BoxAlternativesCorrects extends StatefulWidget {
   final String alternative;
   final String option;
   final String response;
-  final bool isAnswered;
-  final int indexQuestion;
-  final String idQuestion;
+ 
 
-  const BoxAlternatives(this.alternative, this.option, this.response,
-      this.isAnswered, this.indexQuestion, this.idQuestion,
-      {super.key});
+  const BoxAlternativesCorrects(
+    this.alternative,
+    this.option,
+    this.response,
+    
+    {
+    super.key,
+  });
 
   @override
-  State<BoxAlternatives> createState() => _BoxAlternativesState();
+  State<BoxAlternativesCorrects> createState() =>
+      _BoxAlternativesCorrectsState();
 }
 
-class _BoxAlternativesState extends State<BoxAlternatives> {
-  final ControllerQuestions _controllerQuestions = ControllerQuestions();
+class _BoxAlternativesCorrectsState extends State<BoxAlternativesCorrects> {
+  
 
   bool answered = false;
   @override
@@ -45,7 +49,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                           blurRadius: 1,
                           spreadRadius: 1)
                     ],
-                    color: _controllerQuestions.corAlternativa,
+                    color: widget.alternative == widget.response ? Colors.green : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 2,
@@ -72,20 +76,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),
-                    onTap: () {
-                      answered = true;
-                      _controllerQuestions.isCorrect(
-                       value.isAnswered,
-                        widget.response,
-                        widget.alternative,
-                        widget.indexQuestion,
-                        context,
-                        widget.idQuestion,
-                      );
-                      value.actBoxAnswered(
-                          _controllerQuestions.heightBoxIsAnswered);
-                      value.answered(answered);
-                    },
+                   
                   ),
                 ),
               ),

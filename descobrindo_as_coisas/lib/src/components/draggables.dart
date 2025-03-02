@@ -1,4 +1,4 @@
-import 'package:descobrindo_as_coisas/src/model/controller_accept.dart';
+import 'package:descobrindo_as_coisas/src/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +25,7 @@ class _DraggablesState extends State<Draggables> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ControllerAccept>(builder: (context, value, child) {
+    return Consumer<Controller>(builder: (context, value, child) {
       return Positioned(
         left: widget.position.dx,
         top: widget.position.dy,
@@ -61,14 +61,14 @@ class _DraggablesState extends State<Draggables> {
               setState(
                 () {
                   //widget.position += details.delta;
-                  //widget.yPosition += details.delta.dy;
+                  
                 },
               );
             },
-            onDraggableCanceled: (velocity, offset) {
-              print(offset.dx);
-              print(offset.dy);
-            },
+            // onDraggableCanceled: (velocity, offset) {
+            //   print(offset.dx);
+            //   print(offset.dy);
+            // },
             onDragCompleted: () {
               setState(() {
                 if (value.isAccepted) {

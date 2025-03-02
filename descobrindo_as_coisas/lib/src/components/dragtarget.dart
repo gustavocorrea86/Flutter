@@ -1,4 +1,4 @@
-import 'package:descobrindo_as_coisas/src/model/controller_accept.dart';
+import 'package:descobrindo_as_coisas/src/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class _DragtargetsState extends State<Dragtargets> {
   bool isAccepted = true;
   @override
   Widget build(BuildContext context) {
-    return Consumer<ControllerAccept>(
+    return Consumer<Controller>(
       builder: (context, value, child) {
         return Positioned(
           left: widget.position.dx,

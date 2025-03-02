@@ -18,10 +18,10 @@ class _FrontCardState extends State<FrontCard> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-        color: Colors.amber,
+        image: DecorationImage(image: AssetImage('./assets/images/flowers-8876324_640.png')),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(child: Text(widget.text)),
+     // child: Center(child: Text(widget.text)),
     );
   }
 }

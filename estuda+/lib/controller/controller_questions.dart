@@ -21,24 +21,7 @@ class ControllerQuestions {
   double heightContainer = 0;
   double widthContainer = 0;
 
-  // void updateIds(
-  //     String newId,
-  //     List<dynamic> idLast,
-  //     List<dynamic> currentId,
-  //     // ignore: use_function_type_syntax_for_parameters
-  //     Function updateId(idLast)) {
-  //   if (currentId.isEmpty) {
-  //     idsAnswer.add(newId);
-  //     database.updateIdQuestions(idLast);
-  //   } else {
-  //     idLast = currentId;
-  //     idLast.add(newId);
-  //     updateId(idLast);
-  //   }
-  //   print('idsQuestions $idLast');
-  // }
-
-  void isCorrect(bool isAnswered, String response, String alternative,
+    void isCorrect(bool isAnswered, String response, String alternative,
       int indexQuestion, BuildContext context, String idQuestion) {
     // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DE TODAS QUESTÕES
     if (DaoUserResum.listId.isEmpty) {
@@ -51,7 +34,7 @@ class ControllerQuestions {
     }
 
     print('ids das questões respondidas - ${DaoUserResum.listId}');
-    if (isAnswered) {
+    if (Provider.of<ModelPoints>(listen: false, context).isAnswered) {
       // abre o alerta que a questão ja foi respondida
       heightBoxIsAnswered = 30;
     } else {
@@ -61,7 +44,7 @@ class ControllerQuestions {
 
         // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES CORRETAS
         if (DaoUserResum.listIdCorrects.isEmpty) {
-          //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar      
+          //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
           idsAnswerCorrect.add(idQuestion);
           database.updateIdQuestionsCorrect(idsAnswerCorrect);
         } else {
@@ -79,6 +62,7 @@ class ControllerQuestions {
 
         Provider.of<ModelPoints>(context, listen: false)
             .counterOfAnswereds(answeredsQuestions.currentAnswered);
+        DaoUserResum().removeIdQuestionsIncorrects(idQuestion);
       } else {
         corAlternativa = Colors.red;
 

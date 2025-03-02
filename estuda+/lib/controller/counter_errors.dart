@@ -11,8 +11,15 @@ class CounterErrors {
     databaseUser.updateErrors(countError.toString(), currentErrors);
     currentErrors = countError.toString();
   }
+
   void countErrors() {
     errors++;
   }
-}
 
+  void decrementErrors() {
+    currentErrors = DaoUserResum.totalErrors;
+    int countError = int.parse(currentErrors) - 1;
+    databaseUser.updateErrors(countError.toString(), currentErrors);
+    currentErrors = countError.toString();
+  }
+}

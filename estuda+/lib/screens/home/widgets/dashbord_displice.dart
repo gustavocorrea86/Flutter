@@ -22,8 +22,16 @@ class _DashbordDispliceState extends State<DashbordDisplice> {
         width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.all(2),
         decoration: BoxDecoration(
-          color: Colors.white12,
+          color: const Color.fromARGB(190, 197, 202, 233),
           borderRadius: BorderRadius.circular(10),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.black26,
+              spreadRadius: 2.0,
+              blurRadius: 1.0,
+              offset: Offset(0, 2.0),
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,7 +41,8 @@ class _DashbordDispliceState extends State<DashbordDisplice> {
                   left: 8.0, right: 8.0, top: 4, bottom: 4.0),
               child: Text(
                 widget.displice,
-                style: const TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.black),
+                //style: GoogleFonts.aboreto(fontSize: 10),
               ),
             ),
             Row(
@@ -52,7 +61,7 @@ class _DashbordDispliceState extends State<DashbordDisplice> {
                   width: 60,
                   child: Text(
                     widget.countAnswer,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    style: const TextStyle(fontSize: 20, color: Colors.black),
                   ),
                 )
               ],

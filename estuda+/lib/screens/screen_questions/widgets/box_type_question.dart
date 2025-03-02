@@ -6,11 +6,11 @@ class BoxTypeQuestion extends StatelessWidget {
   final String series;
   final String displice;
   final String subject;
-  BoxTypeQuestion(
+  const BoxTypeQuestion(
       this.elemetarySchool, this.displice, this.series, this.subject,
       {super.key});
 
-  double font = 14;
+  final double font = 14;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class BoxTypeQuestion extends StatelessWidget {
           ),
           RichText(
             text: TextSpan(
-              text: 'Série: ',
+              text: 'Ano: ',
               style: GoogleFonts.aboreto(
                   fontSize: 10,
                   color: Colors.black,

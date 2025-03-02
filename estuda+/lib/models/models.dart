@@ -60,4 +60,8 @@ class ModelPoints extends ChangeNotifier {
     test = open;
      notifyListeners();
   }
+  void enableBtnRetangulare(bool value){
+    actionBtnRetangulare = value;
+    notifyListeners();
+  }
 }

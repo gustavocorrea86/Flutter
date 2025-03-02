@@ -1,4 +1,4 @@
-import 'package:descobrindo_as_coisas/src/model/controller_accept.dart';
+import 'package:descobrindo_as_coisas/src/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +40,7 @@ class _BackCardState extends State<BackCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ControllerAccept>(builder: (context, value, child) {
+    return Consumer<Controller>(builder: (context, value, child) {
       return Container(
         width: 70,
         height: 70,

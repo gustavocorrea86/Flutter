@@ -1,7 +1,13 @@
+import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/screens/accumulated_right.dart';
+import 'package:estudamais/screens/accumulated_wrongs.dart';
+import 'package:estudamais/screens/discipline/discipline.dart';
+import 'package:estudamais/screens/initial_screen.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:estudamais/screens/home/widgets/dashbord_displice.dart';
+import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -85,26 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     service.getDisplice();
                   }),
-
-              //ListTileDrawer('Ciências da Natureza', 'ciencias'),
-              // const Divider(),
-              // ListTileDrawer('Matemática', 'matematica'),
-              // const Divider(),
-              // ListTileDrawer('Língua Portuguesa', 'portugues'),
-              // const Divider(),
-              // ListTileDrawer('Geografia', 'geografia'),
-              // const Divider(),
-              // ListTileDrawer('História', 'historia'),
-              // const Divider(),
             ],
           ),
         ),
         body: Stack(
           children: <Widget>[
-            SizedBox.expand(
-              child: Lottie.asset('./assets/lotties/backgroud_blue.json',
-                  fit: BoxFit.cover),
-            ),
+            const Background(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView(
@@ -119,7 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             .resultQuestionsCorrect.isNotEmpty) {
                           // CHAMA A CONSULTA PARA OBTER AS DISCIPLINAS RESPONDIDAS CORRETAMENTE
                           questionsCorrects.getDisciplineOfQuestionsCorrects();
-                          Navigator.pushNamed(context, 'accumulatedRight');
+                          // chama a pagina onde mostra as questões respondidas corretamente
+                          value.answered(false);
+                          Routes().pushRoute(context, const AccumulatedRight());
+                          // limpa a List das questões por assunto que foram consultadas
                           QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
                         } else {
                           showSnackBar(
@@ -178,7 +173,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed: () {
                             if (QuestionsIncorrects
                                 .resultQuestionsIncorrect.isNotEmpty) {
-                              Navigator.pushNamed(context, 'accumulatedWrongs');
+                              Routes().pushRoute(
+                                  context, const AccumulatedWrongs());
                               questionsIncorrects
                                   .getDisciplineOfQuestionsIncorrects();
                               QuestionsIncorrects.subjectsOfQuestionsIncorrects
@@ -236,15 +232,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, 'discipline');
-                          service.getDisplice();
-                        },
-                        child: const Text('Iniciar')),
+                      onPressed: () {
+                        Routes().pushRoute(context, const Discipline());
+                        service.getDisplice();
+                      },
+                      child: const Text('Iniciar'),
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'initial');
+                      Routes().pushRoute(context, const ScreenInitial());
                     },
                     child: const Text(
                       'Sair',
@@ -260,4 +257,3 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 }
-

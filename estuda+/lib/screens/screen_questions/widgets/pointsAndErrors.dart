@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class PointsAndErrors extends StatelessWidget {
   PointsAndErrors({super.key});
-  CounterErrors counterErrors = CounterErrors();
+  final CounterErrors counterErrors = CounterErrors();
 
   @override
   Widget build(BuildContext context) {

@@ -14,6 +14,7 @@ class QuestionsIncorrects {
   static List<String> listSchoolYearsIncorrects = [];
   static int subjectLength = 0;
   static Set<String> subjectsOfQuestionsIncorrects = {};
+  static List<ModelQuestions> resultQuestions = [];
   static int amountPortuguesIncorrects = 0;
   static int amountMatematicaIncorrects = 0;
   static int amountGeografiaIncorrects = 0;
@@ -21,7 +22,7 @@ class QuestionsIncorrects {
   static int amountCienciasIncorrects = 0;
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
-  Future<List<ModelQuestions>> getQuestionsIncorrects() async {
+  Future getQuestionsIncorrects() async {
     List listIncorrects = [];
     resultQuestionsIncorrect.clear();
     http.Response response = await http.get(
@@ -40,26 +41,31 @@ class QuestionsIncorrects {
         }
         print('Questões incorretas recebidas com sucesso');
       }
+      for (var element in listIncorrects) {
+        Uint8List bytesImage =
+            Uint8List.fromList(element['image']['data'].cast<int>());
+        element['image'] = bytesImage;
+        print(element);
+        resultQuestionsIncorrect.add(element);
+      }
     } catch (err) {
       print('Erro ao buscar questões incorretas: $err');
     }
-
-    return List<ModelQuestions>.from(
-      listIncorrects.map(
-        (element) {
-          Uint8List bytesImage =
-              Uint8List.fromList(element['image']['data'].cast<int>());
-          element['image'] = bytesImage;
-          resultQuestionsIncorrect.add(element);
-          return ModelQuestions.toMap(element);
-        },
-      ),
-    );
   }
 
-  showSubjectsOfQuestionsIncorrects(String subject) {
+  void getQuestionsIncorrectsForSubjects(String subject) {
     subjectsOfQuestionsIncorrects.add(subject);
-    print('subjectsOfQuestionsIncorrects $subjectsOfQuestionsIncorrects');
+    try {
+      for (var questions in resultQuestionsIncorrect) {
+        for (var sub in subjectsOfQuestionsIncorrects) {
+          if (questions['subject'] == sub) {
+            resultQuestions.add(ModelQuestions.toMap(questions));
+          }
+        }
+      }
+    } on Exception catch (e) {
+      print('Erro ao buscar questões por assunto: $e');
+    }
   }
 
 // PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE,PARA PODER RENDERIZAR NA accumulated_right

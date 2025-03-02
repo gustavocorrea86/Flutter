@@ -10,13 +10,6 @@ class ShowSubjects {
 
     mapListSubAndYear.clear();
 
-    // for (var lenSub in listMap) {
-    //   if (lenSub['displice'] == discipline) {
-    //     lenghtSubjects.add(lenSub['subject']);
-    //   }
-    // }
-    //print('lenghtSubjecs $lenghtSubjects');
-
     if (listMap.isNotEmpty) {
       for (var map in listMap) {
         if (map['displice'] == discipline) {
@@ -28,8 +21,7 @@ class ShowSubjects {
           result.add(mapYearAndSubject);
         }
       }
-      //print('result ${result}');
-      // remove duplicates from the list and convert it to a Set to avoid duplicates.
+
       final jsonList = result.map((el) => jsonEncode(el)).toList();
       final setList = jsonList.toSet().toList();
       final decodeList = setList.map((el) => jsonDecode(el)).toList();

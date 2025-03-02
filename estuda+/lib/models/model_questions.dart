@@ -4,7 +4,7 @@ class ModelQuestions {
   String id;
   String elementarySchool;
   String schoolYear;
-  String displice;
+  String discipline;
   String subject;
   String question;
   Uint8List image;
@@ -18,7 +18,7 @@ class ModelQuestions {
     required this.id,
     required this.elementarySchool,
     required this.schoolYear,
-    required this.displice,
+    required this.discipline,
     required this.subject,
     required this.question,
     required this.image, // Assuming image is an object or null
@@ -34,7 +34,7 @@ class ModelQuestions {
   )   : id = ask['id'].toString(),
         elementarySchool = ask['elementarySchool'],
         schoolYear = ask['schoolYear'],
-        displice = ask['displice'],
+        discipline = ask['displice'],
         subject = ask['subject'],
         question = ask['question'],
         image = ask['image'],

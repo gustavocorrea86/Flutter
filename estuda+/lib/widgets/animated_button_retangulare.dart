@@ -9,8 +9,8 @@ class AnimatedButtonRectangular extends StatefulWidget {
   final String? leading;
   final double? fontSizeTitle;
   final MainAxisAlignment? textDirection;
-  bool enable = false;
-  AnimatedButtonRectangular(
+
+  const AnimatedButtonRectangular(
       {required this.title,
       required this.onTap,
       this.tralling,
@@ -25,9 +25,9 @@ class AnimatedButtonRectangular extends StatefulWidget {
 }
 
 class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
-  //bool enable = false;
   double buttonDown = 8;
   Color shadowColor = Colors.black87;
+  bool enable = false;
   @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
@@ -56,20 +56,30 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                 ),
                 child: GestureDetector(
                   onTap: () {
-                    widget.enable = !widget.enable;
-                    value.actionBtnRetangulare = !value.actionBtnRetangulare;
+                    // valor responsavel pela mudança de estado do botão
+                    enable = !enable;
+                    //valor responsavel pela consulta por disciplina
+                    value.enableBtnRetangulare(enable);
                     setState(() {
-                      if (widget.enable) {
-                        value.actionBtnRetangulare = widget.enable;
+                      if (enable) {
+                        //  value.actionBtnRetangulare = true
+
+                        // posição do botão abaixa em 2
                         buttonDown = 2;
+                        // cor da sombra muda pra branco
                         shadowColor = Colors.white;
-                        print(value.actionBtnRetangulare);
+                        print(
+                            'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
+                        // chama a função que faz a consulta por disciplica passando value.actionBtnRetangulare = true
                         widget.onTap();
                       } else {
-                        value.actionBtnRetangulare = widget.enable;
+                        // sobe o botão para 8
                         buttonDown = 8;
+                        // muda a cor da sombra para preto
                         shadowColor = Colors.black87;
-                        print(value.actionBtnRetangulare);
+                        print(
+                            'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
+                        // chama a função que faz a remoção da disciplina consultada
                         widget.onTap();
                       }
                     });
@@ -79,7 +89,14 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                     height: 50,
                     width: MediaQuery.of(context).size.width - 65,
                     decoration: BoxDecoration(
-                      color: Colors.indigo,
+                      gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color.fromARGB(255, 134, 152, 255),
+                            Colors.indigo,
+                            Color.fromARGB(255, 68, 85, 180),
+                          ]),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
