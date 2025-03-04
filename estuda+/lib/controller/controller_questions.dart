@@ -1,40 +1,72 @@
-import 'package:flutter/material.dart';
-import 'package:estudamais/controller/answereds_quetions.dart';
-import 'package:estudamais/controller/counter_errors.dart';
-import 'package:estudamais/controller/counter_points.dart';
-import 'package:estudamais/database/dao_user_resum.dart';
+import 'dart:async';
+
 import 'package:estudamais/models/models.dart';
+import 'package:flutter/material.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:provider/provider.dart';
 
 class ControllerQuestions {
-  DaoUserResum database = DaoUserResum();
-  AnsweredsQuestions answeredsQuestions = AnsweredsQuestions();
-  CounterPoints counterPoints = CounterPoints();
-  CounterErrors counterErrors = CounterErrors();
+  //DaoUserResum database = DaoUserResum();
 
   Color corAlternativa = Colors.white;
   double heightBoxIsAnswered = 0;
-  static List<dynamic> idsAnswer = [];
-  static List<dynamic> idsAnswerCorrect = [];
-  static List<dynamic> idsAnswerIncorrect = [];
+  List<dynamic> idsAnswer = [];
+  List<dynamic> idsAnswerCorrect = [];
+  List<dynamic> idsAnswerIncorrect = [];
 
   double heightContainer = 0;
   double widthContainer = 0;
+  Timer? timer;
 
-    void isCorrect(bool isAnswered, String response, String alternative,
-      int indexQuestion, BuildContext context, String idQuestion) {
-    // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DE TODAS QUESTÕES
-    if (DaoUserResum.listId.isEmpty) {
-      idsAnswer.add(idQuestion);
-      database.updateIdQuestions(idsAnswer);
+  void recoverQuestionsIncorrects(
+      bool isAnswered,
+      String response,
+      String alternative,
+      int indexQuestion,
+      BuildContext context,
+      String idQuestion) {
+    if (isAnswered) {
+      // abre o alerta que a questão ja foi respondida
+      heightBoxIsAnswered = 30;
     } else {
-      idsAnswer = DaoUserResum.listId;
-      idsAnswer.add(idQuestion);
-      database.updateIdQuestions(idsAnswer);
+      if (response == alternative) {
+        corAlternativa = Colors.green;
+        timer = Timer(const Duration(seconds: 1), () {
+          Provider.of<ModelPoints>(context, listen: false)
+              .uptadeCorrects(DaoUserResum.listIdCorrects.length);
+        });
+        DaoUserResum().removeIdQuestionsIncorrects(idQuestion);
+        // DaoUserResum().addIncorrectsInCorrects(idQuestion);
+        if (DaoUserResum.listIdCorrects.isEmpty) {
+          //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
+          idsAnswerCorrect.add(idQuestion);
+          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+        } else {
+          idsAnswerCorrect = DaoUserResum.listIdCorrects;
+          idsAnswerCorrect.add(idQuestion);
+          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+        }
+      } else {
+        corAlternativa = Colors.red;
+        // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES INCORRETAS
+      }
     }
+  }
 
+  void isCorrect(bool isAnswered, String response, String alternative,
+      int indexQuestion, BuildContext context, String idQuestion) {
+    if (!DaoUserResum.listId.contains(idQuestion)) {
+      if (DaoUserResum.listId.isEmpty) {
+        idsAnswer.add(idQuestion);
+        DaoUserResum().updateIdQuestions(idsAnswer);
+      } else {
+        idsAnswer = DaoUserResum.listId;
+        idsAnswer.add(idQuestion);
+        DaoUserResum().updateIdQuestions(idsAnswer);
+      }
+    }
     print('ids das questões respondidas - ${DaoUserResum.listId}');
-    if (Provider.of<ModelPoints>(listen: false, context).isAnswered) {
+    if (isAnswered) {
       // abre o alerta que a questão ja foi respondida
       heightBoxIsAnswered = 30;
     } else {
@@ -46,44 +78,34 @@ class ControllerQuestions {
         if (DaoUserResum.listIdCorrects.isEmpty) {
           //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
           idsAnswerCorrect.add(idQuestion);
-          database.updateIdQuestionsCorrect(idsAnswerCorrect);
+          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
         } else {
           idsAnswerCorrect = DaoUserResum.listIdCorrects;
           idsAnswerCorrect.add(idQuestion);
-          database.updateIdQuestionsCorrect(idsAnswerCorrect);
+          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
         }
-        // contador de pontos
-        counterPoints.countPoints();
-        // atualiza os pontos
-        counterPoints.updatePoints();
-        Provider.of<ModelPoints>(context, listen: false)
-            .showPoints(counterPoints.currentPoint);
-        answeredsQuestions.answereds();
-
-        Provider.of<ModelPoints>(context, listen: false)
-            .counterOfAnswereds(answeredsQuestions.currentAnswered);
-        DaoUserResum().removeIdQuestionsIncorrects(idQuestion);
+        timer = Timer(const Duration(seconds: 1), () {
+          Provider.of<ModelPoints>(context, listen: false)
+              .uptadeCorrects(DaoUserResum.listIdCorrects.length);
+        });
+        //DaoUserResum().test(idQuestion);
       } else {
         corAlternativa = Colors.red;
-
         // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES INCORRETAS
-        if (DaoUserResum.listIdIncorrects.isEmpty) {
+        if (DaoUserResum.listIdIncorrects.isEmpty &&
+            !DaoUserResum.listIdCorrects.contains(idQuestion)) {
           idsAnswerIncorrect.add(idQuestion);
-          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
+          DaoUserResum().updateIdQuestionsIncorrect(idsAnswerIncorrect);
         } else {
           idsAnswerIncorrect = DaoUserResum.listIdIncorrects;
-
           idsAnswerIncorrect.add(idQuestion);
-          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
+          DaoUserResum().updateIdQuestionsIncorrect(idsAnswerIncorrect);
         }
-        // print('idsQuestions ${DaoUserResum.listId}');
-        counterErrors.updateErrors();
-        Provider.of<ModelPoints>(context, listen: false)
-            .showErrors(counterErrors.currentErrors);
-        counterErrors.countErrors();
-        answeredsQuestions.answereds();
-        Provider.of<ModelPoints>(context, listen: false)
-            .counterOfAnswereds(answeredsQuestions.currentAnswered);
+        timer = Timer(const Duration(seconds: 1), () {
+          Provider.of<ModelPoints>(context, listen: false)
+              .updateIncorrects(DaoUserResum.listIdIncorrects.length);
+        });
+        //DaoUserResum().test(idQuestion);
       }
     }
   }

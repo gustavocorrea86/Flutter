@@ -1,40 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ModelPoints extends ChangeNotifier {
-  String pointsDb;
-  String errorsDb;
   double boxIsAnswered = 0;
   bool isAnswered = false;
-  String countAnswered;
-
   bool actionBtnCircle = false;
   bool actionBtnRetangulare = false;
   bool progressError = false;
   bool showBoxSubjects = false;
-  bool test;
+  int correctsCurrents;
+  int incorrectsCurrents;
 
-  ModelPoints(
-    this.pointsDb,
-    this.errorsDb,
-    this.countAnswered,
-    this.actionBtnCircle,
-    this.actionBtnRetangulare,
-    this.test
-  );
-
-  Future showPoints(String points) async {
-    //DaoUserResum().findPoints();
-
-    pointsDb = points;
-    print('pointDb = $pointsDb');
-
-    notifyListeners();
-  }
-
-  Future showErrors(String erros) async {
-    errorsDb = erros;
-    print('errorsDb = $errorsDb');
-  }
+  ModelPoints(this.correctsCurrents, this.incorrectsCurrents);
 
   void actBoxAnswered(double active) {
     boxIsAnswered = active;
@@ -43,11 +19,7 @@ class ModelPoints extends ChangeNotifier {
 
   void answered(bool act) {
     isAnswered = act;
-    notifyListeners();
-  }
-
-  void counterOfAnswereds(String value) {
-    countAnswered = value;
+    print('isAnswered $isAnswered');
     notifyListeners();
   }
 
@@ -56,12 +28,20 @@ class ModelPoints extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openBoxSubject(bool open) {
-    test = open;
-     notifyListeners();
-  }
-  void enableBtnRetangulare(bool value){
+  void enableBtnRetangulare(bool value) {
     actionBtnRetangulare = value;
+    notifyListeners();
+  }
+
+  void uptadeCorrects(int value) {
+    correctsCurrents = value;
+    print('correctsCurrents $correctsCurrents');
+    notifyListeners();
+  }
+
+  void updateIncorrects(int value) {
+    incorrectsCurrents = value;
+    print('incorrectsCurrents $incorrectsCurrents');
     notifyListeners();
   }
 }

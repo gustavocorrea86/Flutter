@@ -31,7 +31,7 @@ class QuestionsIncorrects {
     try {
       if (response.statusCode == 200) {
         var list = await json.decode(response.body);
-        // print(list);
+        // print('list $list');
         for (var id in DaoUserResum.listIdIncorrects) {
           for (var question in list) {
             if (question['id'] == int.parse(id)) {
@@ -40,37 +40,38 @@ class QuestionsIncorrects {
           }
         }
         print('Questões incorretas recebidas com sucesso');
+        //print('listIncorrects $listIncorrects');
       }
       for (var element in listIncorrects) {
         Uint8List bytesImage =
             Uint8List.fromList(element['image']['data'].cast<int>());
         element['image'] = bytesImage;
-        print(element);
         resultQuestionsIncorrect.add(element);
       }
     } catch (err) {
       print('Erro ao buscar questões incorretas: $err');
     }
+    //print('resultQuestionsIncorrect $resultQuestionsIncorrect');
   }
 
-  void getQuestionsIncorrectsForSubjects(String subject) {
+  getQuestionsIncorrectsForSubjects(String subject) {
+    //resultQuestions.clear();
     subjectsOfQuestionsIncorrects.add(subject);
     try {
       for (var questions in resultQuestionsIncorrect) {
-        for (var sub in subjectsOfQuestionsIncorrects) {
-          if (questions['subject'] == sub) {
-            resultQuestions.add(ModelQuestions.toMap(questions));
-          }
+        if (questions['subject'] == subject) {
+          resultQuestions.add(ModelQuestions.toMap(questions));
         }
       }
-    } on Exception catch (e) {
+    } catch (e) {
       print('Erro ao buscar questões por assunto: $e');
     }
   }
 
 // PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE,PARA PODER RENDERIZAR NA accumulated_right
-  getDisciplineOfQuestionsIncorrects() {
+  void getDisciplineOfQuestionsIncorrects() {
     List<String> list = [];
+    listDisciplinesIncorrect.clear();
     try {
       if (resultQuestionsIncorrect.isNotEmpty) {
         for (var disciplines in resultQuestionsIncorrect) {
@@ -78,8 +79,8 @@ class QuestionsIncorrects {
         }
         listDisciplinesIncorrect = list.toSet().toList();
       }
-      //print('listDisciplinesIncorrect $listDisciplinesIncorrect');
-    } on Exception catch (e) {
+      print('listDisciplinesIncorrect $listDisciplinesIncorrect');
+    } catch (e) {
       print('Erro ao buscar disciplinas: $e');
     }
   }
@@ -112,12 +113,16 @@ class QuestionsIncorrects {
   }
 
   counterDisciplineIncorrects() {
+    amountPortuguesIncorrects = 0;
+    amountMatematicaIncorrects = 0;
+    amountGeografiaIncorrects = 0;
+    amountHistoriaIncorrects = 0;
+    amountCienciasIncorrects = 0;
     List<String> portugues = [];
     List<String> matematica = [];
     List<String> geografia = [];
     List<String> historia = [];
     List<String> ciencias = [];
-    print('matematica1 $matematica');
 
     for (var dis in resultQuestionsIncorrect) {
       switch (dis['displice']) {
@@ -142,7 +147,7 @@ class QuestionsIncorrects {
           amountCienciasIncorrects = ciencias.length;
       }
     }
-    print('matematica2 $matematica');
+    print('dashbord incorretas');
     print('portugues $amountPortuguesIncorrects');
     print('matematica $amountMatematicaIncorrects');
     print('geografia $amountGeografiaIncorrects');

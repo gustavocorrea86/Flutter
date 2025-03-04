@@ -62,8 +62,6 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                     value.enableBtnRetangulare(enable);
                     setState(() {
                       if (enable) {
-                        //  value.actionBtnRetangulare = true
-
                         // posição do botão abaixa em 2
                         buttonDown = 2;
                         // cor da sombra muda pra branco
@@ -90,13 +88,13 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                     width: MediaQuery.of(context).size.width - 65,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Color.fromARGB(255, 134, 152, 255),
-                            Colors.indigo,
-                            Color.fromARGB(255, 68, 85, 180),
-                          ]),
+                        colors: [
+                          Colors.indigoAccent,
+                          Colors.indigo,
+                        ],
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                      ),
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Row(
@@ -131,24 +129,6 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                         )
                       ],
                     ),
-
-                    // ListTile(
-                    //   leading: Text(
-                    //     widget.leading ?? '',
-
-                    //   ),
-                    //   title: Text(
-                    //     widget.title,
-                    //     style: TextStyle(
-                    //         fontSize: widget.fontSizeTitle,
-                    //         color: Colors.amber),
-                    //   ),
-                    //   trailing: Text(
-                    //     widget.tralling ?? '',
-                    //     style:
-                    //         const TextStyle(fontSize: 10, color: Colors.white),
-                    //   ),
-                    // ),
                   ),
                 ),
               ),

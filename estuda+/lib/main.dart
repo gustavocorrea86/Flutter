@@ -1,7 +1,7 @@
+import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:estudamais/database/dao_user_resum.dart';
 
 import 'package:estudamais/models/models.dart';
 
@@ -14,13 +14,17 @@ void main() async {
   runApp(
     MultiProvider(providers: [
       ChangeNotifierProvider(
-        create: (context) => ModelPoints(
-            '0', '0', DaoUserResum.totalPoints, false, false, false),
+        create: (context) => ModelPoints(0,0),
       ),
     ], child: const MyApp()),
   );
-  //DaoUserResum().removeId('127');
+  //DaoUserResum().removeIdQuestionsIncorrects('137');
+  DaoUserResum().findAll();
+  // DaoUserResum().findIdQuestionsIncorrect();
+  // DaoUserResum().findIdQuestionsCorrect();
+  
   //DaoUserResum().findIdQuestionsIncorrect();
+  //QuestionsIncorrects().counterDisciplineIncorrects();
 }
 
 class MyApp extends StatelessWidget {
@@ -28,13 +32,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      highContrastTheme: ThemeData(
+        
+       applyElevationOverlayColor: true,
+      ),
       title: 'Estuda +',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.indigo[300],
+       
+       // useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.indigo,
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.vertical(bottom: Radius.circular(70)),
+          // )
         ),
+        
       ),
+      
       home: const ScreenInitial(),
       // onGenerateRoute: (settings) {
       //   switch (settings.name) {

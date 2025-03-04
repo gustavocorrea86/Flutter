@@ -60,7 +60,10 @@ class _BoxSubjectsAndSchoolYearState extends State<BoxSubjectsAndSchoolYear> {
                           .getQuestionsIncorrectsForSubjects(widget.subject);
 
                       value.showSubjects(true);
-                      //print('assunto ${widget.subject}');
+                      print(
+                          'QuestionsIncorrects.resultQuestions ${QuestionsIncorrects.resultQuestions}');
+                      print(
+                          'QuestionsIncorrects.subjectsOfQuestionsCorrects ${QuestionsIncorrects.subjectsOfQuestionsIncorrects}');
                     } else {
                       value.showSubjects(true);
                       textButton = Colors.white;
@@ -72,10 +75,10 @@ class _BoxSubjectsAndSchoolYearState extends State<BoxSubjectsAndSchoolYear> {
                           .remove(widget.subject);
                       QuestionsCorrects.resultQuestions
                           .removeWhere((el) => el.subject == widget.subject);
-                      QuestionsIncorrects.subjectsOfQuestionsIncorrects
-                          .remove(widget.subject);
-                      QuestionsIncorrects.resultQuestions
-                          .removeWhere((el) => el.subject == widget.subject);
+                      print(
+                          'QuestionsIncorrects.resultQuestions ${QuestionsIncorrects.resultQuestions}');
+                      print(
+                          'QuestionsIncorrects.subjectsOfQuestionsIncorrects ${QuestionsIncorrects.subjectsOfQuestionsIncorrects}');
                     }
                   },
                 );

@@ -106,7 +106,7 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                 schoolYear:
                     Service.resultQuestionsBySubjectsAndSchoolYear[index]
                         ['schoolYear'],
-                        correctsAndIncorrects: PointsAndErrors(),
+                        correctsAndIncorrects: const PointsAndErrors(),
                         textButton: TextButton(
                               onPressed: () {
                                 //limpa as questões obtidas por disciplina

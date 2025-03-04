@@ -48,7 +48,7 @@ class _DisciplineState extends State<Discipline> {
               icon: const Icon(Icons.arrow_back)),
           title: Text(
             'Disciplinas',
-            style: GoogleFonts.aboreto(color: Colors.black),
+            style: GoogleFonts.aboreto(color: Colors.white),
           ),
         ),
         body: Stack(

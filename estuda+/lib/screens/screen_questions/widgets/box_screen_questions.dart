@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:estudamais/controller/routes.dart';
 import 'package:estudamais/screens/home/home.dart';
-import 'package:estudamais/screens/loading_next_page.dart';
+import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
@@ -192,7 +192,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                       onPressed: () {
                         //print('teste');
                         widget.controller.nextPage(
-                            duration: const Duration(microseconds: 500),
+                            duration: const Duration(seconds: 1),
                             curve: Curves.ease);
                         value.answered(false);
                         value.actBoxAnswered(0);
@@ -211,7 +211,7 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                               onPressed: () {
                                 widget.controller.animateToPage(
                                     widget.indexQuestion - 1,
-                                    duration: const Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 600),
                                     curve: Curves.ease);
                               },
                               child: const Text(
@@ -224,14 +224,22 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                             ),
                             widget.textButton ??
                                 TextButton(
-                                    onPressed: () {
-                                      Routes().popRoutes(
-                                          context, const HomeScreen());
-                                    },
-                                    child: const Text('Sair', style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                ),),)
+                                  onPressed: () {
+                                    Routes()
+                                        .popRoutes(context, const HomeScreen());
+                                    QuestionsCorrects
+                                        .subjectsOfQuestionsCorrects
+                                        .clear();
+                                    QuestionsCorrects.resultQuestions.clear();
+                                  },
+                                  child: const Text(
+                                    'Sair',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                )
                           ],
                         ),
                       ),

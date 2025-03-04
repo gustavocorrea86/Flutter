@@ -73,18 +73,20 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       ),
                     ),
                     onTap: () {
-                      answered = true;
-                      _controllerQuestions.isCorrect(
-                       value.isAnswered,
-                        widget.response,
-                        widget.alternative,
-                        widget.indexQuestion,
-                        context,
-                        widget.idQuestion,
-                      );
-                      value.actBoxAnswered(
-                          _controllerQuestions.heightBoxIsAnswered);
-                      value.answered(answered);
+                      setState(() {
+                        answered = true;
+                        _controllerQuestions.isCorrect(
+                          widget.isAnswered,
+                          widget.response,
+                          widget.alternative,
+                          widget.indexQuestion,
+                          context,
+                          widget.idQuestion,
+                        );
+                        value.actBoxAnswered(
+                            _controllerQuestions.heightBoxIsAnswered);
+                        value.answered(answered);
+                      });
                     },
                   ),
                 ),

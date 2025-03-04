@@ -16,6 +16,12 @@ class ScreenInitial extends StatefulWidget {
 class _ScreenInitialState extends State<ScreenInitial> {
   Routes routes = Routes();
   @override
+  void initState() {
+    DaoUserResum().findAll();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -35,9 +41,9 @@ class _ScreenInitialState extends State<ScreenInitial> {
                   if (DaoUserResum.table.isEmpty) {
                     DaoUserResum().insertUser(
                       const ModelsUserResum(
-                        totalPoints: '0',
-                        totalOfQuestions: '0',
-                        totalError: '0',
+                        // totalPoints: '0',
+                        // totalOfQuestions: '0',
+                        // totalError: '0',
                         idQuestions: '0',
                         idQuestionCorrect: '0',
                         idQuestionIncorrect: '0',
@@ -55,18 +61,18 @@ class _ScreenInitialState extends State<ScreenInitial> {
                       ),
                     );
                   } else {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return const LoadingNextPage(
-                    //         msgPrimary: 'Verificando conexão',
-                    //         msgSecundary: 'Carregando questões',
-                    //       );
-                    //     },
-                    //   ),
-                    // );
-                    Routes().pushRoute(context, const LoadingNextPage());
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const LoadingNextPage(
+                            msgPrimary: 'Verificando conexão',
+                            msgSecundary: 'Carregando questões',
+                          );
+                        },
+                      ),
+                    );
+                    //Routes().pushRoute(context, const LoadingNextPage());
                   }
                 },
                 child: Container(

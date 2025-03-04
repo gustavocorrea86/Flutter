@@ -1,11 +1,11 @@
 import 'package:estudamais/screens/loading_next_page.dart';
-import 'package:estudamais/screens/screen_questions/widgets/pointsAndErrors.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_alternativas.dart';
+import 'package:estudamais/screens/screen_questions/widgets/box_alternatives_incorrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 
 import 'package:estudamais/service/service.dart';
-import 'package:estudamais/screens/screen_questions/widgets/box_alternativas.dart';
 import 'package:estudamais/screens/screen_questions/widgets/box_questions.dart';
 
 import 'package:estudamais/screens/screen_questions/widgets/box_screen_questions.dart';
@@ -20,7 +20,7 @@ class PageQuestionsIncorrects extends StatefulWidget {
 }
 
 class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
-  Service service = Service();
+  //Service service = Service();
   final controller = PageController();
 
   @override
@@ -47,7 +47,7 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                 boxQuestions: BoxQuestions(
                     QuestionsIncorrects.resultQuestions[index].question),
                 image: QuestionsIncorrects.resultQuestions[index].image,
-                boxAlternativesA: BoxAlternatives(
+                boxAlternativesA: BoxAlternativesIncorrects(
                   QuestionsIncorrects.resultQuestions[index].alternativeA,
                   'A',
                   QuestionsIncorrects.resultQuestions[index].answer,
@@ -55,7 +55,7 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                   index,
                   QuestionsIncorrects.resultQuestions[index].id.toString(),
                 ),
-                boxAlternativesB: BoxAlternatives(
+                boxAlternativesB: BoxAlternativesIncorrects(
                   QuestionsIncorrects.resultQuestions[index].alternativeB,
                   'B',
                   QuestionsIncorrects.resultQuestions[index].answer,
@@ -63,7 +63,7 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                   index,
                   QuestionsIncorrects.resultQuestions[index].id.toString(),
                 ),
-                boxAlternativesC: BoxAlternatives(
+                boxAlternativesC: BoxAlternativesIncorrects(
                   QuestionsIncorrects.resultQuestions[index].alternativeC,
                   'C',
                   QuestionsIncorrects.resultQuestions[index].answer,
@@ -71,7 +71,7 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                   index,
                   QuestionsIncorrects.resultQuestions[index].id.toString(),
                 ),
-                boxAlternativesD: BoxAlternatives(
+                boxAlternativesD: BoxAlternativesIncorrects(
                   QuestionsIncorrects.resultQuestions[index].alternativeD,
                   'D',
                   QuestionsIncorrects.resultQuestions[index].answer,
@@ -103,6 +103,10 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                     Service.listSelectedSchoolYear.clear();
                     // limpa a list da busca geral
                     Service.resultQuestionsBySubjectsAndSchoolYear.clear();
+                    // limpa a lista dos assuntos selecionados
+                    QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
+                    //limpa a list do resultado dos assuntos selecionados
+                    QuestionsIncorrects.resultQuestions.clear();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

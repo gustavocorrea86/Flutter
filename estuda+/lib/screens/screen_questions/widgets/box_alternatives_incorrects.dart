@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:estudamais/controller/controller_questions.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
-class BoxAlternativesCorrects extends StatefulWidget {
+class BoxAlternativesIncorrects extends StatefulWidget {
   final String alternative;
   final String option;
   final String response;
- 
+  final bool isAnswered;
+  final int indexQuestion;
+  final String idQuestion;
 
-  const BoxAlternativesCorrects(
-    this.alternative,
-    this.option,
-    this.response,
-    
-    {
-    super.key,
-  });
+  const BoxAlternativesIncorrects(this.alternative, this.option, this.response,
+      this.isAnswered, this.indexQuestion, this.idQuestion,
+      {super.key});
 
   @override
-  State<BoxAlternativesCorrects> createState() =>
-      _BoxAlternativesCorrectsState();
+  State<BoxAlternativesIncorrects> createState() =>
+      _BoxAlternativesIncorrectsState();
 }
 
-class _BoxAlternativesCorrectsState extends State<BoxAlternativesCorrects> {
-  
+class _BoxAlternativesIncorrectsState extends State<BoxAlternativesIncorrects> {
+  final ControllerQuestions _controllerQuestions = ControllerQuestions();
 
   bool answered = false;
   @override
@@ -48,7 +46,7 @@ class _BoxAlternativesCorrectsState extends State<BoxAlternativesCorrects> {
                           blurRadius: 1,
                           spreadRadius: 1)
                     ],
-                    color: widget.alternative == widget.response ? Colors.green : Colors.white,
+                    color: _controllerQuestions.corAlternativa,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 2,
@@ -75,7 +73,22 @@ class _BoxAlternativesCorrectsState extends State<BoxAlternativesCorrects> {
                         style: const TextStyle(fontSize: 20),
                       ),
                     ),
-                   
+                    onTap: () {
+                      setState(() {
+                        answered = true;
+                        _controllerQuestions.recoverQuestionsIncorrects(
+                          widget.isAnswered,
+                          widget.response,
+                          widget.alternative,
+                          widget.indexQuestion,
+                          context,
+                          widget.idQuestion,
+                        );
+                        value.actBoxAnswered(
+                            _controllerQuestions.heightBoxIsAnswered);
+                        value.answered(answered);
+                      });
+                    },
                   ),
                 ),
               ),

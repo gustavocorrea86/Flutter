@@ -44,7 +44,7 @@ class QuestionsCorrects {
           Uint8List bytesImage =
               Uint8List.fromList(element['image']['data'].cast<int>());
           element['image'] = bytesImage;
-          print(element);
+          //print(element);
           resultQuestionsCorrect.add(element);
         }
 
@@ -66,34 +66,38 @@ class QuestionsCorrects {
         }
         listDisciplinesCorrect = list.toSet().toList();
       }
-    } on Exception catch (e) {
+    } catch (e) {
       print('Erro ao buscar disciplinas: $e');
     }
   }
 
   //MÉTODO QUE SERVE COMO BASE DE CONSULTA DE QUESTÕES POR ASSUNTO, ATRAVÉS DA LIST subjectsOfQuestionsCorrects
   void getQuestionsCorrectsForSubjects(String subject) {
+    // List que mostra os assuntos selecionados
     subjectsOfQuestionsCorrects.add(subject);
     try {
-      for (var questions in resultQuestionsCorrect) {
-        for (var sub in subjectsOfQuestionsCorrects) {
-          if (questions['subject'] == sub) {
-            resultQuestions.add(ModelQuestions.toMap(questions));
-          }
+      for (var question in resultQuestionsCorrect) {
+        if (question['subject'] == subject) {
+          resultQuestions.add(ModelQuestions.toMap(question));
         }
       }
-    } on Exception catch (e) {
+    } catch (e) {
       print('Erro ao buscar questões por assunto: $e');
     }
   }
 
   counterDisciplineCorrects() {
+    amountPortuguesCorrects = 0;
+    amountMatematicaCorrects = 0;
+    amountGeografiaCorrects = 0;
+    amountHistoriaCorrects = 0;
+    amountCienciasCorrects = 0;
     List<String> portugues = [];
     List<String> matematica = [];
     List<String> geografia = [];
     List<String> historia = [];
     List<String> ciencias = [];
-    print('matematica1 $matematica');
+    // print('matematica1 $matematica');
 
     for (var dis in resultQuestionsCorrect) {
       switch (dis['displice']) {
@@ -118,7 +122,7 @@ class QuestionsCorrects {
           amountCienciasCorrects = ciencias.length;
       }
     }
-    print('matematica2 $matematica');
+    print('dashbord corretas');
     print('portugues $amountPortuguesCorrects');
     print('matematica $amountMatematicaCorrects');
     print('geografia $amountGeografiaCorrects');

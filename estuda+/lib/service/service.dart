@@ -45,9 +45,9 @@ class Service {
         for (var id in DaoUserResum.listId) {
           list.removeWhere((el) => el['id'] == int.parse(id));
         }
-        for (var q in list) {
-          print('Ids recebidos: ${q['id']}');
-        }
+        // for (var q in list) {
+        //   print('Ids recebidos: ${q['id']}');
+        // }
       }
     } catch (err) {
       print('Erro ao buscar questões: $err');
@@ -99,7 +99,7 @@ class Service {
       for (var c in questionsByDiscipline) {
         print('questões: ${c['id']}, ${c['displice']}');
       }
-    } on Exception catch (e) {
+    }catch (e) {
       print('Erro ao buscar questões por disciplina: $e');
     }
   }

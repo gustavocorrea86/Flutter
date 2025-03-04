@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/models/model_questions.dart';
+import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
-import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/models/models.dart';
 import 'package:estudamais/widgets/loading.dart';
 import 'package:provider/provider.dart';
 
@@ -31,22 +32,18 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
 
   @override
   void initState() {
-    DaoUserResum()
-        .findAnswered(); // faz busca do total de perguntas respondidas
+    DaoUserResum().findIdQuestions();
+    DaoUserResum().findIdQuestionsIncorrect();
+    DaoUserResum().findIdQuestionsCorrect();
+    // carrega os ids das questões
     super.initState();
   }
 
   nextPage() {
-    // atualiza a quantidade de acertos
     Provider.of<ModelPoints>(context, listen: false)
-        .showPoints(DaoUserResum.totalPoints);
-    // atualiza a quantidade de erradas
+        .uptadeCorrects(DaoUserResum.listIdCorrects.length);
     Provider.of<ModelPoints>(context, listen: false)
-        .showErrors(DaoUserResum.totalErrors);
-    //atualiza a quantifade de respondidas
-    Provider.of<ModelPoints>(context, listen: false)
-        .counterOfAnswereds(DaoUserResum.answeredQuestions);
-    //busca as disciplinas respondidas corretamente
+        .updateIncorrects(DaoUserResum.listIdIncorrects.length);
     QuestionsCorrects().counterDisciplineCorrects();
     // busca as disciplinas respondidas incorretamente
     QuestionsIncorrects().counterDisciplineIncorrects();
@@ -57,11 +54,14 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
   Stream getDatas() async* {
     // busca todas as questões
     yield await service.getQuestions();
+    print('1');
     // busca os ids das questões respondidad corretamente
     yield await questionsCorrects.getQuestionsCorrects();
+    print('2');
     // busca os ids das questões respondidas incorretamente
     yield await questionsIncorrects.getQuestionsIncorrects();
-    // atualiza o progresso do aluno
+    print('3');
+    // atualiza o progresso do usuario
     yield await nextPage();
   }
 

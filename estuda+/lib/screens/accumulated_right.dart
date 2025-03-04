@@ -34,7 +34,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
             automaticallyImplyLeading: false,
             leading: IconButton(
               onPressed: () {
-                QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
+                //QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
                 QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
                 Routes().popRoutes(context, const HomeScreen());
               },
@@ -56,7 +56,8 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                     Column(
                       children: [
                         Visibility(
-                          visible: QuestionsCorrects
+                          visible: 
+                          QuestionsCorrects
                                   .subjectsOfQuestionsCorrects.isNotEmpty
                               ? value.showBoxSubjects
                               : false,
@@ -101,7 +102,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                       padding: const EdgeInsets.symmetric(horizontal: 40),
                       child: ElevatedButton(
                           onPressed: () {
-                            //QuestionsCorrects().resultQuestionsCorrects();
+                            //questionsCorrectsDb.resultQuestionsCorrects();
                             Routes().pushRoute(
                                 context, const PageQuestionsCorrects());
                           },

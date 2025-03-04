@@ -17,7 +17,7 @@ class AnimatedButtonCircle extends StatefulWidget {
       {this.textSecondary, this.fontSizeSecondary, super.key});
   bool backButton = false;
   Color shadowColor = Colors.black87;
-  double shadowBox = 10;
+  double shadowBox = 8;
 
   @override
   State<AnimatedButtonCircle> createState() => _AnimatedButtonCircleState();
@@ -71,7 +71,7 @@ class _AnimatedButtonCircleState extends State<AnimatedButtonCircle> {
                     value.actionBtnCircle = widget.backButton;
                     setState(() {
                       widget.shadowColor = Colors.black87;
-                      widget.shadowBox = 10;
+                      widget.shadowBox = 8;
                     });
                     widget.onTap();
                   }
@@ -84,12 +84,12 @@ class _AnimatedButtonCircleState extends State<AnimatedButtonCircle> {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        Color.fromARGB(255, 134, 152, 255),
-                        Color.fromARGB(255, 68, 85, 180),
-                        Color.fromARGB(255, 68, 85, 180)
+                        Colors.indigoAccent,
+                        Colors.indigo,
+                       
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
                     ),
                   ),
                   child: Column(

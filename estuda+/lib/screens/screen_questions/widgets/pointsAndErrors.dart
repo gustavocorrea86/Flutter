@@ -1,11 +1,11 @@
+import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:flutter/material.dart';
-import 'package:estudamais/controller/counter_errors.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';
 
 class PointsAndErrors extends StatelessWidget {
-  PointsAndErrors({super.key});
-  final CounterErrors counterErrors = CounterErrors();
+  const PointsAndErrors({super.key});
+  //final CounterErrors counterErrors = CounterErrors();
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,11 @@ class PointsAndErrors extends StatelessWidget {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 16.0),
                     child: Text(
-                      value.pointsDb,
+                      value.correctsCurrents.toString(),
+                      //DaoUserResum.idQuestCorrect.length.toString(),
                       style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -56,7 +58,8 @@ class PointsAndErrors extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Text(
-                  value.errorsDb,
+                  value.incorrectsCurrents.toString(),
+                  //DaoUserResum.idQuestIncorrect.length.toString(),
                   style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

@@ -1,4 +1,5 @@
 import 'package:estudamais/controller/routes.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/screens/accumulated_right.dart';
 import 'package:estudamais/screens/accumulated_wrongs.dart';
 import 'package:estudamais/screens/discipline/discipline.dart';
@@ -32,9 +33,22 @@ class _HomeScreenState extends State<HomeScreen> {
   bool? enable;
 
   @override
+  void initState() {
+    if (Service.resultController.isEmpty) {
+      showSnackBar(
+        context,
+        'Ops, tivemos um problema de conexão!',
+        Colors.redAccent,
+      );
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
+        
         appBar: AppBar(
           automaticallyImplyLeading: false,
           leading: Builder(builder: (context) {
@@ -62,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   children: [
                     TextSpan(
-                      text: value.countAnswered,
+                      text: DaoUserResum.listId.length.toString(),
                       style: GoogleFonts.aboreto(
                         color: Colors.amber,
                         fontWeight: FontWeight.bold,
@@ -102,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView(
                 children: [
                   BoxResum(
-                    value.pointsDb,
+                    DaoUserResum.listIdCorrects.length.toString(),
                     'Respostas corretas',
                     Lottie.asset('./assets/lotties/Animation_correct.json'),
                     TextButton(
@@ -111,11 +125,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             .resultQuestionsCorrect.isNotEmpty) {
                           // CHAMA A CONSULTA PARA OBTER AS DISCIPLINAS RESPONDIDAS CORRETAMENTE
                           questionsCorrects.getDisciplineOfQuestionsCorrects();
+
                           // chama a pagina onde mostra as questões respondidas corretamente
-                          value.answered(false);
                           Routes().pushRoute(context, const AccumulatedRight());
                           // limpa a List das questões por assunto que foram consultadas
                           QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
+                          QuestionsCorrects.resultQuestions.clear();
                         } else {
                           showSnackBar(
                               context,
@@ -166,19 +181,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: BoxResum(
-                      value.errorsDb,
+                      DaoUserResum.listIdIncorrects.length.toString(),
                       'Respostas incorretas',
                       Lottie.asset('./assets/lotties/alert.json'),
                       TextButton(
                           onPressed: () {
                             if (QuestionsIncorrects
                                 .resultQuestionsIncorrect.isNotEmpty) {
+                              value.answered(false);
                               Routes().pushRoute(
                                   context, const AccumulatedWrongs());
                               questionsIncorrects
                                   .getDisciplineOfQuestionsIncorrects();
                               QuestionsIncorrects.subjectsOfQuestionsIncorrects
                                   .clear();
+
+                              QuestionsIncorrects.resultQuestions.clear();
                             } else {
                               showSnackBar(
                                   context,
@@ -235,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         Routes().pushRoute(context, const Discipline());
                         service.getDisplice();
+                        value.actBoxAnswered(0);
                       },
                       child: const Text('Iniciar'),
                     ),

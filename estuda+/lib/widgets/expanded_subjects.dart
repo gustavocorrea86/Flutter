@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 class ExpandedSubjects extends StatefulWidget {
   final List<String> discipline;
   final List<Map<String, dynamic>> resultQuestions;
-  
 
   const ExpandedSubjects(
       {required this.discipline, required this.resultQuestions, super.key});
@@ -48,7 +47,10 @@ class _ExpandedSubjectsState extends State<ExpandedSubjects> {
                     () {
                       // FAZ A CONSULTA PARA OBTER O ASSUNTO E O ANO ESCOLAR TANTO DAS CORRETAS COMO DAS INCORRETAS
                       ShowSubjects().showSubjectsAndSchoolyeaAll(
-                          widget.discipline[index], widget.resultQuestions);
+                        widget.discipline[index],
+                        widget.resultQuestions,
+                      );
+                      
                     },
                   );
                 }

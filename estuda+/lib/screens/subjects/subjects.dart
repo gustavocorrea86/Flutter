@@ -1,5 +1,5 @@
 import 'package:estudamais/controller/routes.dart';
-import 'package:estudamais/screens/schoolYears/school_years.dart';
+import 'package:estudamais/screens/discipline/discipline.dart';
 import 'package:estudamais/screens/screen_questions/screen_questions.dart';
 import 'package:estudamais/widgets/animated_button_retangulare.dart';
 import 'package:estudamais/widgets/background.dart';
@@ -35,7 +35,7 @@ class _SubjectsState extends State<Subjects> {
           leading: IconButton(
               onPressed: () {
                 // remove todas as rotas da pilha e vai para a page schoolYear
-                Routes().popRoutes(context, const SchoolYears());
+                Routes().popRoutes(context, const Discipline());
                 // limpa a List das questões por disciplinas
                 Service.questionsByDiscipline.clear();
                 // limpa a List das questões por ano
