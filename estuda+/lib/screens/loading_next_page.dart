@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:estudamais/controller/routes.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/service/questions_corrects.dart';

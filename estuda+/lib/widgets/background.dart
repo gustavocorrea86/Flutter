@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Background extends StatelessWidget {
-  const Background({super.key});
+  final Widget child;
+  const Background({required this.child, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class Background extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
+      child: child,
     );
 
     // Container(

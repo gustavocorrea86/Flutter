@@ -6,16 +6,20 @@ import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:provider/provider.dart';
 
 class ControllerQuestions {
-  //DaoUserResum database = DaoUserResum();
-
+  DaoUserResum database = DaoUserResum();
+//cor do box alternative
   Color corAlternativa = Colors.white;
+  // container onde mostra questão ja respondida
   double heightBoxIsAnswered = 0;
+  //atualiza id das questões respondidas
   List<dynamic> idsAnswer = [];
+  //atualiza id das questões respondidas corretas
   List<dynamic> idsAnswerCorrect = [];
+  //atualiza id das questões respondidas incorretas
   List<dynamic> idsAnswerIncorrect = [];
 
-  double heightContainer = 0;
-  double widthContainer = 0;
+  // double heightContainer = 0;
+  // double widthContainer = 0;
   Timer? timer;
 
   void recoverQuestionsIncorrects(
@@ -40,11 +44,11 @@ class ControllerQuestions {
         if (DaoUserResum.listIdCorrects.isEmpty) {
           //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
           idsAnswerCorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
         } else {
           idsAnswerCorrect = DaoUserResum.listIdCorrects;
           idsAnswerCorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
         }
       } else {
         corAlternativa = Colors.red;
@@ -58,11 +62,11 @@ class ControllerQuestions {
     if (!DaoUserResum.listId.contains(idQuestion)) {
       if (DaoUserResum.listId.isEmpty) {
         idsAnswer.add(idQuestion);
-        DaoUserResum().updateIdQuestions(idsAnswer);
+        database.updateIdQuestions(idsAnswer);
       } else {
         idsAnswer = DaoUserResum.listId;
         idsAnswer.add(idQuestion);
-        DaoUserResum().updateIdQuestions(idsAnswer);
+        database.updateIdQuestions(idsAnswer);
       }
     }
     print('ids das questões respondidas - ${DaoUserResum.listId}');
@@ -78,11 +82,11 @@ class ControllerQuestions {
         if (DaoUserResum.listIdCorrects.isEmpty) {
           //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
           idsAnswerCorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
         } else {
           idsAnswerCorrect = DaoUserResum.listIdCorrects;
           idsAnswerCorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsCorrect(idsAnswerCorrect);
+          database.updateIdQuestionsCorrect(idsAnswerCorrect);
         }
         timer = Timer(const Duration(seconds: 1), () {
           Provider.of<ModelPoints>(context, listen: false)
@@ -95,11 +99,11 @@ class ControllerQuestions {
         if (DaoUserResum.listIdIncorrects.isEmpty &&
             !DaoUserResum.listIdCorrects.contains(idQuestion)) {
           idsAnswerIncorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsIncorrect(idsAnswerIncorrect);
+          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
         } else {
           idsAnswerIncorrect = DaoUserResum.listIdIncorrects;
           idsAnswerIncorrect.add(idQuestion);
-          DaoUserResum().updateIdQuestionsIncorrect(idsAnswerIncorrect);
+          database.updateIdQuestionsIncorrect(idsAnswerIncorrect);
         }
         timer = Timer(const Duration(seconds: 1), () {
           Provider.of<ModelPoints>(context, listen: false)

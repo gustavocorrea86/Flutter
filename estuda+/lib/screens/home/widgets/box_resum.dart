@@ -30,37 +30,57 @@ class BoxResum extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 60,
-                height: 60,
-                child: image,
-              ),
-              SizedBox(
                 child: Row(
                   children: [
-                    Text(
-                      value,
-                      style: GoogleFonts.aboreto(
-                        fontSize: 30,
-                      ),
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: image,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        description,
-                        style: GoogleFonts.aboreto(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.only(left: 10),
+                      child: SizedBox(
+                        child: Row(
+                          children: [
+                            Text(
+                              value,
+                              style: GoogleFonts.aboreto(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: SizedBox(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Respostas',
+                                      style: GoogleFonts.aboreto(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Text(
+                                        description,
+                                        style: GoogleFonts.aboreto(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
               textButton
-              //  Padding(
-              //    padding: EdgeInsets.only(right: 5),
-              //    child: ElevatedButton(onPressed: (){}, child: Text('Resumo'), style: const ButtonStyle(
-              //     padding: WidgetStatePropertyAll<EdgeInsetsGeometry?>(EdgeInsets.all(1.0))
-              //    )),
-              //  )
             ],
           ),
         ));

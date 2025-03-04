@@ -18,13 +18,7 @@ void main() async {
       ),
     ], child: const MyApp()),
   );
-  //DaoUserResum().removeIdQuestionsIncorrects('137');
-  DaoUserResum().findAll();
-  // DaoUserResum().findIdQuestionsIncorrect();
-  // DaoUserResum().findIdQuestionsCorrect();
-  
-  //DaoUserResum().findIdQuestionsIncorrect();
-  //QuestionsIncorrects().counterDisciplineIncorrects();
+ 
 }
 
 class MyApp extends StatelessWidget {

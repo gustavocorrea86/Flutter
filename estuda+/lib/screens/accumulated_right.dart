@@ -4,8 +4,11 @@ import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/screens/screen_questions/questions_corrects.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
+import 'package:estudamais/widgets/background.dart';
+import 'package:estudamais/widgets/button_next.dart';
 import 'package:estudamais/widgets/expanded_subjects.dart';
 import 'package:estudamais/widgets/list_selected_scrollable.dart';
+import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -30,7 +33,13 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
       builder: (context, value, child) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Respondidas corretamente'),
+            title: Text(
+              'Respondidas corretamente',
+              style: GoogleFonts.aboreto(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
             automaticallyImplyLeading: false,
             leading: IconButton(
               onPressed: () {
@@ -38,15 +47,10 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                 QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
                 Routes().popRoutes(context, const HomeScreen());
               },
-              icon: const Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back, color: Colors.white,),
             ),
           ),
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('./assets/images/ball-7280265_640.jpg'),
-                  fit: BoxFit.cover),
-            ),
+          body: Background(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox.expand(
@@ -56,8 +60,7 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                     Column(
                       children: [
                         Visibility(
-                          visible: 
-                          QuestionsCorrects
+                          visible: QuestionsCorrects
                                   .subjectsOfQuestionsCorrects.isNotEmpty
                               ? value.showBoxSubjects
                               : false,
@@ -98,20 +101,26 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                         color: Colors.white,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            //questionsCorrectsDb.resultQuestionsCorrects();
-                            Routes().pushRoute(
-                                context, const PageQuestionsCorrects());
-                          },
-                          child: const Text('Mostrar questões')),
-                    )
                   ],
                 ),
               ),
             ),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: GestureDetector(
+            onTap: () {
+              if (QuestionsCorrects.subjectsOfQuestionsCorrects.isEmpty) {
+                showSnackBar(
+                  context,
+                  'Selecione a disciplina e o assunto para continuar.',
+                  Colors.red,
+                );
+              } else {
+                Routes().pushRoute(context, const PageQuestionsCorrects());
+              }
+            },
+            child: const ButtonNext(textContent: 'Mostrar questões'),
           ),
         );
       },

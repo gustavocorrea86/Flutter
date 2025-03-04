@@ -3,6 +3,7 @@ import 'package:estudamais/screens/discipline/discipline.dart';
 import 'package:estudamais/screens/subjects/subjects.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:estudamais/widgets/background.dart';
+import 'package:estudamais/widgets/button_next.dart';
 import 'package:estudamais/widgets/list_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
@@ -46,91 +47,90 @@ class _SchoolYearsState extends State<SchoolYears> {
                 },
               );
             },
-            icon: const Icon(Icons.arrow_back),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
           title: Text(
             'Ano escolar',
-            style: GoogleFonts.aboreto(color: Colors.black),
+            style: GoogleFonts.aboreto(color: Colors.white),
           ),
         ),
         body: Stack(
           children: [
-            const Background(),
-            // SizedBox(
-            //   width: MediaQuery.of(context).size.width,
-            //   height: MediaQuery.of(context).size.height,
-            //   child: Lottie.asset('./assets/lotties/backgroud_blue.json',
-            //       fit: BoxFit.cover),
-            // ),
-            ListView(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  child: ListSelectedDisciplines(
-                    list: Service.listSelectedDisciplines,
-                    direction: Axis.horizontal,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Divider(
-                    color: Colors.white,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width - 20,
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Selecione o Ano escolar:',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+            Background(
+              child: ListView(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: ListSelectedDisciplines(
+                      list: Service.listSelectedDisciplines,
+                      direction: Axis.horizontal,
                     ),
                   ),
-                ),
-                Container(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 20,
-                      maxHeight: MediaQuery.of(context).size.height / 2),
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(129, 255, 255, 255),
-                      borderRadius: BorderRadius.circular(16.0),
-                      boxShadow: const <BoxShadow>[
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 10.0,
-                          spreadRadius: 1.0,
-                        )
-                      ]),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: GridListSchoolYear(),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Divider(
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      if (Service.questionsBySchoolYear.isEmpty) {
-                        showSnackBar(
-                          context,
-                          'Selecione o ano escolar para continuar.',
-                          Colors.red,
-                        );
-                      } else {
-                        Routes().pushRoute(context, const Subjects());
-                      }
-                    },
-                    child: const Text('Próximo')),
-              ],
+                  Container(
+                    alignment: Alignment.center,
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 20,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Selecione o Ano escolar:',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 20,
+                        maxHeight: MediaQuery.of(context).size.height / 3),
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(129, 255, 255, 255),
+                        borderRadius: BorderRadius.circular(16.0),
+                        boxShadow: const <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10.0,
+                            spreadRadius: 1.0,
+                          )
+                        ]),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: GridListSchoolYear(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: GestureDetector(
+            onTap: () {
+              if (Service.questionsBySchoolYear.isEmpty) {
+                showSnackBar(
+                  context,
+                  'Selecione o ano escolar para continuar.',
+                  Colors.red,
+                );
+              } else {
+                Routes().pushRoute(context, const Subjects());
+              }
+            },
+            child: const ButtonNext(textContent: 'Próximo')),
       );
     });
   }

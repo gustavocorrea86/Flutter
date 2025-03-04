@@ -106,14 +106,14 @@ class DaoUserResum {
 
   Future updateIdQuestionsIncorrect(List<dynamic> id) async {
     String idQuestIncorrect = '';
-   
+
     final Database db = await getConnection();
     List<Map<String, dynamic>> user =
         await db.query(_user); //FAZ DA LIST DOS IDS ATUAIS
     idQuestIncorrect = user[0]['idQuestionIncorrect']; // ARMAZENA O RESULTADO
-    print('idQuestIncorrect $idQuestIncorrect');
+
     final listIdJson = jsonEncode(id); // CONVERTE PARA JSON O ID A SER INSERIDO
-    print('listIdJson $listIdJson');
+
     try {
       await db.rawUpdate(
         // ATUALIZA O ID INSERIDO
@@ -171,7 +171,7 @@ class DaoUserResum {
     } else {
       listIdIncorrects = idList;
     }
-    //print('listIdIncorrect $listIdIncorrects');
+    print('listIdIncorrect $listIdIncorrects');
   }
 
 //remove o id da questão incorretada listIdIncorrects, da -1 na quantidade respondida e -1 na quatidade de questões iconrretas
@@ -184,14 +184,11 @@ class DaoUserResum {
 
     if (listIdIncorrects.length == 1) {
       var idLast = user[0]['idQuestionIncorrect'];
-      var newId = jsonEncode(0);
       await db.rawUpdate(
         // ATUALIZA O ID INSERIDO
         'UPDATE $_user SET $_idQuestionIncorrect = ? WHERE $_idQuestionIncorrect = ?',
-        [newId, idLast],
+        ['0', idLast],
       );
-      print('passou aqui');
-
       listIdIncorrects.remove(id);
     } else {
       if (listIdIncorrects.contains(id)) {
@@ -202,21 +199,6 @@ class DaoUserResum {
         listIdIncorrects.remove(id);
         print(idsCurrent);
       }
-    }
-  }
-
-  Future test(String id) async {
-    if (listIdCorrects.contains(id)) {
-      final Database db = await getConnection();
-
-      List listIncorrect = [];
-      List<Map<String, dynamic>> user = await db.query(_user);
-      //var idListCorrect = jsonDecode(user[0]['idQuestionCorrect']);
-      var idListIncorrect = jsonDecode(user[0]['idQuestionIncorrect']);
-      listIncorrect = idListIncorrect;
-      //listCorrect = idListCorrect;
-      listIncorrect.remove(id);
-      updateIdQuestionsIncorrect(listIncorrect);
     }
   }
 

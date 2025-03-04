@@ -1,4 +1,3 @@
-import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:provider/provider.dart';

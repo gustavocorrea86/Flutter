@@ -1,5 +1,4 @@
 import 'package:estudamais/screens/loading_next_page.dart';
-import 'package:estudamais/screens/screen_questions/widgets/box_alternativas.dart';
 import 'package:estudamais/screens/screen_questions/widgets/box_alternatives_incorrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:flutter/material.dart';
