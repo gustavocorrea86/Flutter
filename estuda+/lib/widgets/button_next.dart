@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ButtonNext extends StatelessWidget {
   final String textContent;
-  const ButtonNext({required this.textContent, super.key});
+  final double? height;
+  const ButtonNext({required this.textContent, this.height = 50, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,17 +12,12 @@ class ButtonNext extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 50,
+        height: height,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              colors: [
-                Colors.white70,
-                Colors.white,
-                Colors.white70
-              ]),
-          
+              colors: [Colors.white70, Colors.white, Colors.white70]),
           boxShadow: const [
             BoxShadow(
               color: Colors.black54,

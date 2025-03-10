@@ -4,10 +4,12 @@ class ListSelectedDisciplines extends StatelessWidget {
   final List<String> list;
   final Color? textColor;
   final Axis direction;
+  
   const ListSelectedDisciplines(
       {required this.list,
       this.textColor = Colors.white,
       required this.direction,
+      
       super.key});
 
   @override
@@ -44,7 +46,7 @@ class ListSelectedDisciplines extends StatelessWidget {
                 ],
               );
             }),
-      ),
+      )
     );
   }
 }

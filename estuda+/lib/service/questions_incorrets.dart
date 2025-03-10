@@ -1,19 +1,20 @@
 import 'dart:convert';
-import 'dart:typed_data';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:estudamais/service/service.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/model_questions.dart';
-import 'package:http/http.dart' as http;
 
 class QuestionsIncorrects {
-  final String _questoesAll = dotenv.env['questoes']!;
+  // todas as questões corretas
   static List<Map<String, dynamic>> resultQuestionsIncorrect = [];
+  // lista das disciplinas corretas
   static List<String> listDisciplinesIncorrect = [];
-  static List<String> listSubjectsIncorrect = [];
+  // map do expanded após selecionar a disciplina
   static List<Map<String, dynamic>> mapListSubAndYearIncorrects = [];
-  static List<String> listSchoolYearsIncorrects = [];
-  static int subjectLength = 0;
-  static Set<String> subjectsOfQuestionsIncorrects = {};
+  // map da seleção de ano e assunto que recebe o jsonDecode sem repetições
+  static List<dynamic> mapYearAndSubjectSelected = [];
+  // lista auxiliar para impedir duplicidade ao mostrar os assuntos
+  static List<Map<String, dynamic>> listAuxYearAndSubjectSelected = [];
+  //resultado da seleção das questões corretas
   static List<ModelQuestions> resultQuestions = [];
   static int amountPortuguesIncorrects = 0;
   static int amountMatematicaIncorrects = 0;
@@ -23,40 +24,27 @@ class QuestionsIncorrects {
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
   Future getQuestionsIncorrects() async {
-    List listIncorrects = [];
     resultQuestionsIncorrect.clear();
-    http.Response response = await http.get(
-      Uri.parse('http://$_questoesAll/questoes'),
-    );
+
     try {
-      if (response.statusCode == 200) {
-        var list = await json.decode(response.body);
-        // print('list $list');
+      if (Service.resultAll.isNotEmpty) {
+        //var list = await json.decode(response.body);
+
         for (var id in DaoUserResum.listIdIncorrects) {
-          for (var question in list) {
+          for (var question in Service.resultAll) {
             if (question['id'] == int.parse(id)) {
-              listIncorrects.add(question);
+              resultQuestionsIncorrect.add(question);
             }
           }
         }
         print('Questões incorretas recebidas com sucesso');
-        //print('listIncorrects $listIncorrects');
-      }
-      for (var element in listIncorrects) {
-        Uint8List bytesImage =
-            Uint8List.fromList(element['image']['data'].cast<int>());
-        element['image'] = bytesImage;
-        resultQuestionsIncorrect.add(element);
       }
     } catch (err) {
       print('Erro ao buscar questões incorretas: $err');
     }
-    //print('resultQuestionsIncorrect $resultQuestionsIncorrect');
   }
 
-  getQuestionsIncorrectsForSubjects(String subject) {
-    //resultQuestions.clear();
-    subjectsOfQuestionsIncorrects.add(subject);
+  void getQuestionsIncorrectsForSubjects(String subject) {
     try {
       for (var questions in resultQuestionsIncorrect) {
         if (questions['subject'] == subject) {
@@ -85,22 +73,60 @@ class QuestionsIncorrects {
     }
   }
 
+  void getQuestionsCorrectsForSubjects(String subjects, String schoolYear) {
+    Map<String, dynamic> listMap = {};
+
+    listMap = {
+      'schoolYear': schoolYear,
+      'subjects': subjects,
+    };
+    listAuxYearAndSubjectSelected.add(listMap);
+
+    final listJson =
+        listAuxYearAndSubjectSelected.map((el) => jsonEncode(el)).toList();
+    final setList = listJson.toSet().toList();
+    mapYearAndSubjectSelected = setList.map((el) => jsonDecode(el)).toList();
+
+    print('mapYearAndSubjectSelected $mapYearAndSubjectSelected');
+  }
+
+  void getResultQuestionsIncorrects() {
+    try {
+      for (var question in resultQuestionsIncorrect) {
+        for (var res in mapYearAndSubjectSelected) {
+          if (question['subject'] == res['subjects'] &&
+              question['schoolYear'] == res['schoolYear']) {
+            resultQuestions.add(ModelQuestions.toMap(question));
+          }
+        }
+      }
+    } catch (e) {
+      print('Erro ao buscar questões por assunto: $e');
+    }
+    print('resultQuestions $resultQuestions');
+  }
+
   // PEGA OS ASSUNTOS E ANOS DAS QUESTÕES CORRETAS E COLOCA EM UM MAP,PARA PODER RENDERIZAR NA accumulated_right
-  showSubjectsAndSchoolyearIncorrects(String discipline) {
+  //
+  void showSubjectsAndSchoolyeaIncorrects(
+      String discipline, List<Map<String, dynamic>> listMap) {
     Map<String, dynamic> mapYearAndSubject = {};
     List<Map<String, dynamic>> result = [];
+
     mapListSubAndYearIncorrects.clear();
-    if (resultQuestionsIncorrect.isNotEmpty) {
-      for (var map in resultQuestionsIncorrect) {
+
+    if (listMap.isNotEmpty) {
+      for (var map in listMap) {
         if (map['displice'] == discipline) {
           mapYearAndSubject = {
             'schoolYear': map['schoolYear'],
-            'subjects': map['subject']
+            'subjects': map['subject'],
+            // 'lenght':
           };
           result.add(mapYearAndSubject);
         }
       }
-      // remove duplicates from the list and convert it to a Set to avoid duplicates.
+
       final jsonList = result.map((el) => jsonEncode(el)).toList();
       final setList = jsonList.toSet().toList();
       final decodeList = setList.map((el) => jsonDecode(el)).toList();
@@ -108,7 +134,8 @@ class QuestionsIncorrects {
       for (var listMap in decodeList) {
         mapListSubAndYearIncorrects.add(listMap);
       }
-      //print('mapListSubAndYear $mapListSubAndYearIncorrects');
+
+      print('mapListSubAndYearIncorrects $mapListSubAndYearIncorrects');
     }
   }
 
@@ -142,7 +169,7 @@ class QuestionsIncorrects {
           historia.add(dis['displice']);
           amountHistoriaIncorrects = historia.length;
           break;
-        case 'Ciências da Natureza':
+        case 'Ciências':
           ciencias.add(dis['displice']);
           amountCienciasIncorrects = ciencias.length;
       }

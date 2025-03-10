@@ -7,11 +7,15 @@ import 'package:provider/provider.dart';
 class BoxSchoolyear extends StatefulWidget {
   final String elementarySchool;
   final String schoolYear;
-  final String schoolYearURL;
+  //final String schoolYearURL;
 
   const BoxSchoolyear(
-      this.elementarySchool, this.schoolYear, this.schoolYearURL,
-      {super.key});
+    this.elementarySchool,
+    this.schoolYear,
+    //this.schoolYearURL, 
+    {
+    super.key,
+  });
 
   @override
   State<BoxSchoolyear> createState() => _BoxSchoolyearState();
@@ -47,11 +51,11 @@ class _BoxSchoolyearState extends State<BoxSchoolyear> {
             if (value.actionBtnCircle) {
               service.getSubjectsAndSchoolYearOfDiscipline(widget.schoolYear);
               service.getSubjectsBySchoolYears(widget.schoolYear);
-              
             } else {
               Service.questionsBySchoolYear.removeWhere(
                   (element) => element['schoolYear'] == widget.schoolYear);
-              print('Service.questionsBySchoolYear ${Service.questionsBySchoolYear}');
+              print(
+                  'Service.questionsBySchoolYear ${Service.questionsBySchoolYear}');
 
               Service.schoolYearAndSubjects
                   .removeWhere((el) => el['schoolYear'] == widget.schoolYear);

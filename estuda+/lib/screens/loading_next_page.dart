@@ -9,6 +9,7 @@ import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/widgets/loading.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class LoadingNextPage extends StatefulWidget {
@@ -47,21 +48,31 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
     // busca as disciplinas respondidas incorretamente
     QuestionsIncorrects().counterDisciplineIncorrects();
     // chama a homeScreen
-    Routes().pushRoute(context, const HomeScreen());
+
+    //Routes().pushRoute(context, const HomeScreen());
+    Navigator.push(
+        context,
+        PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(seconds: 1),
+            child: const HomeScreen()));
   }
 
   Stream getDatas() async* {
     // busca todas as questões
     yield await service.getQuestions();
+
     print('1');
     // busca os ids das questões respondidad corretamente
-    yield await questionsCorrects.getQuestionsCorrects();
+    yield questionsCorrects.getQuestionsCorrects();
+
     print('2');
     // busca os ids das questões respondidas incorretamente
-    yield await questionsIncorrects.getQuestionsIncorrects();
+    yield questionsIncorrects.getQuestionsIncorrects();
+
     print('3');
     // atualiza o progresso do usuario
-    yield await nextPage();
+    yield nextPage();
   }
 
   late final StreamController _controller = StreamController(
@@ -132,11 +143,15 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
                   ],
                 );
               case ConnectionState.done:
-                return const Column(
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Loading(),
-                    Text(
+                    ElevatedButton(
+                        onPressed: () {
+                          Routes().pushRoute(context, const HomeScreen());
+                        },
+                        child: const Text('Ir para Home')),
+                    const Text(
                       'Pronto!',
                       style: TextStyle(
                           fontSize: 20,

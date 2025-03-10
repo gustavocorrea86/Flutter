@@ -95,7 +95,7 @@ class _SchoolYearsState extends State<SchoolYears> {
                   Container(
                     constraints: BoxConstraints(
                         maxWidth: MediaQuery.of(context).size.width - 20,
-                        maxHeight: MediaQuery.of(context).size.height / 3),
+                        maxHeight: MediaQuery.of(context).size.height / 2),
                     margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(129, 255, 255, 255),

@@ -6,8 +6,10 @@ import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/button_next.dart';
-import 'package:estudamais/widgets/expanded_subjects.dart';
+import 'package:estudamais/widgets/expanded_incorrects.dart';
+
 import 'package:estudamais/widgets/list_selected_scrollable.dart';
+import 'package:estudamais/widgets/map_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,8 +49,8 @@ class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
             automaticallyImplyLeading: false,
             leading: IconButton(
               onPressed: () {
-                QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
-                QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
+                //QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
+                //QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
                 Routes().popRoutes(context, const HomeScreen());
               },
               icon: const Icon(
@@ -66,40 +68,43 @@ class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
                   children: [
                     Column(
                       children: [
-                        Visibility(
-                          visible: QuestionsIncorrects
-                                  .subjectsOfQuestionsIncorrects.isNotEmpty
-                              ? value.showBoxSubjects
-                              : false,
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Assuntos selecionados',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                              ListSelectedDisciplines(
-                                textColor: Colors.white,
-                                list: QuestionsIncorrects
-                                    .subjectsOfQuestionsIncorrects
-                                    .toList(),
-                                direction: Axis.vertical,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Divider(
-                                  thickness: 3,
-                                  color: Colors.white,
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 400),
+                          child: Visibility(
+                            visible: QuestionsIncorrects
+                                    .mapYearAndSubjectSelected.isNotEmpty
+                                ? value.showBoxSubjects
+                                : false,
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Assuntos selecionados',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
                                 ),
-                              )
-                            ],
+                                MapSelectedDisciplines(
+                                  textColor: Colors.white,
+                                  listMap: QuestionsIncorrects
+                                      .mapYearAndSubjectSelected,
+                                  direction: Axis.vertical,
+                                ),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Divider(
+                                    thickness: 3,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    ExpandedSubjects(
+                    ExpandedIncorrects(
                       discipline: QuestionsIncorrects.listDisciplinesIncorrect,
                       resultQuestions:
                           QuestionsIncorrects.resultQuestionsIncorrect,
@@ -119,7 +124,7 @@ class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: GestureDetector(
             onTap: () {
-              if (QuestionsIncorrects.subjectsOfQuestionsIncorrects.isEmpty) {
+              if (QuestionsIncorrects.mapYearAndSubjectSelected.isEmpty) {
                 showSnackBar(
                   context,
                   'Selecione a disciplina e o assunto para continuar.',
@@ -127,6 +132,7 @@ class _AccumulatedWrongsState extends State<AccumulatedWrongs> {
                 );
               } else {
                 Routes().pushRoute(context, const PageQuestionsIncorrects());
+                QuestionsIncorrects().getResultQuestionsIncorrects();
               }
             },
             child: const ButtonNext(textContent: 'Mostrar questões'),

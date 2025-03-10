@@ -4,10 +4,12 @@ import 'package:estudamais/screens/home/home.dart';
 import 'package:estudamais/screens/screen_questions/questions_corrects.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
+
 import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/button_next.dart';
-import 'package:estudamais/widgets/expanded_subjects.dart';
-import 'package:estudamais/widgets/list_selected_scrollable.dart';
+import 'package:estudamais/widgets/expanded_corrects.dart';
+
+import 'package:estudamais/widgets/map_selected_scrollable.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,10 +46,13 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
             leading: IconButton(
               onPressed: () {
                 //QuestionsCorrects.subjectsOfQuestionsCorrects.clear();
-                QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
+                //QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
                 Routes().popRoutes(context, const HomeScreen());
               },
-              icon: const Icon(Icons.arrow_back, color: Colors.white,),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
             ),
           ),
           body: Background(
@@ -59,38 +64,41 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
                   children: [
                     Column(
                       children: [
-                        Visibility(
-                          visible: QuestionsCorrects
-                                  .subjectsOfQuestionsCorrects.isNotEmpty
-                              ? value.showBoxSubjects
-                              : false,
-                          child: Column(
-                            children: [
-                              Text('Assuntos selecionados',
-                                  style: GoogleFonts.aboreto(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
-                              ListSelectedDisciplines(
-                                textColor: Colors.white,
-                                list: QuestionsCorrects
-                                    .subjectsOfQuestionsCorrects
-                                    .toList(),
-                                direction: Axis.vertical,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Divider(
-                                  thickness: 3,
-                                  color: Colors.white,
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 300),
+                          child: Visibility(
+                            visible: QuestionsCorrects
+                                    .mapYearAndSubjectSelected.isNotEmpty
+                                ? value.showBoxSubjects
+                                : false,
+                            child: Column(
+                              children: [
+                                Text('Assuntos selecionados',
+                                    style: GoogleFonts.aboreto(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white)),
+                                MapSelectedDisciplines(
+                                  textColor: Colors.white,
+                                  listMap: QuestionsCorrects
+                                      .mapYearAndSubjectSelected,
+                                  direction: Axis.vertical,
                                 ),
-                              )
-                            ],
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Divider(
+                                    thickness: 3,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    ExpandedSubjects(
+                    ExpandedCorrects(
                       discipline: QuestionsCorrects.listDisciplinesCorrect,
                       resultQuestions: QuestionsCorrects.resultQuestionsCorrect,
                     ),
@@ -110,13 +118,14 @@ class _AccumulatedRightState extends State<AccumulatedRight> {
               FloatingActionButtonLocation.centerFloat,
           floatingActionButton: GestureDetector(
             onTap: () {
-              if (QuestionsCorrects.subjectsOfQuestionsCorrects.isEmpty) {
+              if (QuestionsCorrects.mapYearAndSubjectSelected.isEmpty) {
                 showSnackBar(
                   context,
                   'Selecione a disciplina e o assunto para continuar.',
                   Colors.red,
                 );
               } else {
+                QuestionsCorrects().getResultQuestionsCorrects();
                 Routes().pushRoute(context, const PageQuestionsCorrects());
               }
             },

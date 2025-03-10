@@ -98,7 +98,7 @@ class _AnimatedButtonCircleState extends State<AnimatedButtonCircle> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Text(
-                          widget.textPrimary ?? 'error',
+                          widget.textPrimary,
                           style: GoogleFonts.aboreto(
                             fontSize: widget.fontSizePrimary,
                             color: Colors.white,

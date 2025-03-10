@@ -1,13 +1,14 @@
-import 'package:estudamais/screens/loading_next_page.dart';
+import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:estudamais/screens/page_transition.dart';
 import 'package:estudamais/screens/screen_questions/widgets/box_alternatives_incorrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/models/models.dart';
 
-import 'package:estudamais/service/service.dart';
 import 'package:estudamais/screens/screen_questions/widgets/box_questions.dart';
 
 import 'package:estudamais/screens/screen_questions/widgets/box_screen_questions.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class PageQuestionsIncorrects extends StatefulWidget {
@@ -27,6 +28,8 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
     controller.dispose();
     super.dispose();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -90,28 +93,23 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                     QuestionsIncorrects.resultQuestions[index].schoolYear,
                 textButton: TextButton(
                   onPressed: () {
-                    //limpa as questões obtidas por disciplina
-                    Service.questionsByDiscipline.clear();
-                    // limpa a list onde mostra as disciplinas selecionadas
-                    Service.listSelectedDisciplines.clear();
-                    // limpa as questões obtidas da busca por ano escolar
-                    Service.questionsBySchoolYear.clear();
-                    // limpa a list de disciplina, ano e assunto que foram obtidas da busca por ano selecionado
-                    Service.schoolYearAndSubjects.clear();
-                    // limpa list que onde mostra os anos selecionados
-                    Service.listSelectedSchoolYear.clear();
-                    // limpa a list da busca geral
-                    Service.resultQuestionsBySubjectsAndSchoolYear.clear();
-                    // limpa a lista dos assuntos selecionados
-                    QuestionsIncorrects.subjectsOfQuestionsIncorrects.clear();
-                    //limpa a list do resultado dos assuntos selecionados
-                    QuestionsIncorrects.resultQuestions.clear();
-                    Navigator.push(
+                   
+                    //Routes().pushRouteFade(context, const TransitionPage());
+                    Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoadingNextPage(),
-                      ),
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          duration: const Duration(seconds: 1),
+                          child: const TransitionPage()),
+                      (route) => false,
                     );
+
+                    // atualiza os pontos das corretas na homoScreen
+                    Provider.of<ModelPoints>(context, listen: false)
+                        .uptadeCorrects(DaoUserResum.listIdCorrects.length);
+                        // atualiza os pontos das incorretas na homoScreen
+                    Provider.of<ModelPoints>(context, listen: false)
+                        .updateIncorrects(DaoUserResum.listIdIncorrects.length);
                   },
                   child: const Text(
                     'Sair',

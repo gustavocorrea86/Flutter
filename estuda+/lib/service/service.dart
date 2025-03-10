@@ -19,51 +19,45 @@ class Service {
   static List<Map<String, dynamic>> questionsByDiscipline = [];
   static List<Map<String, dynamic>> questionsBySchoolYear = [];
   static List<String> listDisciplines = [];
+  static List<String> disciplines = [];
+  static List<Map<String, dynamic>> questionsByDisciplines = [];
+  static List<String> listSchoolYearByDisciplines = [];
   static List<String> listSelectedDisciplines = [];
   static List<String> listSelectedSchoolYear = [];
   static List<Map<String, dynamic>> resultController = [];
-  static List<String> resultQuestionsAll = [];
+  static List<Map<String, dynamic>> resultAll = [];
+  static List<ModelQuestions> resultQuestionsAll = [];
   static List<Map<String, dynamic>> listQuestionsByDipliceAndSchoolYear = [];
   static List<String> schoolYears = [];
   static List<Map<String, dynamic>> schoolYearAndSubjects = [];
-  static List<Map<String, dynamic>> resultQuestionsBySubjectsAndSchoolYear = [];
-  
+  static List<ModelQuestions> resultQuestionsBySubjectsAndSchoolYear = [];
 
   // busca todas as questões
-  Future<List<ModelQuestions>> getQuestions() async {
-    List list = [];
-    resultController.clear();
+  Future getQuestions() async {
     http.Response response = await http.get(
       Uri.parse('http://$_questoesAll/questoes'),
     );
     try {
       if (response.statusCode == 200) {
-        list = await json.decode(response.body);
+        var list = await json.decode(response.body);
         print('Todas as questões recebidas com sucesso');
 
+        for (var question in list) {
+          Uint8List bytesImage =
+              Uint8List.fromList(question['image']['data'].cast<int>());
+          question['image'] = bytesImage;
+          resultController.add(question);
+          resultAll.add(question);
+        }
         //retira as questões com os ids já respondidos
         for (var id in DaoUserResum.listId) {
-          list.removeWhere((el) => el['id'] == int.parse(id));
+          resultController.removeWhere((el) => el['id'] == int.parse(id));
         }
-        // for (var q in list) {
-        //   print('Ids recebidos: ${q['id']}');
-        // }
+        
       }
     } catch (err) {
-      print('Erro ao buscar questões: $err');
+      print('Erro ao buscar questões corretas: $err');
     }
-
-    return List<ModelQuestions>.from(
-      list.map(
-        (element) {
-          Uint8List bytesImage =
-              Uint8List.fromList(element['image']['data'].cast<int>());
-          element['image'] = bytesImage;
-          resultController.add(element);
-          return ModelQuestions.toMap(element);
-        },
-      ),
-    );
   }
 
   // PEGA SOMENTE AS DISCIPLINAS DA BUSCA E COLOCA EM UMA LIST
@@ -96,10 +90,10 @@ class Service {
           questionsByDiscipline.add(questions);
         }
       }
-      for (var c in questionsByDiscipline) {
-        print('questões: ${c['id']}, ${c['displice']}');
-      }
-    }catch (e) {
+      // for (var c in questionsByDiscipline) {
+      //   print('questões: ${c['id']}, ${c['displice']}');
+      // }
+    } catch (e) {
       print('Erro ao buscar questões por disciplina: $e');
     }
   }
@@ -120,9 +114,9 @@ class Service {
         }
       }
 
-      for (var q in questionsBySchoolYear) {
-        print('questões: ${q['id']} ${q['displice']}, ${q['subject']}');
-      }
+      // for (var q in questionsBySchoolYear) {
+      //   print('questões: ${q['id']} ${q['displice']}, ${q['subject']}');
+      // }
     } catch (error) {
       print('Erro ao buscar questões por ano: $error');
       return 'Erro ao buscar questões por ano';
@@ -154,7 +148,7 @@ class Service {
       for (var listMap in newMap) {
         schoolYearAndSubjects.add(listMap);
       }
-      print('schoolYearAndSubjects $schoolYearAndSubjects');
+      //print('schoolYearAndSubjects $schoolYearAndSubjects');
     } catch (err) {
       print('Falha na busca dos dados: $err');
     }
@@ -162,8 +156,8 @@ class Service {
 
   // BUSCA AS QUESTÕES POR DISCIPLINA, ANO E ASSUNTO QUE FORAM SELECIONADAS
   // NAS TELAS ANTERIORES
-  getQuestionsAllBySubjectsAndSchoolYear(
-      String schoolYear, String subject, String discipline) async {
+  void getQuestionsAllBySubjectsAndSchoolYear(
+      String schoolYear, String subject, String discipline) {
     //print('schoolYear $schoolYear, subject $subject');
 
     try {
@@ -176,16 +170,31 @@ class Service {
                 element['displice'] == discipline)
             .toList();
         for (var questions in result) {
-          resultQuestionsBySubjectsAndSchoolYear.add(questions);
+          resultQuestionsBySubjectsAndSchoolYear
+              .add(ModelQuestions.toMap(questions));
         }
-
-        print('result $result');
-        //print('resultQuestion $resultQuestionsBySubjectsAndSchoolYear');
       }
     } catch (err) {
       print('Erro ao buscar questões: $err');
     }
   }
 
-  
+  // void getSchoolYearByDisciplines(String discipline) {
+  //   List<String> listAux = [];
+  //   disciplines.add(discipline);
+  //   for (var question in resultController) {
+  //     for (var dis in disciplines) {
+  //       if (question['displice'] == dis) {
+  //         questionsByDiscipline.add(question);
+  //       }
+  //     }
+  //   }
+
+  //   for (var years in questionsByDiscipline) {
+  //     listAux.add(years['schoolYear']);
+  //   }
+
+  //   listSchoolYearByDisciplines = listAux.toSet().toList()..sort();
+  //   print('listSchoolYearByDisciplines $listSchoolYearByDisciplines');
+  // }
 }

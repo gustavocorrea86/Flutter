@@ -34,18 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool? enable;
 
   @override
-  void initState() {
-    if (Service.resultController.isEmpty) {
-      showSnackBar(
-        context,
-        'Ops, tivemos um problema de conexão!',
-        Colors.redAccent,
-      );
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Scaffold(
@@ -134,9 +122,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             Routes()
                                 .pushRoute(context, const AccumulatedRight());
                             // limpa a List das questões por assunto que foram consultadas
-                            QuestionsCorrects.subjectsOfQuestionsCorrects
-                                .clear();
+                            QuestionsCorrects.mapYearAndSubjectSelected.clear();
                             QuestionsCorrects.resultQuestions.clear();
+                            QuestionsCorrects.listAuxYearAndSubjectSelected
+                                .clear();
                           } else {
                             showSnackBar(
                                 context,
@@ -153,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         DashbordDisplice(
-                          'Ciências da Natureza',
+                          'Ciências',
                           Colors.green,
                           QuestionsCorrects.amountCienciasCorrects / 100,
                           QuestionsCorrects.amountCienciasCorrects.toString(),
@@ -199,10 +188,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context, const AccumulatedWrongs());
                                 questionsIncorrects
                                     .getDisciplineOfQuestionsIncorrects();
-                                QuestionsIncorrects
-                                    .subjectsOfQuestionsIncorrects
-                                    .clear();
 
+                                QuestionsIncorrects.mapYearAndSubjectSelected
+                                    .clear();
+                                QuestionsIncorrects
+                                    .listAuxYearAndSubjectSelected
+                                    .clear();
                                 QuestionsIncorrects.resultQuestions.clear();
                               } else {
                                 showSnackBar(
@@ -220,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Column(
                       children: [
                         DashbordDisplice(
-                          'Ciências da Natureza',
+                          'Ciências',
                           Colors.red,
                           QuestionsIncorrects.amountCienciasIncorrects / 100,
                           QuestionsIncorrects.amountCienciasIncorrects

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:estudamais/models/models.dart';
+import 'package:estudamais/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:provider/provider.dart';
@@ -77,7 +78,6 @@ class ControllerQuestions {
       if (response == alternative) {
         // muda a cor do box alternativa para verde
         corAlternativa = Colors.green;
-
         // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES CORRETAS
         if (DaoUserResum.listIdCorrects.isEmpty) {
           //se não tiver nenhuma respondida, vai pegar o id da questão que foi respondida, colocar em uma list, vai mandar essa list como parametro para atualizar
@@ -92,7 +92,9 @@ class ControllerQuestions {
           Provider.of<ModelPoints>(context, listen: false)
               .uptadeCorrects(DaoUserResum.listIdCorrects.length);
         });
-        //DaoUserResum().test(idQuestion);
+        // Service.resultAll.removeWhere((el) => el['id'] == idQuestion);
+        Service.resultController
+            .removeWhere((el) => el['id'] == int.parse(idQuestion));
       } else {
         corAlternativa = Colors.red;
         // FAZ A VERIFICAÇÃO PARA PODER SALVAR OS IDS DAS QUESTÕES INCORRETAS
@@ -109,7 +111,9 @@ class ControllerQuestions {
           Provider.of<ModelPoints>(context, listen: false)
               .updateIncorrects(DaoUserResum.listIdIncorrects.length);
         });
-        //DaoUserResum().test(idQuestion);
+        // Service.resultAll.removeWhere((el) => el['id'] == idQuestion);
+        Service.resultController
+            .removeWhere((el) => el['id'] == int.parse(idQuestion));
       }
     }
   }

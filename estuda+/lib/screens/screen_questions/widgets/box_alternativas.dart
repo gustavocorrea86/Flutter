@@ -60,7 +60,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(width: 1, color: Colors.black26),
+                            border: Border.all(width: 1, color: Colors.black26,),
                             color: Colors.white),
                         child: Text(
                           widget.option,
@@ -69,7 +69,7 @@ class _BoxAlternativesState extends State<BoxAlternatives> {
                       ),
                       title: Text(
                         widget.alternative,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 17),
                       ),
                     ),
                     onTap: () {

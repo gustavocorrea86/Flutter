@@ -1,20 +1,20 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:estudamais/models/model_questions.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:estudamais/service/service.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:http/http.dart' as http;
 
 class QuestionsCorrects {
-  final String _questoesAll = dotenv.env['questoes']!;
-  static List<Map<String, dynamic>> resultQuestionsCorrect = [];
-  static List<String> listDisciplinesCorrect = [];
-  static List<String> listSubjectsCorrect = [];
+  // todas as questões corretas
+  static List<Map<String, dynamic>> resultQuestionsCorrect = []; 
+  // lista das disciplinas corretas
+  static List<String> listDisciplinesCorrect = []; 
+  // map das seleção de ano e assunto que recebe o jsonDecode sem repetições
+  static List<dynamic> mapYearAndSubjectSelected = []; 
+ // map do expanded após selecionar a disciplina
   static List<Map<String, dynamic>> mapListSubAndYearCorrects = [];
-  static List<String> listSchoolYearsCorrects = [];
-  static int subjectLength = 0;
-  static Set<String> subjectsOfQuestionsCorrects = {};
-  //static List<Map<String, dynamic>> questionsCorrects = [];
+  // lista auxiliar para impedir duplicidade ao mostrar os assuntos
+  static List<Map<String, dynamic>> listAuxYearAndSubjectSelected = [];
+  //resultado da da seleção das questões corretas
   static List<ModelQuestions> resultQuestions = [];
   static int amountPortuguesCorrects = 0;
   static int amountMatematicaCorrects = 0;
@@ -22,42 +22,30 @@ class QuestionsCorrects {
   static int amountHistoriaCorrects = 0;
   static int amountCienciasCorrects = 0;
 
-// PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE pelo id da questão, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
-  Future getQuestionsCorrects() async {
-    List listCorrects = [];
+// PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE pelo id da questão, COLOCA EM UMA LIST CENTRAL PARA PODER SERVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
+  Future getQuestionsCorrects() async{
     resultQuestionsCorrect.clear();
-    http.Response response = await http.get(
-      Uri.parse('http://$_questoesAll/questoes'),
-    );
+
     try {
-      if (response.statusCode == 200) {
-        var list = await json.decode(response.body);
-        // print(list);
+      if (Service.resultAll.isNotEmpty) {
         for (var id in DaoUserResum.listIdCorrects) {
-          for (var question in list) {
+          for (var question in Service.resultAll) {
             if (question['id'] == int.parse(id)) {
-              listCorrects.add(question);
+              resultQuestionsCorrect.add(question);
             }
           }
         }
-        for (var element in listCorrects) {
-          Uint8List bytesImage =
-              Uint8List.fromList(element['image']['data'].cast<int>());
-          element['image'] = bytesImage;
-          //print(element);
-          resultQuestionsCorrect.add(element);
-        }
 
         print('Questões corretas recebidas com sucesso');
-        //print('resultQuestionsCorrect $resultQuestionsCorrect');
+        print('resultQuestionsCorrect $resultQuestionsCorrect');
       }
     } catch (err) {
-      print('Erro ao buscar questões: $err');
+      print('Erro ao buscar questões corretas: $err');
     }
   }
 
 // PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE ao clicar em resumo ,PARA PODER RENDERIZAR NA accumulated_right no Widget animated_button_progress.dart
-  getDisciplineOfQuestionsCorrects() {
+  void getDisciplineOfQuestionsCorrects() {
     List<String> list = [];
     try {
       if (resultQuestionsCorrect.isNotEmpty) {
@@ -71,21 +59,73 @@ class QuestionsCorrects {
     }
   }
 
-  //MÉTODO QUE SERVE COMO BASE DE CONSULTA DE QUESTÕES POR ASSUNTO, ATRAVÉS DA LIST subjectsOfQuestionsCorrects
-  void getQuestionsCorrectsForSubjects(String subject) {
-    // List que mostra os assuntos selecionados
-    subjectsOfQuestionsCorrects.add(subject);
+  // faz a seleção dos assuntos e anos escolares selecionados sem repetição
+  void getQuestionsCorrectsForSubjects(String subjects, String schoolYear) {
+    Map<String, dynamic> listMap = {};
+
+    listMap = {
+      'schoolYear': schoolYear,
+      'subjects': subjects,
+    };
+    listAuxYearAndSubjectSelected.add(listMap);
+
+    final listJson =
+        listAuxYearAndSubjectSelected.map((el) => jsonEncode(el)).toList();
+    final setList = listJson.toSet().toList();
+    mapYearAndSubjectSelected = setList.map((el) => jsonDecode(el)).toList();
+
+    print('mapYearAndSubjectSelected $mapYearAndSubjectSelected');
+  }
+
+  // faz a consulta das quaestões corretas pelo mapYearAndSubjectSelected
+  void getResultQuestionsCorrects() {
     try {
       for (var question in resultQuestionsCorrect) {
-        if (question['subject'] == subject) {
-          resultQuestions.add(ModelQuestions.toMap(question));
+        for (var res in mapYearAndSubjectSelected) {
+          if (question['subject'] == res['subjects'] &&
+              question['schoolYear'] == res['schoolYear']) {
+            resultQuestions.add(ModelQuestions.toMap(question));
+          }
         }
       }
     } catch (e) {
       print('Erro ao buscar questões por assunto: $e');
     }
+    print('resultQuestions $resultQuestions');
   }
 
+  // faz a consulta para o expanted mostrar o assunto e o ano quando clica na disciplina
+  void showSubjectsAndSchoolyeaCorrects(
+      String discipline, List<Map<String, dynamic>> listMap) {
+    Map<String, dynamic> mapYearAndSubject = {};
+    List<Map<String, dynamic>> result = [];
+
+    mapListSubAndYearCorrects.clear();
+
+    if (listMap.isNotEmpty) {
+      for (var map in listMap) {
+        if (map['displice'] == discipline) {
+          mapYearAndSubject = {
+            'schoolYear': map['schoolYear'],
+            'subjects': map['subject'],
+            // 'lenght':
+          };
+          result.add(mapYearAndSubject);
+        }
+      }
+
+      final jsonList = result.map((el) => jsonEncode(el)).toList();
+      final setList = jsonList.toSet().toList();
+      final decodeList = setList.map((el) => jsonDecode(el)).toList();
+
+      for (var listMap in decodeList) {
+        mapListSubAndYearCorrects.add(listMap);
+      }
+
+      print('mapListSubAndYearCorrects $mapListSubAndYearCorrects');
+    }
+  }
+// contador das disciplinas respondidas
   counterDisciplineCorrects() {
     amountPortuguesCorrects = 0;
     amountMatematicaCorrects = 0;
@@ -117,7 +157,7 @@ class QuestionsCorrects {
           historia.add(dis['displice']);
           amountHistoriaCorrects = historia.length;
           break;
-        case 'Ciências da Natureza':
+        case 'Ciências':
           ciencias.add(dis['displice']);
           amountCienciasCorrects = ciencias.length;
       }

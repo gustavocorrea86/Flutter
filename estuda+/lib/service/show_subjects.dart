@@ -3,8 +3,8 @@ import 'dart:convert';
 class ShowSubjects {
   static List<Map<String, dynamic>> mapListSubAndYear = [];
 
-  Future<List<Map<String, dynamic>>> showSubjectsAndSchoolyeaAll(
-      String discipline, List<Map<String, dynamic>> listMap) async {
+  showSubjectsAndSchoolyeaAll(
+      String discipline, List<Map<String, dynamic>> listMap) {
     Map<String, dynamic> mapYearAndSubject = {};
     List<Map<String, dynamic>> result = [];
 
@@ -32,6 +32,5 @@ class ShowSubjects {
 
       print('mapListSubAndYear $mapListSubAndYear');
     }
-    return mapListSubAndYear;
   }
 }

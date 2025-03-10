@@ -99,6 +99,8 @@ class _DisciplineState extends State<Discipline> {
                               textDirection: MainAxisAlignment.center,
                               onTap: () {
                                 if (value.actionBtnRetangulare) {
+                                  // service.getSchoolYearByDisciplines(
+                                  //     Service.listDisciplines[index]);
                                   service.getQuestionsByDiscipline(
                                       Service.listDisciplines[index]);
                                   heightButtonNext = 50;
