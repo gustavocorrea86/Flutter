@@ -3,6 +3,8 @@ import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
 import 'package:estudamais/service/service.dart';
 
+
+//utilizado para atualizar as questões respondidas após sair da tela das questões
 class UpdateDatas {
   void updateDatas() {
     //limpa as questões obtidas por disciplina

@@ -24,12 +24,18 @@ class AnimatedButtonRectangular extends StatefulWidget {
       _AnimatedButtonRetangulareState();
 }
 
-class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
+class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular>
+    with AutomaticKeepAliveClientMixin {
   double buttonDown = 8;
   Color shadowColor = Colors.black87;
   bool enable = false;
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Consumer<ModelPoints>(builder: (context, value, child) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -66,8 +72,8 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                         buttonDown = 2;
                         // cor da sombra muda pra branco
                         shadowColor = Colors.white;
-                        print(
-                            'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
+                        // print(
+                        //     'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
                         // chama a função que faz a consulta por disciplica passando value.actionBtnRetangulare = true
                         widget.onTap();
                       } else {
@@ -75,8 +81,8 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                         buttonDown = 8;
                         // muda a cor da sombra para preto
                         shadowColor = Colors.black87;
-                        print(
-                            'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
+                        // print(
+                        //     'value.actionBtnRetangulare ${value.actionBtnRetangulare}');
                         // chama a função que faz a remoção da disciplina consultada
                         widget.onTap();
                       }
@@ -122,7 +128,7 @@ class _AnimatedButtonRetangulareState extends State<AnimatedButtonRectangular> {
                               Text(
                                 widget.tralling ?? '',
                                 style: const TextStyle(
-                                    fontSize: 10, color: Colors.white),
+                                    fontSize: 12, color: Colors.amber),
                               )
                             ],
                           ),

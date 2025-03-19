@@ -5,7 +5,6 @@ import 'package:estudamais/screens/loading_next_page.dart';
 import 'package:estudamais/widgets/button_next.dart';
 import 'package:flutter/material.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ScreenInitial extends StatefulWidget {
   const ScreenInitial({super.key});

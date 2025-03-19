@@ -29,6 +29,7 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
   QuestionsCorrects questionsCorrects = QuestionsCorrects();
   QuestionsIncorrects questionsIncorrects = QuestionsIncorrects();
   Service service = Service();
+  String msg = '';
 
   @override
   void initState() {
@@ -51,26 +52,25 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
 
     //Routes().pushRoute(context, const HomeScreen());
     Navigator.push(
-        context,
-        PageTransition(
-            type: PageTransitionType.fade,
-            duration: const Duration(seconds: 1),
-            child: const HomeScreen()));
+      context,
+      PageTransition(
+        type: PageTransitionType.fade,
+        duration: const Duration(seconds: 1),
+        child: const HomeScreen(),
+      ),
+    );
   }
 
   Stream getDatas() async* {
     // busca todas as questões
-    yield await service.getQuestions();
-
-    print('1');
+    yield await service.getDisciplines();
+     print('questões ok!');
     // busca os ids das questões respondidad corretamente
-    yield questionsCorrects.getQuestionsCorrects();
-
-    print('2');
+    yield await questionsCorrects.getQuestionsCorrects2();
+    print('Questões corretas ok!');
     // busca os ids das questões respondidas incorretamente
-    yield questionsIncorrects.getQuestionsIncorrects();
-
-    print('3');
+    yield await questionsIncorrects.getQuestionsIncorrects2();
+    print('Questões incorretas ok!');
     // atualiza o progresso do usuario
     yield nextPage();
   }
@@ -120,7 +120,7 @@ class _LoadingNextPageState extends State<LoadingNextPage> {
                   children: [
                     const Loading(),
                     Text(
-                      '${widget.msgPrimary}...',
+                      msg,
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

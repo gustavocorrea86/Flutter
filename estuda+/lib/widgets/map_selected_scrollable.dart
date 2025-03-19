@@ -1,4 +1,3 @@
-import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/models/models.dart';
 import 'package:estudamais/service/questions_corrects.dart';
 import 'package:estudamais/service/questions_incorrets.dart';
@@ -55,7 +54,7 @@ class _MapSelectedDisciplinesState extends State<MapSelectedDisciplines> {
                     ),
                     Text(
                       '${widget.listMap[index]['schoolYear']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.yellow,
                           fontSize: 14),
@@ -120,9 +119,9 @@ class _MapSelectedDisciplinesState extends State<MapSelectedDisciplines> {
                             });
                           },
                           child: const Icon(
-                            Icons.cancel,
+                            Icons.clear_sharp,
                             color: Colors.red,
-                            size: 19,
+                            size: 20,
                           )),
                     )
                   ],

@@ -143,7 +143,8 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                         ),
                         widget.boxQuestions,
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8.0),
                           child: Image.memory(widget.image,
                               width: MediaQuery.of(context).size.width,
                               errorBuilder: (context, error, stackTrace) {
@@ -227,9 +228,6 @@ class _ScreenQuestionsState extends State<ScreenQuestions> {
                                   onPressed: () {
                                     Routes()
                                         .popRoutes(context, const HomeScreen());
-                                    // QuestionsCorrects
-                                    //     .subjectsOfQuestionsCorrects
-                                    //     .clear();
                                     QuestionsCorrects.resultQuestions.clear();
                                   },
                                   child: const Text(

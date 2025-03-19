@@ -53,9 +53,9 @@ class DaoUserResum {
     }
   }
 
+// atualiza o id das questões respondidas
   Future updateIdQuestions(List<dynamic> id) async {
     final Database db = await getConnection();
-
     List<Map<String, dynamic>> user =
         await db.query(_user); //FAZ DA LIST DOS IDS ATUAIS
     idQuest = user[0]['idQuestion']; // ARMAZENA O RESULTADO
@@ -71,8 +71,7 @@ class DaoUserResum {
       // CONVERTE O JSON PARA LISTA DE IDS ATUALIZADO
       var idList = jsonDecode(feedback[0]['idQuestion']);
       listId = idList;
-      //listId = listIdAux.toSet().toList();
-      //print('listId $listId');
+      
     } catch (erro) {
       print('Erro ao atualizar id das questões: $erro');
     }
@@ -146,7 +145,7 @@ class DaoUserResum {
     }
     print('listIdCorrects $listIdCorrects');
   }
-
+// busca os ids das questões respondidas
   Future findIdQuestions() async {
     final Database db = await getConnection();
     List<Map<String, dynamic>> user = await db.query(_user);

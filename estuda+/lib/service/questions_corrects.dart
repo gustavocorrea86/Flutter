@@ -2,15 +2,19 @@ import 'dart:convert';
 import 'package:estudamais/models/model_questions.dart';
 import 'package:estudamais/service/service.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 class QuestionsCorrects {
+  final String _questoesAll = dotenv.env['questoes']!;
   // todas as questões corretas
-  static List<Map<String, dynamic>> resultQuestionsCorrect = []; 
+  // todas as questões corretas
+  static List<Map<String, dynamic>> resultQuestionsCorrect = [];
   // lista das disciplinas corretas
-  static List<String> listDisciplinesCorrect = []; 
+  static List<String> listDisciplinesCorrect = [];
   // map das seleção de ano e assunto que recebe o jsonDecode sem repetições
-  static List<dynamic> mapYearAndSubjectSelected = []; 
- // map do expanded após selecionar a disciplina
+  static List<dynamic> mapYearAndSubjectSelected = [];
+  // map do expanded após selecionar a disciplina
   static List<Map<String, dynamic>> mapListSubAndYearCorrects = [];
   // lista auxiliar para impedir duplicidade ao mostrar os assuntos
   static List<Map<String, dynamic>> listAuxYearAndSubjectSelected = [];
@@ -21,11 +25,20 @@ class QuestionsCorrects {
   static int amountGeografiaCorrects = 0;
   static int amountHistoriaCorrects = 0;
   static int amountCienciasCorrects = 0;
+  Service service = Service();
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE pelo id da questão, COLOCA EM UMA LIST CENTRAL PARA PODER SERVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
-  Future getQuestionsCorrects() async{
-    resultQuestionsCorrect.clear();
 
+// Future getQuestionsCorrects() async {
+//     //List<Map<String, dynamic>> questionsCorrects = [];
+//     print(DaoUserResum.listIdCorrects);
+//     for (var el in DaoUserResum.listIdIncorrects) {
+//       resultQuestionsCorrect.add(await service.findQuestionsAnsweredById(el));
+//     }
+
+//   }
+  Future getQuestionsCorrects() async {
+    resultQuestionsCorrect.clear();
     try {
       if (Service.resultAll.isNotEmpty) {
         for (var id in DaoUserResum.listIdCorrects) {
@@ -37,11 +50,34 @@ class QuestionsCorrects {
         }
 
         print('Questões corretas recebidas com sucesso');
-        print('resultQuestionsCorrect $resultQuestionsCorrect');
+        //print('resultQuestionsCorrect $resultQuestionsCorrect');
       }
     } catch (err) {
       print('Erro ao buscar questões corretas: $err');
     }
+  }
+  Future<List<Map<String, dynamic>>> getQuestionsCorrects2() async {
+    resultQuestionsCorrect.clear();
+    try {
+      http.Response response = await http.get(
+        Uri.parse(
+            'http://$_questoesAll/questao/${DaoUserResum.listIdCorrects}'),
+      );
+      if (response.statusCode == 200) {
+        var list = await json.decode(response.body);
+        for (var el in list) {
+          resultQuestionsCorrect.add(el);
+        }
+        print('Questões incorretas recebidas com sucesso');
+      } else {
+        print('Erro ao buscar questões incorretas');
+      }
+    } catch (e) {
+      print('Erro ao buscar questões incorretas: $e');
+    }
+
+    //print(resultQuestionsCorrect);
+    return resultQuestionsCorrect;
   }
 
 // PEGA AS DISCIPLINAS QUE FORAM RESPONDIDAS CORRETAMENTE ao clicar em resumo ,PARA PODER RENDERIZAR NA accumulated_right no Widget animated_button_progress.dart
@@ -125,8 +161,9 @@ class QuestionsCorrects {
       print('mapListSubAndYearCorrects $mapListSubAndYearCorrects');
     }
   }
+
 // contador das disciplinas respondidas
-  counterDisciplineCorrects() {
+  void counterDisciplineCorrects() {
     amountPortuguesCorrects = 0;
     amountMatematicaCorrects = 0;
     amountGeografiaCorrects = 0;

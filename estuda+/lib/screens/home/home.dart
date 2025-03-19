@@ -1,7 +1,7 @@
 import 'package:estudamais/controller/routes.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
-import 'package:estudamais/screens/accumulated_right.dart';
-import 'package:estudamais/screens/accumulated_wrongs.dart';
+import 'package:estudamais/screens/accumulated_corrects/accumulated_right.dart';
+import 'package:estudamais/screens/accumulated_incorrects/accumulated_wrongs.dart';
 import 'package:estudamais/screens/discipline/discipline.dart';
 import 'package:estudamais/screens/initial_screen.dart';
 import 'package:estudamais/service/questions_corrects.dart';
@@ -10,6 +10,7 @@ import 'package:estudamais/service/service.dart';
 import 'package:estudamais/screens/home/widgets/dashbord_displice.dart';
 import 'package:estudamais/widgets/background.dart';
 import 'package:estudamais/widgets/button_next.dart';
+import 'package:estudamais/widgets/listTile_drawer.dart';
 import 'package:estudamais/widgets/show_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,9 +29,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   double shadowBox = 10;
   Service service = Service();
-  //final Future _future = Service().getQuestions();
   QuestionsCorrects questionsCorrects = QuestionsCorrects();
   QuestionsIncorrects questionsIncorrects = QuestionsIncorrects();
+  //DaoUserResum dataBase = DaoUserResum();
   bool? enable;
 
   @override
@@ -81,21 +82,52 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         drawer: Drawer(
+          backgroundColor: const Color.fromARGB(255, 209, 209, 209),
           child: ListView(
             children: [
               const DrawerHeader(
                 decoration: BoxDecoration(color: Colors.blue),
                 child: Text('Header'),
               ),
-              ListTile(
-                  leading: const Icon(Icons.list),
-                  title: const Text('Disciplinas'),
-                  trailing: const Icon(Icons.arrow_circle_right),
-                  onTap: () {
-                    Navigator.pushNamed(context, 'discipline');
+              ListTileDrawer(
+                contextText: 'Responder questões',
+                onTap: () {
+                  // chama a função para mostrar as disciplinas
+                  service.getDisplice();
+                  //chama a rota para selecionar as disciplinas
+                  Routes().pushRoute(context, const Discipline());
+                  // limpa a lista do resultado da consulta
 
-                    service.getDisplice();
-                  }),
+                  // fechao container onde mostra questão ja respondida
+                  value.actBoxAnswered(0);
+                },
+                icon: const Icon(Icons.auto_stories_rounded),
+              ),
+              ListTileDrawer(
+                contextText: 'Resumo Corretas',
+                onTap: () {},
+                icon: const Icon(Icons.list),
+              ),
+              ListTileDrawer(
+                contextText: 'Resumo Incorretas',
+                onTap: () {},
+                icon: const Icon(Icons.list),
+              ),
+              ListTileDrawer(
+                contextText: 'Sobre',
+                onTap: () {},
+                icon: const Icon(Icons.help),
+              ),
+              ListTileDrawer(
+                contextText: 'Excluir respostas',
+                onTap: () {},
+                icon: const Icon(Icons.delete),
+              ),
+              ListTileDrawer(
+                contextText: 'Sair',
+                onTap: () {},
+                icon: const Icon(Icons.exit_to_app),
+              ),
             ],
           ),
         ),
@@ -123,9 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .pushRoute(context, const AccumulatedRight());
                             // limpa a List das questões por assunto que foram consultadas
                             QuestionsCorrects.mapYearAndSubjectSelected.clear();
+                            // limpa a list do resultado das questões consultadas
                             QuestionsCorrects.resultQuestions.clear();
+                            // limpa a lista que serve comoauxiliar para excluir duplicatas
                             QuestionsCorrects.listAuxYearAndSubjectSelected
                                 .clear();
+                            //value.showSubjects(false);
                           } else {
                             showSnackBar(
                                 context,
@@ -135,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         child: Text(
                           'Resumo',
-                          style: GoogleFonts.roboto(color: Colors.yellow),
+                          style: GoogleFonts.roboto(color: Colors.amber),
                         ),
                       ),
                     ),
@@ -195,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     .listAuxYearAndSubjectSelected
                                     .clear();
                                 QuestionsIncorrects.resultQuestions.clear();
+                                //value.showSubjects(false);
                               } else {
                                 showSnackBar(
                                     context,
@@ -204,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: Text(
                               'Resumo',
-                              style: GoogleFonts.roboto(color: Colors.yellow),
+                              style: GoogleFonts.roboto(color: Colors.amber),
                             )),
                       ),
                     ),
@@ -266,7 +302,8 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: GestureDetector(
             onTap: () {
               Routes().pushRoute(context, const Discipline());
-              service.getDisplice();
+              //service.getDisplice();
+              Service.resultQuestionsBySubjectsAndSchoolYear.clear();
               value.actBoxAnswered(0);
             },
             child: const ButtonNext(

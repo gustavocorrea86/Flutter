@@ -46,7 +46,7 @@ class _DisciplineState extends State<Discipline> {
                   Service.questionsByDiscipline.clear();
                 },
                 icon: const Icon(
-                  Icons.arrow_back,
+                  Icons.arrow_back_ios,
                   color: Colors.white,
                 )),
             title: Text(

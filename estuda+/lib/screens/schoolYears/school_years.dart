@@ -48,7 +48,7 @@ class _SchoolYearsState extends State<SchoolYears> {
               );
             },
             icon: const Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios,
               color: Colors.white,
             ),
           ),
@@ -62,12 +62,15 @@ class _SchoolYearsState extends State<SchoolYears> {
             Background(
               child: ListView(
                 children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: ListSelectedDisciplines(
-                      list: Service.listSelectedDisciplines,
-                      direction: Axis.horizontal,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0, left: 8.0, right: 8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 30,
+                      child: ListSelectedScrollable(
+                        list: Service.listSelectedDisciplines,
+                        direction: Axis.horizontal,
+                      ),
                     ),
                   ),
                   const Padding(

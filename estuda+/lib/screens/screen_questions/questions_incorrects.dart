@@ -110,6 +110,7 @@ class _PageQuestionsIncorrectsState extends State<PageQuestionsIncorrects> {
                         // atualiza os pontos das incorretas na homoScreen
                     Provider.of<ModelPoints>(context, listen: false)
                         .updateIncorrects(DaoUserResum.listIdIncorrects.length);
+                        QuestionsIncorrects.resultQuestions.clear();
                   },
                   child: const Text(
                     'Sair',

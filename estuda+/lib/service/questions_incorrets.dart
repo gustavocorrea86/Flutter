@@ -3,7 +3,11 @@ import 'package:estudamais/service/service.dart';
 import 'package:estudamais/database/dao_user_resum.dart';
 import 'package:estudamais/models/model_questions.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
+
 class QuestionsIncorrects {
+  final String _questoesAll = dotenv.env['questoes']!;
   // todas as questões corretas
   static List<Map<String, dynamic>> resultQuestionsIncorrect = [];
   // lista das disciplinas corretas
@@ -21,6 +25,7 @@ class QuestionsIncorrects {
   static int amountGeografiaIncorrects = 0;
   static int amountHistoriaIncorrects = 0;
   static int amountCienciasIncorrects = 0;
+  Service service = Service();
 
 // PEGA TODAS AS QUESTÕES RESPONDIDAS CORRETAMENTE, COLOCA EM UMA LIST CENTRAL PARA PODER SRVIR COMO BASE DE CONSULTA. É CHAMADO NO CARREGAMENTO DA HOME.
   Future getQuestionsIncorrects() async {
@@ -42,6 +47,30 @@ class QuestionsIncorrects {
     } catch (err) {
       print('Erro ao buscar questões incorretas: $err');
     }
+  }
+
+  Future<List<Map<String, dynamic>>> getQuestionsIncorrects2() async {
+    resultQuestionsIncorrect.clear();
+    try {
+      http.Response response = await http.get(
+        Uri.parse(
+            'http://$_questoesAll/questao/${DaoUserResum.listIdIncorrects}'),
+      );
+      if (response.statusCode == 200) {
+        var list = await json.decode(response.body);
+        for (var el in list) {
+          resultQuestionsIncorrect.add(el);
+        }
+        print('Questões incorretas recebidas com sucesso');
+      } else {
+        print('Erro ao buscar questões incorretas');
+      }
+    } catch (e) {
+      print('Erro ao buscar questões incorretas: $e');
+    }
+
+    //print(resultQuestionsIncorrect);
+    return resultQuestionsIncorrect;
   }
 
   void getQuestionsIncorrectsForSubjects(String subject) {

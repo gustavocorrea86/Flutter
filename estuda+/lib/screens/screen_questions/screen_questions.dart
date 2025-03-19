@@ -123,6 +123,9 @@ class _PageQuestionsBySchoolYearState extends State<PageQuestionsBySchoolYear> {
                     // atualiza os pontos das incorretas na homoScreen
                     Provider.of<ModelPoints>(context, listen: false)
                         .updateIncorrects(DaoUserResum.listIdIncorrects.length);
+                    Service.resultQuestionsBySubjectsAndSchoolYear.clear();
+                    
+                    
                   },
                   child: const Text(
                     'Sair',

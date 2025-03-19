@@ -22,13 +22,16 @@ class Subjects extends StatefulWidget {
   State<Subjects> createState() => _SubjectsState();
 }
 
-class _SubjectsState extends State<Subjects> {
+class _SubjectsState extends State<Subjects>
+   {
   final Service service = Service();
-
   final ScrollController scrollControllerSubjects = ScrollController();
+
+  
 
   @override
   Widget build(BuildContext context) {
+   
     return Consumer<ModelPoints>(
       builder: (context, value, child) {
         return Scaffold(
@@ -51,114 +54,127 @@ class _SubjectsState extends State<Subjects> {
                   // limpa a List das questões
                   Service.resultQuestionsBySubjectsAndSchoolYear.clear();
                 },
-                icon: const Icon(Icons.arrow_back, color: Colors.white,)),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                )),
             title: Text(
               'Disciplina / Ano escolar / Assunto',
               style: GoogleFonts.aboreto(fontSize: 16, color: Colors.white),
             ),
           ),
-          body: LayoutBuilder(
-            builder: (
-              BuildContext context,
-              BoxConstraints constraints,
-            ) {
-              return Stack(
-                children: [
-                  Background(
-                    child: ListView(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ListSelectedDisciplines(
-                            list: Service.listSelectedDisciplines,
-                            direction: Axis.horizontal,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Divider(),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          child: ListSelectedDisciplines(
-                              list: Service.listSelectedSchoolYear,
-                              direction: Axis.horizontal),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Divider(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Selecione os assuntos:',
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width,
-                                minHeight: 0,
-                                maxHeight: 400),
-                            decoration: BoxDecoration(
-                                color: Colors.white38,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, bottom: 15, right: 1),
-                              child: Scrollbar(
-                                controller: scrollControllerSubjects,
-                                thumbVisibility: true,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  controller: scrollControllerSubjects,
-                                  itemCount:
-                                      Service.schoolYearAndSubjects.length,
-                                  itemBuilder: (context, int index) {
-                                    return AnimatedButtonRectangular(
-                                      title:
-                                          Service.schoolYearAndSubjects[index]
-                                              ['subjects'],
-                                      onTap: () {
-                                        service
-                                            .getQuestionsAllBySubjectsAndSchoolYear(
-                                                Service.schoolYearAndSubjects[
-                                                    index]['schoolYear'],
-                                                Service
-                                                        .schoolYearAndSubjects[
-                                                    index]['subjects'],
-                                                Service.schoolYearAndSubjects[
-                                                    index]['disciplines']);
-                                      },
-                                      leading:
-                                          Service.schoolYearAndSubjects[index]
-                                              ['disciplines'],
-                                      tralling:
-                                          Service.schoolYearAndSubjects[index]
-                                              ['schoolYear'],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+          body: Background(
+            child: ListView(
+              
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 5.0, left: 8.0, right: 8.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 35,
+                    child: ListSelectedScrollable(
+                      list: Service.listSelectedDisciplines,
+                      direction: Axis.horizontal,
                     ),
                   ),
-                ],
-              );
-            },
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Divider(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 30,
+                    child: ListSelectedScrollable(
+                        list: Service.listSelectedSchoolYear,
+                        direction: Axis.horizontal),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Divider(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Selecione os assuntos:',
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width,
+                        minHeight: 0,
+                        maxHeight: 400),
+                    decoration: BoxDecoration(
+                        color: Colors.white38,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 15, bottom: 15, right: 1),
+                      child: Scrollbar(
+                        controller: scrollControllerSubjects,
+                        thumbVisibility: true,
+                        child: ListView.builder(
+                          
+                          shrinkWrap: true,
+                          controller: scrollControllerSubjects,
+                          itemCount: Service.schoolYearAndSubjects.length,
+                          itemBuilder: (context, int index) {
+                            return AnimatedButtonRectangular(
+                              title: Service.schoolYearAndSubjects[index]
+                                  ['subjects'],
+                              onTap: () {
+                                if (value.actionBtnRetangulare) {
+                                  service
+                                      .getQuestionsAllBySubjectsAndSchoolYear(
+                                    Service.schoolYearAndSubjects[index]
+                                        ['schoolYear'],
+                                    Service.schoolYearAndSubjects[index]
+                                        ['subjects'],
+                                    Service.schoolYearAndSubjects[index]
+                                        ['disciplines'],
+                                  );
+                                } else {
+                                  Service.resultQuestionsBySubjectsAndSchoolYear
+                                      .removeWhere(
+                                    (el) =>
+                                        el.schoolYear ==
+                                            Service.schoolYearAndSubjects[index]
+                                                ['schoolYear'] &&
+                                        el.subject ==
+                                            Service.schoolYearAndSubjects[index]
+                                                ['subjects'] &&
+                                        el.discipline ==
+                                            Service.schoolYearAndSubjects[index]
+                                                ['disciplines'],
+                                  );
+                                }
+                              },
+                              leading: Service.schoolYearAndSubjects[index]
+                                  ['disciplines'],
+                              tralling: Service.schoolYearAndSubjects[index]
+                                  ['schoolYear'],
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.miniCenterFloat,
